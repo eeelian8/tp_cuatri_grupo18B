@@ -4,13 +4,24 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Negocio;
+using Dominio;
+using Data_Management;
 
 namespace AppSeguridad
 {
     public partial class Clientes : System.Web.UI.Page
     {
+        
         protected void Page_Load(object sender, EventArgs e)
         {
+         ClienteNegocio clienteNegocio;
+         Cliente cliente;
+
+        clienteNegocio = new ClienteNegocio();
+        cliente = new Cliente();
+       
+
             if (!IsPostBack)
             {
              
