@@ -7,11 +7,13 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AppSeguridad {
-    
-    
-    public partial class Administrador {
-        
+namespace AppSeguridad
+{
+
+
+    public partial class Tecnicos
+    {
+
         /// <summary>
         /// control form1.
         /// </summary>

@@ -7,11 +7,11 @@ using System.Web.UI.WebControls;
 
 namespace AppSeguridad
 {
-	public partial class Administrador : System.Web.UI.Page
-	{
-		protected void Page_Load(object sender, EventArgs e)
-		{
+    public partial class Tecnicos : System.Web.UI.Page
+    {
+        protected void Page_Load(object sender, EventArgs e)
+        {
 
-		}
-	}
+        }
+    }
 }
