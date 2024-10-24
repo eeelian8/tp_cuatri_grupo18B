@@ -72,8 +72,8 @@
     <Content Include="Default.aspx" />
     <Content Include="Gerente.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Tecnicos.aspx" />
     <Content Include="Web.config" />
+    <Content Include="Tecnico.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrador.aspx.cs">
@@ -115,12 +115,12 @@
       <DependentUpon>MasterPage.Master</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tecnicos.aspx.cs">
-      <DependentUpon>Tecnicos.aspx</DependentUpon>
+    <Compile Include="Tecnico.aspx.cs">
+      <DependentUpon>Tecnico.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Tecnicos.aspx.designer.cs">
-      <DependentUpon>Tecnicos.aspx</DependentUpon>
+    <Compile Include="Tecnico.aspx.designer.cs">
+      <DependentUpon>Tecnico.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -36,7 +36,7 @@
                         </li>
                         <!-- Enlace a la página Tecnicos.aspx -->
                         <li class="nav-item">
-                            <a class="nav-link" href="Tecnicos.aspx">Tecnico</a>
+                            <a class="nav-link" href="Tecnico.aspx">Tecnico</a>
                         </li>
                         <!-- Enlace a la página Gerente.aspx -->
                         <li class="nav-item">
