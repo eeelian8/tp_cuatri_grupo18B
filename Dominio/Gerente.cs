@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Dominio
 {
-    internal class Gerente
+    public class Gerente
     {
     }
 }
