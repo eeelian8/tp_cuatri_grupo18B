@@ -68,7 +68,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Administrador.aspx" />
-    <Content Include="Clientes.aspx" />
+    <Content Include="Images\FondoRecepcion.jpg" />
+    <Content Include="Recepcion.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Gerente.aspx" />
     <Content Include="Global.asax" />
@@ -83,12 +84,12 @@
     <Compile Include="Administrador.aspx.designer.cs">
       <DependentUpon>Administrador.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Clientes.aspx.cs">
-      <DependentUpon>Clientes.aspx</DependentUpon>
+    <Compile Include="Recepcion.aspx.cs">
+      <DependentUpon>Recepcion.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Clientes.aspx.designer.cs">
-      <DependentUpon>Clientes.aspx</DependentUpon>
+    <Compile Include="Recepcion.aspx.designer.cs">
+      <DependentUpon>Recepcion.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
