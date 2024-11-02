@@ -41,30 +41,23 @@ namespace AppSeguridad
 
         }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
+    /*    protected void btnSubmit_Click(object sender, EventArgs e)
         {
-
-            string nombre = txtNombre.Text;
-            string direccion = txtDireccion.Text;
-            string telefono = txtTelefono.Text;
-            string observaciones = txtObservaciones.Text;
-
-
-            Response.Write($"Nombre: {nombre},Direccion: {direccion}, Telefono: {telefono},Observaciones:{observaciones}");
-        }
+            cliente.Documento=txtDni.Text;
+            cliente.Nombre = txtNombre.Text;
+            cliente.Direccion = txtDireccion.Text;
+            //cliente.Telefono =txtTelefono.Text;
+           // cliente.Observaciones = txtObservaciones.Text;
+            clienteNegocio.Agregar(cliente);
+        }*/
         protected void btnBuscar_Click(object sender, EventArgs e)
-        {
-            string dni = txtDni.Text.Trim();
-
-        }
-        protected void DNIUsuario_TextChanged(object sender, EventArgs e)
         {
             try
             {
                 cliente = clienteNegocio.GetCliente(txtDni.Text.Trim());
-                if (cliente!=null)
+                if (cliente !=null)
                 {
-                    
+
                     txtNombre.Text = cliente.Nombre;
                     txtTelefono.Text = cliente.Telefono.ToString();
                     txtDireccion.Text = cliente.Direccion;
@@ -73,9 +66,13 @@ namespace AppSeguridad
 
                 }
                 else
-                {// Mostrar la alerta si el DNI no existe
-                    alertaDniNoExiste.Visible = true;
+                {
+
                     LimpiarCampos();
+                // Mostrar la alerta si el DNI no existe
+                    alertaDniNoExiste.Visible = true;
+                    //script para que aparezca el cartel 5 segundos
+                    ScriptManager.RegisterStartupScript(this, GetType(), "HideAlert", "hideAlertAfterTimeout();", true);
                 }
             }
             catch (Exception ex)
@@ -83,6 +80,8 @@ namespace AppSeguridad
                 throw ex;
             }
         }
+
+
         private void LimpiarCampos()
         {
             txtNombre.Text = null;

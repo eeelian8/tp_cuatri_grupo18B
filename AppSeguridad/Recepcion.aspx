@@ -48,20 +48,30 @@
                 <div class="row mb-3">
                     <label for="txtDni" class="col-sm-3 col-form-label">DNI:</label>
                     <div class="col-sm-8">
-                        <asp:TextBox ID="txtDni" runat="server" CssClass="form-control" OnTextChanged="DNIUsuario_TextChanged" AutoPostBack="true" Placeholder="Ingrese DNI"></asp:TextBox>
+                        <asp:TextBox ID="txtDni" runat="server" CssClass="form-control" Placeholder="Ingrese DNI"></asp:TextBox>
                     </div>
                 </div>
 
                 <div class="row mb-3">
                     <div class="col-sm-6">
-                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />
+                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btn btn-primary"  /> 
                     </div>
-                </div>
-                <!-- Alerta de advertencia, oculta -->
+                </div> 
+               <!-- Alerta de advertencia, oculta -->
                 <asp:Panel ID="alertaDniNoExiste" runat="server" CssClass="alert alert-warning" Visible="false">
                     El DNI ingresado no existe en nuestra base de datos.
                 </asp:Panel>
-
+                <script type="text/javascript">
+                    function hideAlertAfterTimeout() {
+                        // Muestra el panel de alerta por 5 segundos y luego lo oculta
+                        setTimeout(function () {
+                            var alerta = document.getElementById('<%= alertaDniNoExiste.ClientID %>');
+            if (alerta) {
+                alerta.style.display = 'none';
+            }
+        }, 5000); // 5000 milisegundos = 5 segundos
+                    }
+</script>
                 <div class="mb-3">
                     <label for="ddlItems" class="col-sm-3 col-form-label">Tipo Trabajo :</label>
                     <asp:DropDownList ID="ddlItems" runat="server"></asp:DropDownList>
@@ -127,7 +137,7 @@
                 <div class="row mb-3">
 
                     <div class="col-sm-6">
-                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
+                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary"  /><!--OnClick="btnSubmit_Click"  -->
                     </div>
 
                 </div>

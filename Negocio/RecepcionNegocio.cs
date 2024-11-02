@@ -111,7 +111,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("insert into CLIENTES ( Documento, Nombre,Telefono,Direccion, Localidad, Provincia) Values(@Dni, @Telefono, @Nombre,  @Direccion, @Localidad, @Provincia)");
+                datos.setearConsulta("insert into CLIENTES ( NroCliente, Nombre,Celular,Direccion, Localidad, Provincia) Values(@Dni, @Telefono, @Nombre,  @Direccion, @Localidad, @Provincia)");
                 datos.setearParametro("@Dni", cli.Documento);
                 datos.setearParametro("@Nombre", cli.Nombre);
                 datos.setearParametro("@Telefono", cli.Telefono);
