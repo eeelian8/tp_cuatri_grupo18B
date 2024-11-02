@@ -20,8 +20,10 @@ namespace Data_Management
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=PROMOS_DB; integrated security=true");
+            // Cambio de DB
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=SEGURIDAD_DB; integrated security=true");
             comando = new SqlCommand();
+
         }
 
         public void setearConsulta(string consulta)
