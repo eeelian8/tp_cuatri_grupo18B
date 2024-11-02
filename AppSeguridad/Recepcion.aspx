@@ -1,6 +1,31 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterPage.Master" CodeBehind="Recepcion.aspx.cs" Inherits="AppSeguridad.Clientes" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+      <style>
+ 
+body {
+    background-image: url('/Images/FondoRecepcion.jpg') ; 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-attachment: fixed;
+    background-position: center;
+    margin: 0; 
+    padding: 0;
+    height: 100vh;
+}
+.RequiredMessage {
+    font-style: italic;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
+}
+h1,h2,p,label {
+    color: white;
+}
+
+ 
+  </style>
+
     <div class="container">
         <h2>Solicitud de Trabajo</h2>
         <p>Complete el formulario para enviar la solicitud.</p>
@@ -18,7 +43,7 @@
 
 
                 <div class="mb-3">
-                    <asp:Label ID="lblTipo" runat="server" Text="Tipo de trabajo:"></asp:Label>
+                    <label for="ddlItems" class="col-sm-3 col-form-label">Tipo Trabajo :</label>
                     <asp:DropDownList ID="ddlItems" runat="server"></asp:DropDownList>
                 </div>
 

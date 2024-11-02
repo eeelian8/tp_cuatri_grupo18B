@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Administrador.aspx" />
+    <Content Include="Images\FondoRecepcion.jpg" />
     <Content Include="Recepcion.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Gerente.aspx" />
