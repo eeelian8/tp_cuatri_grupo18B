@@ -54,10 +54,10 @@
 
                 <div class="row mb-3">
                     <div class="col-sm-6">
-                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btn btn-primary"  /> 
+                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" OnClick="btnBuscar_Click" CssClass="btn btn-primary" />
                     </div>
-                </div> 
-               <!-- Alerta de advertencia, oculta -->
+                </div>
+                <!-- Alerta de advertencia, oculta -->
                 <asp:Panel ID="alertaDniNoExiste" runat="server" CssClass="alert alert-warning" Visible="false">
                     El DNI ingresado no existe en nuestra base de datos.
                 </asp:Panel>
@@ -66,12 +66,12 @@
                         // Muestra el panel de alerta por 5 segundos y luego lo oculta
                         setTimeout(function () {
                             var alerta = document.getElementById('<%= alertaDniNoExiste.ClientID %>');
-            if (alerta) {
-                alerta.style.display = 'none';
-            }
-        }, 5000); // 5000 milisegundos = 5 segundos
+                            if (alerta) {
+                                alerta.style.display = 'none';
+                            }
+                        }, 5000); // 5000 milisegundos = 5 segundos
                     }
-</script>
+                </script>
                 <div class="mb-3">
                     <label for="ddlItems" class="col-sm-3 col-form-label">Tipo Trabajo :</label>
                     <asp:DropDownList ID="ddlItems" runat="server"></asp:DropDownList>
@@ -137,7 +137,7 @@
                 <div class="row mb-3">
 
                     <div class="col-sm-6">
-                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary"  /><!--OnClick="btnSubmit_Click"  -->
+                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary" /><!--OnClick="btnSubmit_Click"  -->
                     </div>
 
                 </div>
