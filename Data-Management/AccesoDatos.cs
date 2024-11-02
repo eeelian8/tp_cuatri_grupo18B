@@ -20,7 +20,7 @@ namespace Data_Management
 
         public AccesoDatos()
         {
-            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=PROMOS_DB; integrated security=true");
+            conexion = new SqlConnection("server=.\\SQLEXPRESS; database=SEGURIDAD_DB; integrated security=true");
             comando = new SqlCommand();
         }
 

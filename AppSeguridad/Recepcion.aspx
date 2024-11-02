@@ -1,30 +1,29 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterPage.Master" CodeBehind="Recepcion.aspx.cs" Inherits="AppSeguridad.Clientes" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-      <style>
- 
-body {
-    background-image: url('/Images/FondoRecepcion.jpg') ; 
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-attachment: fixed;
-    background-position: center;
-    margin: 0; 
-    padding: 0;
-    height: 100vh;
-}
-.RequiredMessage {
-    font-style: italic;
-    padding: 0;
-    margin: 0;
-    font-size: 14px;
-}
-h1,h2,p,label {
-    color: white;
-}
+    <style>
+        body {
+            background-image: url('/Images/FondoRecepcion.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+        }
 
- 
-  </style>
+        .RequiredMessage {
+            font-style: italic;
+            padding: 0;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        h1, h2, p, label {
+            color: white;
+        }
+    </style>
 
     <div class="container">
         <h2>Solicitud de Trabajo</h2>
@@ -40,7 +39,28 @@ h1,h2,p,label {
                     <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
                     <label class="form-check-label" for="flexRadioDefault2">REPARACIONES</label>
                 </div>
+                <div class="row mb-3">
+                    <label for="txtFechaCarga" class="col-sm-3 col-form-label">Fecha de Carga :</label>
+                    <div class="col-sm-8">
+                        <asp:TextBox ID="txtFechaCarga" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="txtDni" class="col-sm-3 col-form-label">DNI:</label>
+                    <div class="col-sm-8">
+                        <asp:TextBox ID="txtDni" runat="server" CssClass="form-control" OnTextChanged="DNIUsuario_TextChanged" AutoPostBack="true" Placeholder="Ingrese DNI"></asp:TextBox>
+                    </div>
+                </div>
 
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary" OnClick="btnBuscar_Click" />
+                    </div>
+                </div>
+                <!-- Alerta de advertencia, oculta -->
+                <asp:Panel ID="alertaDniNoExiste" runat="server" CssClass="alert alert-warning" Visible="false">
+                    El DNI ingresado no existe en nuestra base de datos.
+                </asp:Panel>
 
                 <div class="mb-3">
                     <label for="ddlItems" class="col-sm-3 col-form-label">Tipo Trabajo :</label>
@@ -105,11 +125,11 @@ h1,h2,p,label {
                 </div>
 
                 <div class="row mb-3">
-                    
-                        <div class="col-sm-6">
-                            <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
-                        </div>
-                   
+
+                    <div class="col-sm-6">
+                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary" OnClick="btnSubmit_Click" />
+                    </div>
+
                 </div>
 
 
@@ -117,4 +137,5 @@ h1,h2,p,label {
             </div>
         </div>
     </div>
+
 </asp:Content>
