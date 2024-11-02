@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using Dominio;
+using Negocio;
+
 namespace AppSeguridad
 {
 	public partial class Administrador : System.Web.UI.Page
