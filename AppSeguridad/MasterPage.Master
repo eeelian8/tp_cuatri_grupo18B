@@ -32,7 +32,7 @@
                         </li>
                         <!-- Enlace a la página Recepcion.aspx -->
                         <li class="nav-item">
-                            <a class="nav-link" href="Recepcion.aspx">Cliente</a>
+                            <a class="nav-link" href="Recepcion.aspx">Recepcionista</a>
                         </li>
                         <!-- Enlace a la página Tecnicos.aspx -->
                         <li class="nav-item">
