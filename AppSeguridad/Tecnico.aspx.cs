@@ -13,25 +13,23 @@ namespace AppSeguridad
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
-
-        // guardar motivo rechazo.                                                                                  v
-        protected string motivoRechazo = "";
         protected void Page_Load(object sender, EventArgs e)
         {
-            CargarTecnicos();
+            if (!IsPostBack)
+            {
+                /*CargarSolicitudes();*/
+            }
         }
-
-        private void CargarTecnicos()
+        /*
+        private void CargarSolicitudes()
         {
             try
             {
                 TecnicoNegocio negocio = new TecnicoNegocio();
-                List<Tecnico> lista = negocio.Listar();
-
+                List<SolicitudTrabajo> lista = negocio.ListarSolicitudesPendientes();
                 repTareas.DataSource = lista;
                 repTareas.DataBind();
 
-                //botones deshabilitados
                 btnAceptar.Enabled = false;
                 btnDenegar.Enabled = false;
                 btnAceptar.CssClass = "btn btn-secondary px-4";
@@ -39,7 +37,34 @@ namespace AppSeguridad
             }
             catch (Exception ex)
             {
-                Response.Write("Error al cargar técnicos: " + ex.Message);
+                Response.Write("Error al cargar solicitudes: " + ex.Message);
+            }
+        }*/
+
+        protected void repTareas_ItemDataBound(object sender, RepeaterItemEventArgs e)
+        {
+            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+            {
+                SolicitudTrabajo solicitud = (SolicitudTrabajo)e.Item.DataItem;
+
+                Label lblTipoTrabajo = (Label)e.Item.FindControl("lblTipoTrabajo");
+                Label lblId = (Label)e.Item.FindControl("lblId");
+                Label lblDescripcion = (Label)e.Item.FindControl("lblDescripcion");
+                Label lblDireccion = (Label)e.Item.FindControl("lblDireccion");
+                Label lblLocalidad = (Label)e.Item.FindControl("lblLocalidad");
+                Label lblProvincia = (Label)e.Item.FindControl("lblProvincia");
+                Label lblTelefono = (Label)e.Item.FindControl("lblTelefono");
+                LinkButton lnkTrabajo = (LinkButton)e.Item.FindControl("lnkTrabajo");
+
+                lblTipoTrabajo.Text = solicitud.TipoTrabajo;
+                lblId.Text = solicitud.Id.ToString();
+                lblDescripcion.Text = solicitud.Descripcion;
+                lblDireccion.Text = solicitud.Direccion;
+                lblLocalidad.Text = solicitud.Localidad;
+                lblProvincia.Text = solicitud.Provincia;
+                lblTelefono.Text = solicitud.Telefono.ToString();
+
+                lnkTrabajo.CommandArgument = solicitud.Id.ToString();
             }
         }
 
@@ -47,30 +72,27 @@ namespace AppSeguridad
         {
             if (e.CommandName == "Select")
             {
-                //habilitar tecnicos
+                string idTareaSeleccionada = ((LinkButton)e.Item.FindControl("lnkTrabajo")).CommandArgument;
+                Session["TareaSeleccionada"] = idTareaSeleccionada;
+
                 btnAceptar.Enabled = true;
                 btnDenegar.Enabled = true;
                 btnAceptar.CssClass = "btn btn-success px-4";
                 btnDenegar.CssClass = "btn btn-danger px-4";
-                //guardar tarea seleccionada
-                string idTareaSeleccionada = e.CommandArgument.ToString();
 
-                //marcar elemento seleccionado
                 foreach (RepeaterItem item in repTareas.Items)
                 {
                     LinkButton link = (LinkButton)item.FindControl("lnkTrabajo");
-                    if (link != null)
-                    {
-                        if (link.CommandArgument == idTareaSeleccionada)
-                            link.CssClass = "list-group-item list-group-item-action active";
-                        else
-                            link.CssClass = "list-group-item list-group-item-action";
-                    }
+                    if (link.CommandArgument == idTareaSeleccionada)
+                        link.CssClass = "list-group-item list-group-item-action active";
+                    else
+                        link.CssClass = "list-group-item list-group-item-action";
                 }
             }
         }
-
-        protected void btnConfirmarDenegar_Click(object sender, EventArgs e)
+    }
+    /*
+    protected void btnConfirmarDenegar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -99,8 +121,13 @@ namespace AppSeguridad
             }
         }
 
+        protected void btnHistorial_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("HistorialTareas.aspx");
+        }
 
 
-    }
+
+    }*/
 }
 
