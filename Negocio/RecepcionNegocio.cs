@@ -1,63 +1,38 @@
-﻿using Data_Management;
+﻿using System.Collections.Generic;
+using Data_Management;
 using Dominio;
-using System.Collections.Generic;
 using System;
+using System.Net;
 
 namespace Negocio
 {
     public class RecepcionNegocio
     {
         AccesoDatos datos = new AccesoDatos();
-        public bool ExisteDNI(string DNI)
-        {
-
-            try
-            {
-
-                datos.setearConsulta("SELECT NroCliente FROM Clientes WHERE NroCliente = @NroCliente");
-                datos.setearParametro("@NroCliente", DNI);
-                datos.ejecutarLectura();
-
-                if (datos.Lector.Read())
-                    return true;
-            }
-            catch (System.Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-            return false;
-        }
         public Recepcion GetCliente(string DNI)
         {
-            Recepcion cliente =null;
+            Recepcion cliente = null;
             try
             {
-                datos.setearConsulta("SELECT * FROM Clientes WHERE NroCliente = @NroCliente");
-                datos.setearParametro("@NroCliente", DNI);
+                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni");
+                datos.setearParametro("@Dni", DNI);
                 datos.ejecutarLectura();
 
                 if (datos.Lector.Read())
                 {
                     cliente = new Recepcion();
-                   
 
-                        cliente.Documento = DNI;
-                        cliente.Nombre = (string)datos.Lector["Nombre"];
-                        cliente.Telefono = (int)datos.Lector["Celular"];
-                       // cliente.Email = (string)datos.Lector["Email"];
-                       cliente.Direccion = (string)datos.Lector["Direccion"];
-                       cliente.Localidad = (string)datos.Lector["Localidad"];
-                        cliente.Provincia = (string)datos.Lector["Provincia"];
 
-                   
+                    cliente.Documento = DNI;
+                    cliente.Nombre = (string)datos.Lector["Nombre"];
+                    cliente.Telefono = (int)datos.Lector["Telefono"];
+                    cliente.Direccion = (string)datos.Lector["Direccion"];
+                    cliente.Localidad = (string)datos.Lector["Localidad"];
+                    cliente.Provincia = (string)datos.Lector["Provincia"];
 
                 }
 
-                
+
             }
             catch (System.Exception ex)
             {
@@ -68,6 +43,36 @@ namespace Negocio
                 datos.cerrarConexion();
             }
             return cliente;
+        }
+
+
+        public List<TipoTrabajo> ListarTipos()
+        {
+            List<TipoTrabajo> lista = new List<TipoTrabajo>();
+            try
+            {
+                datos.setearConsulta("SELECT Nombre FROM TIPOS_TRABAJO");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    lista.Add(new TipoTrabajo
+                    {
+                        Nombre = (string)datos.Lector["Nombre"]
+                    });
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
         }
         public List<Recepcion> Listar()
         {
@@ -105,20 +110,38 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public void Agregar(Recepcion cli)
+        public int Agregar(Recepcion cli)
         {
 
 
             try
             {
-                datos.setearConsulta("insert into CLIENTES ( NroCliente, Nombre,Celular,Direccion, Localidad, Provincia) Values(@Dni, @Telefono, @Nombre,  @Direccion, @Localidad, @Provincia)");
+                datos.limpiarParametros();
+                datos.setearConsulta("SELECT COUNT(1) FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni");
+                datos.setearParametro("@Dni", cli.Documento);
+                datos.ejecutarLectura();
+                if (datos.Lector.Read() && Convert.ToInt32(datos.Lector[0]) > 0)
+                {
+                    // El DNI ya existe
+                    return -1;
+                }
+                datos.cerrarConexion();
+                datos.limpiarParametros();
+
+                datos.setearConsulta("INSERT INTO SOLICITUDES_TRABAJO (Dni, Nombre, Apellido, Descripcion, Telefono, Direccion, Localidad, Provincia, TipoTrabajo, Estado) VALUES (@Dni, @Nombre, @Apellido, @Descripcion, @Telefono, @Direccion, @Localidad, @Provincia, @TipoTrabajo, @Estado)");
                 datos.setearParametro("@Dni", cli.Documento);
                 datos.setearParametro("@Nombre", cli.Nombre);
+                datos.setearParametro("@Apellido", cli.Apellido);
+                datos.setearParametro("@Descripcion", cli.Descripcion);
                 datos.setearParametro("@Telefono", cli.Telefono);
                 datos.setearParametro("@Direccion", cli.Direccion);
                 datos.setearParametro("@Localidad", cli.Localidad);
                 datos.setearParametro("@Provincia", cli.Provincia);
+                datos.setearParametro("@TipoTrabajo", cli.TipoTrabajo);
+                datos.setearParametro("@Estado", 1);
                 datos.ejecutarAccion();
+                return 1;
+
             }
             catch (Exception ex)
             {
@@ -152,28 +175,28 @@ namespace Negocio
             }
         }
 
-        public Recepcion Buscar(int dni)
-        {
-            RecepcionNegocio clienteNeg = new RecepcionNegocio();
-            List<Recepcion> ListaClientes = new List<Recepcion>();
-            ListaClientes = clienteNeg.Listar();
+        /* public Recepcion Buscar(string cod)
+         {
+             RecepcionNegocio clienteNeg = new RecepcionNegocio();
+             List<Recepcion> ListaClientes = new List<Recepcion>();
+             ListaClientes = clienteNeg.Listar();
 
-            try
-            {
-                foreach (Recepcion cli in ListaClientes)
-                {
-                    if (cli.Documento == dni.ToString())
-                    {
-                        return cli;
-                    }
-                }
-                return null;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+             try
+             {
+                 foreach (Recepcion cli in ListaClientes)
+                 {
+                     if (cli.CodRecepcionista == cod)
+                     {
+                         return cli;
+                     }
+                 }
+                 return null;
+             }
+             catch (Exception)
+             {
+                 throw;
+             }
+         }*/
 
     }
 }

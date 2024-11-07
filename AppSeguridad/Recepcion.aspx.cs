@@ -29,27 +29,80 @@ namespace AppSeguridad
                 // Establece la fecha de carga actual en el TextBox
                 txtFechaCarga.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
-                ddlItems.Items.Add(new ListItem("CERCOS ELECTRICOS", "1"));
-                ddlItems.Items.Add(new ListItem("ALARMAS", "2"));
-                ddlItems.Items.Add(new ListItem("CAMARAS", "3"));
-                ddlItems.Items.Add(new ListItem("PORTONES AUTOMATICOS", "4"));
-                ddlItems.Items.Add(new ListItem("PORTEROS ELECTRICOS", "5"));
-                ddlItems.Items.Add(new ListItem("CERRAJERIA", "6"));
-                ddlItems.Items.Add(new ListItem("ELECTRICIDAD", "7"));
-                ddlItems.Items.Add(new ListItem("VARIOS", "8"));
+         
+                List<TipoTrabajo> tiposTrabajos = clienteNegocio.ListarTipos();
+
+                ddlItems.DataSource = tiposTrabajos;
+                ddlItems.DataValueField = "Nombre";
+                ddlItems.DataBind();
+                ddlItems.Items.Insert(0, new ListItem("Seleccione un tipo de trabajo", "0"));
             }
 
         }
 
-    /*    protected void btnSubmit_Click(object sender, EventArgs e)
+        protected void btnSubmit_Click(object sender, EventArgs e)
         {
+            try
+            {
+
             cliente.Documento=txtDni.Text;
             cliente.Nombre = txtNombre.Text;
+            cliente.Apellido = txtNombre.Text.Split(' ').Length > 1 ? txtNombre.Text.Split(' ')[1] : ""; // para no sumar otra label y txtbox mas. Lo que hace aca es tomar la segunda parte del nombre ocmo apellido
+            cliente.Telefono = int.Parse(txtTelefono.Text);
+            cliente.Descripcion = txtObservaciones.Text;
             cliente.Direccion = txtDireccion.Text;
-            //cliente.Telefono =txtTelefono.Text;
-           // cliente.Observaciones = txtObservaciones.Text;
-            clienteNegocio.Agregar(cliente);
-        }*/
+            cliente.Localidad = txtLocalidad.Text;
+            cliente.Provincia = txtProvincia.Text;
+            cliente.Estado = 1;
+            cliente.TipoTrabajo = ddlItems.SelectedItem.Text;
+
+                int resultado = clienteNegocio.Agregar(cliente);
+
+                if (resultado == 1)
+
+            {
+                    // Guardar los datos en la sesión
+                    Session["Documento"] = cliente.Documento;
+                    Session["Nombre"] = cliente.Nombre;
+                    Session["Apellido"] = cliente.Apellido;
+                    Session["Telefono"] = cliente.Telefono;
+                    Session["Descripcion"] = cliente.Descripcion;
+                    Session["Direccion"] = cliente.Direccion;
+                    Session["Localidad"] = cliente.Localidad;
+                    Session["Provincia"] = cliente.Provincia;
+                    Session["Estado"] = cliente.Estado;
+                    Session["TipoTrabajo"] = cliente.TipoTrabajo;
+
+                    // Guardar valores adicionales del formulario
+                    Session["FechaCarga"] = txtFechaCarga.Text;
+                    Session["EsPresupuesto"] = flexRadioDefault1.Checked;
+                    Session["EsReparacion"] = flexRadioDefault2.Checked;
+                    Session["EsUrgente"] = flexSwitchCheckDefault.Checked;
+
+                    // Redirigir a la página gerente.aspx
+                    Response.Redirect("gerente.aspx");
+                    LimpiarCampos();
+                lblConfirmacion.Visible = true;
+                // scrpit mensaje de éxito
+                ScriptManager.RegisterStartupScript(this, GetType(), "ShowMessage",
+                    "alert('Solicitud guardada con éxito.');", true);
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+                "alert('El DNI ya existe en el sistema.');", true);
+                }
+            }
+            catch (Exception ex)
+            { // Mostrar mensaje de error
+                ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+                    $"alert('Error al guardar la solicitud: {ex.Message}');", true);
+
+                throw ;
+            }
+
+
+        }
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             try
@@ -63,11 +116,12 @@ namespace AppSeguridad
                     txtDireccion.Text = cliente.Direccion;
                     txtLocalidad.Text = cliente.Localidad;
                     txtProvincia.Text = cliente.Provincia;
+                    alertaDniNoExiste.Visible = false;
 
                 }
                 else
                 {
-
+                    
                     LimpiarCampos();
                 // Mostrar la alerta si el DNI no existe
                     alertaDniNoExiste.Visible = true;
@@ -83,12 +137,15 @@ namespace AppSeguridad
 
 
         private void LimpiarCampos()
-        {
-            txtNombre.Text = null;
-            txtTelefono.Text = null;
-            txtDireccion.Text = null;
-            txtLocalidad.Text = null;
-            txtProvincia.Text = null;
+        {    //ya no podian ser mas null
+            txtDni.Text = string.Empty;
+            txtNombre.Text = string.Empty;
+            txtTelefono.Text = string.Empty;
+            txtDireccion.Text = string.Empty;
+            txtLocalidad.Text = string.Empty;
+            txtProvincia.Text = string.Empty;
+            txtObservaciones.Text = string.Empty;
+            ddlItems.SelectedIndex = 0;
         }
     }
 }

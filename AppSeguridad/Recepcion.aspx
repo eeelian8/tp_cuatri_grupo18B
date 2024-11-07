@@ -32,11 +32,11 @@
             <div class="col-8">
 
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" runat="server" name="flexRadioDefault" id="flexRadioDefault1">
                     <label class="form-check-label" for="flexRadioDefault1">PRESUPUESTO</label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                    <input class="form-check-input" type="radio" runat="server" name="flexRadioDefault" id="flexRadioDefault2" checked>
                     <label class="form-check-label" for="flexRadioDefault2">REPARACIONES</label>
                 </div>
                 <div class="row mb-3">
@@ -136,7 +136,7 @@
 
                 <div class="mb-3">
                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <input class="form-check-input" type="checkbox" runat="server" id="flexSwitchCheckDefault">
                         <label class="form-check-label" for="flexSwitchCheckDefault">Urgente</label>
                    </div>
 
@@ -149,7 +149,7 @@
                 <div class="row mb-3">
 
                     <div class="col-sm-6">
-                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary" /><!--OnClick="btnSubmit_Click"  -->
+                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" OnClick="btnSubmit_Click"  CssClass="btn btn-primary" />
                     </div>
                 </div>
                     <asp:Label ID="lblConfirmacion" runat="server" Text="Solicitud enviada con éxito" CssClass="text-success" Visible="false"></asp:Label>

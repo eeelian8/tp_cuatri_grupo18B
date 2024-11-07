@@ -45,6 +45,7 @@ create table dbo.TECNICOS(
 go
 create table dbo.RECEPCIONISTAS(
 	[Id] [int] identity(1,1) not null,
+	[CodRecepcionista] [varchar](10) not null,
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
@@ -140,13 +141,13 @@ VALUES
 ('T006', 3, 956789012, 'Luis', 'González', 'Palermo', 'Energía Solar'),
 ('T007', 3, 967890123, 'Laura', 'Hernández', 'Moreno', 'Electricidad Comercial');
 
-INSERT INTO dbo.[RECEPCIONISTAS] ([NivelRol], [Celular], [Nombre], [Apellido])
+INSERT INTO dbo.[RECEPCIONISTAS] ([CodRecepcionista], [NivelRol], [Celular], [Nombre], [Apellido])
 VALUES 
-(4, 987654321, 'Lucía', 'Gómez'),
-(4, 912345678, 'Fernando', 'Ríos'),
-(4, 923456789, 'Claudia', 'Lara'),
-(4, 934567890, 'Diego', 'Sosa'),
-(4, 945678901, 'Patricia', 'Méndez');
+('RC001', 4, 987654321, 'Lucía', 'Gómez'),
+('RC002', 4, 912345678, 'Fernando', 'Ríos'),
+('RC003', 4, 923456789, 'Claudia', 'Lara'),
+('RC004', 4, 934567890, 'Diego', 'Sosa'),
+('RC005', 4, 945678901, 'Patricia', 'Méndez');
 
 INSERT INTO dbo.[TIPOS_TRABAJO] ([Nombre], [Descripcion])
 VALUES 
