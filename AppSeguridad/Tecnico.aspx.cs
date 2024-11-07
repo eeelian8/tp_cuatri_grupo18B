@@ -17,16 +17,16 @@ namespace AppSeguridad
         {
             if (!IsPostBack)
             {
-                /*CargarSolicitudes();*/
+                CargarSolicitudes();
             }
         }
-        /*
+
         private void CargarSolicitudes()
         {
             try
             {
-                TecnicoNegocio negocio = new TecnicoNegocio();
-                List<SolicitudTrabajo> lista = negocio.ListarSolicitudesPendientes();
+                SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+                List<SolicitudTrabajo> lista = negocio.ListarPendientes();  // lista las que tienen Estado = 1
                 repTareas.DataSource = lista;
                 repTareas.DataBind();
 
@@ -39,7 +39,28 @@ namespace AppSeguridad
             {
                 Response.Write("Error al cargar solicitudes: " + ex.Message);
             }
-        }*/
+        }
+
+        protected void btnAceptar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string idTarea = Session["TareaSeleccionada"].ToString();
+                SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+                negocio.Aceptar(int.Parse(idTarea));
+
+                //volver estado original
+                CargarSolicitudes();
+                btnAceptar.Enabled = false;
+                btnDenegar.Enabled = false;
+                btnAceptar.CssClass = "btn btn-secondary px-4";
+                btnDenegar.CssClass = "btn btn-secondary px-4";
+            }
+            catch (Exception ex)
+            {
+                Response.Write("Error al aceptar la solicitud: " + ex.Message);
+            }
+        }
 
         protected void repTareas_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {
@@ -90,36 +111,32 @@ namespace AppSeguridad
                 }
             }
         }
-    }
-    /*
-    protected void btnConfirmarDenegar_Click(object sender, EventArgs e)
+
+       
+
+
+        protected void btnConfirmarDenegar_Click(object sender, EventArgs e)
+    {
+        try
         {
-            try
+            string motivo = txtMotivoDenegacion.Text;
+            if (string.IsNullOrEmpty(motivo))
             {
-                string motivo = txtMotivoDenegacion.Text;
-                if (string.IsNullOrEmpty(motivo))
-                {
-                    // msj de error
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "alertMessage","alert('Debe ingresar un motivo');", true);
-                    return;
-                }
-
-                // guardar motivo
-                motivoRechazo = motivo;
-                Session["MotivoRechazo"] = motivo;
-
-                // limpiAr textbox y cerrar
-                txtMotivoDenegacion.Text = "";
-
-                
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "closeModal",
-                    "var myModal = bootstrap.Modal.getInstance(document.getElementById('modalDenegar')); myModal.hide();", true);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertMessage", "alert('Debe ingresar un motivo');", true);
+                return;
             }
-            catch (Exception ex)
-            {
-                Response.Write("Error: " + ex.Message);
-            }
+
+            Session["MotivoRechazo"] = motivo;
+            txtMotivoDenegacion.Text = "";
+
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "closeModal",
+                "var myModal = bootstrap.Modal.getInstance(document.getElementById('modalDenegar')); myModal.hide();", true);
         }
+        catch (Exception ex)
+        {
+            Response.Write("Error: " + ex.Message);
+        }
+    }
 
         protected void btnHistorial_Click(object sender, EventArgs e)
         {
@@ -128,6 +145,6 @@ namespace AppSeguridad
 
 
 
-    }*/
+    }
 }
 

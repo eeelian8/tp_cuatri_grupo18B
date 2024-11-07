@@ -98,6 +98,7 @@ namespace Negocio
             }
         }
 
+
         public void Rechazar(int id)
         {
             try
@@ -150,6 +151,45 @@ namespace Negocio
                 datos.cerrarConexion();
             }
             return solicitud;
+        }
+        public List<SolicitudTrabajo> ListarAceptadas()
+        {
+            List<SolicitudTrabajo> lista = new List<SolicitudTrabajo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE Estado = 2");  // 2 = Aceptadas
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    SolicitudTrabajo aux = new SolicitudTrabajo();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.Dni = (int)datos.Lector["Dni"];
+                    aux.TipoTrabajo = (string)datos.Lector["TipoTrabajo"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.Telefono = (int)datos.Lector["Telefono"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Localidad = (string)datos.Lector["Localidad"];
+                    aux.Provincia = (string)datos.Lector["Provincia"];
+                    aux.Estado = (int)datos.Lector["Estado"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
         }
     }
 }

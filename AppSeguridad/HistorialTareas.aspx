@@ -33,7 +33,7 @@
                 </div>
             </div>
 
-            <!-- Panel Tareas Aceptadas -->
+            <!-- tareas Aceptadas -->
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">
@@ -45,10 +45,18 @@
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <h6 class="card-title d-flex justify-content-between">
-                                            <span><%# Eval("Titulo") %></span>
-                                            <small class="text-muted">#<%# Eval("Codigo") %></small>
+                                            <span><%# Eval("TipoTrabajo") %></span>
+                                            <small class="text-muted">#<%# Eval("Id") %></small>
                                         </h6>
-                                        <p class="card-text">Zona: <%# Eval("Zona") %></p>
+                                        <div class="border p-2 mb-2">
+                                            <%# Eval("Descripcion") %>
+                                        </div>
+                                        <p class="card-text">
+                                            <%# Eval("Direccion") %>,
+                                            <%# Eval("Localidad") %>,
+                                            <%# Eval("Provincia") %>
+                                        </p>
+                                        <small class="text-muted">Tel: <%# Eval("Telefono") %></small>
                                     </div>
                                 </div>
                             </ItemTemplate>
