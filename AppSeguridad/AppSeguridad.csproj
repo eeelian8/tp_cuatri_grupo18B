@@ -68,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Administrador.aspx" />
+    <Content Include="HistorialTareas.aspx" />
     <Content Include="Images\FondoRecepcion.jpg" />
     <Content Include="Recepcion.aspx" />
     <Content Include="Default.aspx" />
@@ -83,6 +84,13 @@
     </Compile>
     <Compile Include="Administrador.aspx.designer.cs">
       <DependentUpon>Administrador.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="HistorialTareas.aspx.cs">
+      <DependentUpon>HistorialTareas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="HistorialTareas.aspx.designer.cs">
+      <DependentUpon>HistorialTareas.aspx</DependentUpon>
     </Compile>
     <Compile Include="Recepcion.aspx.cs">
       <DependentUpon>Recepcion.aspx</DependentUpon>
