@@ -175,28 +175,28 @@ namespace Negocio
             }
         }
 
-        public Recepcion Buscar(string cod)
-        {
-            RecepcionNegocio clienteNeg = new RecepcionNegocio();
-            List<Recepcion> ListaClientes = new List<Recepcion>();
-            ListaClientes = clienteNeg.Listar();
+        /* public Recepcion Buscar(string cod)
+         {
+             RecepcionNegocio clienteNeg = new RecepcionNegocio();
+             List<Recepcion> ListaClientes = new List<Recepcion>();
+             ListaClientes = clienteNeg.Listar();
 
-            try
-            {
-                foreach (Recepcion cli in ListaClientes)
-                {
-                    if (cli.CodRecepcionista == cod)
-                    {
-                        return cli;
-                    }
-                }
-                return null;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+             try
+             {
+                 foreach (Recepcion cli in ListaClientes)
+                 {
+                     if (cli.CodRecepcionista == cod)
+                     {
+                         return cli;
+                     }
+                 }
+                 return null;
+             }
+             catch (Exception)
+             {
+                 throw;
+             }
+         }*/
 
     }
 }

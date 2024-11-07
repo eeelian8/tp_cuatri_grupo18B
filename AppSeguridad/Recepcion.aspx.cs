@@ -59,8 +59,29 @@ namespace AppSeguridad
                 int resultado = clienteNegocio.Agregar(cliente);
 
                 if (resultado == 1)
+
             {
-                LimpiarCampos();
+                    // Guardar los datos en la sesión
+                    Session["Documento"] = cliente.Documento;
+                    Session["Nombre"] = cliente.Nombre;
+                    Session["Apellido"] = cliente.Apellido;
+                    Session["Telefono"] = cliente.Telefono;
+                    Session["Descripcion"] = cliente.Descripcion;
+                    Session["Direccion"] = cliente.Direccion;
+                    Session["Localidad"] = cliente.Localidad;
+                    Session["Provincia"] = cliente.Provincia;
+                    Session["Estado"] = cliente.Estado;
+                    Session["TipoTrabajo"] = cliente.TipoTrabajo;
+
+                    // Guardar valores adicionales del formulario
+                    Session["FechaCarga"] = txtFechaCarga.Text;
+                    Session["EsPresupuesto"] = flexRadioDefault1.Checked;
+                    Session["EsReparacion"] = flexRadioDefault2.Checked;
+                    Session["EsUrgente"] = flexSwitchCheckDefault.Checked;
+
+                    // Redirigir a la página gerente.aspx
+                    Response.Redirect("gerente.aspx");
+                    LimpiarCampos();
                 lblConfirmacion.Visible = true;
                 // scrpit mensaje de éxito
                 ScriptManager.RegisterStartupScript(this, GetType(), "ShowMessage",

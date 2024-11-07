@@ -15,6 +15,24 @@ namespace AppSeguridad
     {
 
         /// <summary>
+        /// Control flexRadioDefault1.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton flexRadioDefault1;
+
+        /// <summary>
+        /// Control flexRadioDefault2.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton flexRadioDefault2;
+
+        /// <summary>
         /// Control txtFechaCarga.
         /// </summary>
         /// <remarks>
@@ -229,6 +247,15 @@ namespace AppSeguridad
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidatorObservaciones;
+
+        /// <summary>
+        /// Control flexSwitchCheckDefault.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputCheckBox flexSwitchCheckDefault;
 
         /// <summary>
         /// Control fileUploadImagen.
