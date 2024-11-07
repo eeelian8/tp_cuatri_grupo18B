@@ -8,6 +8,7 @@ namespace Dominio
 {
     public class Recepcion
     {
+        public string CodRecepcionista {  get; set; }
         public string Documento { get; set; }
         public string Nombre { get; set; }
         public int Telefono { get; set; }
