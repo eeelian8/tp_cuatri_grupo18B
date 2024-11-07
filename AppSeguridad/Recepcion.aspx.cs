@@ -29,10 +29,12 @@ namespace AppSeguridad
                 // Establece la fecha de carga actual en el TextBox
                 txtFechaCarga.Text = DateTime.Now.ToString("dd/MM/yyyy");
 
-                ddlItems.Items.Add(new ListItem("CERRAJERIA", "6"));
-                ddlItems.Items.Add(new ListItem("ELECTRICIDAD", "7"));
-                ddlItems.Items.Add(new ListItem("VARIOS", "8"));
          
+                List<TipoTrabajo> tiposTrabajos = clienteNegocio.ListarTipos();
+
+                ddlItems.DataSource = tiposTrabajos;
+                ddlItems.DataValueField = "Nombre";
+                ddlItems.DataBind();
                 ddlItems.Items.Insert(0, new ListItem("Seleccione un tipo de trabajo", "0"));
             }
 
