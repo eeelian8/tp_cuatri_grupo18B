@@ -23,6 +23,10 @@ namespace Data_Management
             conexion = new SqlConnection("server=.\\SQLEXPRESS; database=SEGURIDAD_DB; integrated security=true");
             comando = new SqlCommand();
         }
+        public void limpiarParametros()
+        {
+            comando.Parameters.Clear();
+        }
 
         public void setearConsulta(string consulta)
         {

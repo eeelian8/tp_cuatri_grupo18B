@@ -149,7 +149,7 @@
                 <div class="row mb-3">
 
                     <div class="col-sm-6">
-                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" CssClass="btn btn-primary" /><!--OnClick="btnSubmit_Click"  -->
+                        <asp:Button ID="btnSubmit" runat="server" Text="Enviar" OnClick="btnSubmit_Click"  CssClass="btn btn-primary" />
                     </div>
                 </div>
                     <asp:Label ID="lblConfirmacion" runat="server" Text="Solicitud enviada con éxito" CssClass="text-success" Visible="false"></asp:Label>
