@@ -5,9 +5,8 @@
         function abrirModalDenegar() {
             var myModal = new bootstrap.Modal(document.getElementById('modalDenegar'));
             myModal.show();
-            return false; // evita postback. no se recarga
+            return false;
         }
-                
     </script>
 </asp:Content>
 
@@ -23,16 +22,27 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
-                        <asp:Repeater ID="repTareas" runat="server" OnItemCommand="tareaSeleccionada">
+                        <asp:Repeater ID="repTareas" runat="server" OnItemCommand="tareaSeleccionada" OnItemDataBound="repTareas_ItemDataBound">
                             <ItemTemplate>
                                 <asp:LinkButton ID="lnkTrabajo" runat="server" CssClass="list-group-item list-group-item-action" 
-                                              CommandName="Select" CommandArgument='<%# Eval("CodTecnico") %>'>
+                                              CommandName="Select">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1"><%# Eval("Nombre") %> <%# Eval("Apellido") %></h6>
-                                        <small class="text-muted"><%# Eval("CodTecnico") %></small>
+                                        <h6 class="mb-1"><asp:Label ID="lblTipoTrabajo" runat="server" /></h6>
+                                        <small class="text-muted">#<asp:Label ID="lblId" runat="server" /></small>
                                     </div>
-                                    <p class="mb-1">Especialidad: <%# Eval("Especialidad") %></p>
-                                    <small class="text-muted"><%# Eval("Localidad") %>, <%# Eval("Provincia") %></small>
+                                    <div class="row mt-2">
+                                        <div class="col-8">
+                                            <div class="border p-2 mb-2">
+                                                <asp:Label ID="lblDescripcion" runat="server" />
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <p class="mb-1"><asp:Label ID="lblDireccion" runat="server" /></p>
+                                            <p class="mb-1"><asp:Label ID="lblLocalidad" runat="server" /></p>
+                                            <p class="mb-1"><asp:Label ID="lblProvincia" runat="server" /></p>
+                                            <p class="mb-1">Tel: <asp:Label ID="lblTelefono" runat="server" /></p>
+                                        </div>
+                                    </div>
                                 </asp:LinkButton>
                             </ItemTemplate>
                         </asp:Repeater>
@@ -44,22 +54,21 @@
             <div class="d-grid gap-2 d-md-flex justify-content-center mb-4">
                 <asp:Button ID="btnAceptar" runat="server" Text="Aceptar ✓" 
                             CssClass="btn btn-secondary px-4" Enabled="false" />
-                        <!-- arrancan en false hasta que se elija una tarea -->
                 <asp:Button ID="btnDenegar" runat="server" Text="Rechazar X" 
                             CssClass="btn btn-secondary px-4" Enabled="false" 
                             OnClientClick="return abrirModalDenegar();" />
-                            <!--modal-->
             </div>
 
             <!-- historial -->
             <div class="d-grid">
-                <asp:Button ID="btnHistorial" runat="server" Text="Historial de trabajos" CssClass="btn btn-primary" />
+                <asp:Button ID="btnHistorial" runat="server" Text="Historial de trabajos" 
+                           CssClass="btn btn-primary" OnClick="btnHistorial_Click" />
             </div>
         </div>
         <div class="col"></div>
     </div>
 
-    <!-- modal/ventana al rechazar-->
+    <!-- modal de rechazo -->
     <div class="modal fade" id="modalDenegar" tabindex="-1" aria-labelledby="modalDenegarLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -73,8 +82,6 @@
                     </asp:TextBox>
                 </div>
                 <div class="modal-footer">
-
-                    <!--confirmar denegar-->
                     <asp:Button ID="btnConfirmarDenegar" runat="server" Text="Confirmar" 
                               CssClass="btn btn-primary" OnClick="btnConfirmarDenegar_Click"/>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

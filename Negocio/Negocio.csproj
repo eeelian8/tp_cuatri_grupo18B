@@ -45,6 +45,7 @@
     <Compile Include="RecepcionNegocio.cs" />
     <Compile Include="GerenteNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SolicitudTrabajoNegocio.cs" />
     <Compile Include="TecnicoNegocio.cs" />
   </ItemGroup>
   <ItemGroup>

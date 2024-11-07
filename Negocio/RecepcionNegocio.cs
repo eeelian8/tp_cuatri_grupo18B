@@ -175,7 +175,7 @@ namespace Negocio
             }
         }
 
-        public Recepcion Buscar(int dni)
+        public Recepcion Buscar(string cod)
         {
             RecepcionNegocio clienteNeg = new RecepcionNegocio();
             List<Recepcion> ListaClientes = new List<Recepcion>();
@@ -185,7 +185,7 @@ namespace Negocio
             {
                 foreach (Recepcion cli in ListaClientes)
                 {
-                    if (cli.Documento == dni.ToString())
+                    if (cli.CodRecepcionista == cod)
                     {
                         return cli;
                     }

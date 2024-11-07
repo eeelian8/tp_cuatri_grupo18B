@@ -35,8 +35,8 @@ create table dbo.TECNICOS(
 	[Apellido] [varchar](100) not null,
 	[Localidad][varchar](80) null,
 	[Especialidad] [varchar](80) null,
-	constraint PK_IdTecnicos
-    primary key nonclustered (Id),
+	constraint PK_CodTecnicos
+    primary key nonclustered (CodTecnico),
 	constraint FK_EspecialidadTecnico foreign key (Especialidad)
 	references ESPECIALIDADES(Nombre)
 	on delete cascade
@@ -45,6 +45,7 @@ create table dbo.TECNICOS(
 go
 create table dbo.RECEPCIONISTAS(
 	[Id] [int] identity(1,1) not null,
+	[CodRecepcionista] [varchar](10) not null,
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
@@ -63,8 +64,13 @@ create table dbo.SOLICITUDES_TRABAJO(
 	[Localidad][varchar](80) not null,
 	[Provincia][varchar](80) not null,
 	[Estado][int] not null,
+	[TecnicoAsignado][varchar](10) null,
 	constraint PK_IdSolicitudTrabajo
     primary key nonclustered (Id),
+	constraint FK_TecnicoXsolicitud foreign key (TecnicoAsignado)
+	references TECNICOS(CodTecnico)
+	on delete cascade
+	on update cascade
 )
 go
 create table dbo.TIPOS_TRABAJO(
@@ -92,9 +98,9 @@ go
 create table dbo.IMAGENES_TECNICO(
 	[Id] [int] identity(1,1) not null,
 	[ImgUrl] [varchar](150) not null,
-	[IdTecnico] [int] not null,
-	constraint FK_ImgTecnico foreign key (IdTecnico)
-	references TECNICOS(Id)
+	[CodTecnico] [varchar](10) not null,
+	constraint FK_ImgTecnico foreign key (CodTecnico)
+	references TECNICOS(CodTecnico)
 	on delete cascade
 	on update cascade
 )
@@ -135,21 +141,13 @@ VALUES
 ('T006', 3, 956789012, 'Luis', 'González', 'Palermo', 'Energía Solar'),
 ('T007', 3, 967890123, 'Laura', 'Hernández', 'Moreno', 'Electricidad Comercial');
 
-INSERT INTO dbo.[RECEPCIONISTAS] ([NivelRol], [Celular], [Nombre], [Apellido])
+INSERT INTO dbo.[RECEPCIONISTAS] ([CodRecepcionista], [NivelRol], [Celular], [Nombre], [Apellido])
 VALUES 
-(4, 987654321, 'Lucía', 'Gómez'),
-(4, 912345678, 'Fernando', 'Ríos'),
-(4, 923456789, 'Claudia', 'Lara'),
-(4, 934567890, 'Diego', 'Sosa'),
-(4, 945678901, 'Patricia', 'Méndez');
-
-INSERT INTO dbo.[SOLICITUDES_TRABAJO] ([Dni], [TipoTrabajo], [Nombre], [Apellido], [Descripcion], [Telefono], [Direccion], [Localidad], [Provincia], [Estado])
-VALUES 
-(12345678, 'Instalación de toma corriente', 'Santiago', 'Pérez', 'Solicitud para la instalación de tomas de corriente en la sala de estar.', 987654321, 'Av. Principal 123', 'Buenos Aires', 'Buenos Aires', 1),
-(87654321, 'Reparación de cableado', 'Ana', 'López', 'Necesito reparar el cableado de la cocina que se ha dañado.', 912345678, 'Calle Falsa 456', 'CABA', 'Buenos Aires', 2),
-(23456789, 'Mantenimiento de sistema eléctrico', 'Carlos', 'González', 'Revisar el sistema eléctrico completo de la vivienda.', 923456789, 'Diagonal 789', 'La Plata', 'Buenos Aires', 1),
-(34567890, 'Instalación de iluminación exterior', 'Laura', 'Martínez', 'Instalación de luces en el patio exterior.', 934567890, 'Ruta 8 km 10', 'Tigre', 'Buenos Aires', 1),
-(45678901, 'Cambio de interruptor', 'Diego', 'Sosa', 'Solicito el cambio de un interruptor de luz que no funciona.', 945678901, 'Calle del Sol 321', 'Quilmes', 'Buenos Aires', 3);
+('RC001', 4, 987654321, 'Lucía', 'Gómez'),
+('RC002', 4, 912345678, 'Fernando', 'Ríos'),
+('RC003', 4, 923456789, 'Claudia', 'Lara'),
+('RC004', 4, 934567890, 'Diego', 'Sosa'),
+('RC005', 4, 945678901, 'Patricia', 'Méndez');
 
 INSERT INTO dbo.[TIPOS_TRABAJO] ([Nombre], [Descripcion])
 VALUES 
@@ -160,3 +158,12 @@ VALUES
 ('Cambio de interruptor', 'Sustitución de interruptores de luz dañados o no funcionales.'),
 ('Instalación de paneles solares', 'Instalación de sistemas de paneles solares para energía renovable.'),
 ('Diagnóstico eléctrico', 'Análisis y diagnóstico de fallas en el sistema eléctrico de la propiedad.');
+
+INSERT INTO dbo.[SOLICITUDES_TRABAJO] 
+([Dni], [TipoTrabajo], [Nombre], [Apellido], [Descripcion], [Telefono], [Direccion], [Localidad], [Provincia], [Estado], [TecnicoAsignado])
+VALUES 
+(12345678, 'Instalación de toma corriente', 'Santiago', 'Pérez', 'Solicitud para instalar tomas de corriente en sala de estar.', 987654321, 'Av. Principal 123', 'Buenos Aires', 'Buenos Aires', 1, 'T001'),
+(87654321, 'Reparación de cableado', 'Ana', 'López', 'Reparación de cableado dañado en cocina.', 912345678, 'Calle Falsa 456', 'CABA', 'Buenos Aires', 2, 'T002'),
+(23456789, 'Mantenimiento de sistema eléctrico', 'Carlos', 'González', 'Revisión completa del sistema eléctrico de la vivienda.', 923456789, 'Diagonal 789', 'La Plata', 'Buenos Aires', 1, 'T003'),
+(34567890, 'Instalación de iluminación exterior', 'Laura', 'Martínez', 'Instalación de luces en el patio exterior.', 934567890, 'Ruta 8 km 10', 'Tigre', 'Buenos Aires', 1, 'T002'),
+(45678901, 'Cambio de interruptor', 'Diego', 'Sosa', 'Cambio de interruptor de luz dañado.', 945678901, 'Calle del Sol 321', 'Quilmes', 'Buenos Aires', 3, 'T001');

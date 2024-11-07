@@ -19,41 +19,10 @@
                     <img src="https://cdn-icons-png.flaticon.com/512/2345/2345604.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                     Security Master
                 </a>
-
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <!-- Enlace a la página Default.aspx -->
-                        <li class="nav-item">
-                            <a class="nav-link" href=" Default.aspx">Inicio</a>
-                        </li>
-                        <!-- Enlace a la página Recepcion.aspx -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="Recepcion.aspx">Recepcionista</a>
-                        </li>
-                        <!-- Enlace a la página Tecnicos.aspx -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="Tecnico.aspx">Tecnico</a>
-                        </li>
-                        <!-- Enlace a la página Gerente.aspx -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="Gerente.aspx">Gerente</a>
-                        </li>
-                        <!-- Enlace a la página Administrador.aspx -->
-                        <li class="nav-item">
-                            <a class="nav-link" href="Administrador.aspx">Administrador</a>
-                        </li>
-
-                    </ul>
-                </div>
             </div>
         </nav>
-
         <div class="container">
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" >
             </asp:ContentPlaceHolder>
         </div>
     </form>
