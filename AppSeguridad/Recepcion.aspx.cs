@@ -79,8 +79,6 @@ namespace AppSeguridad
                     Session["EsReparacion"] = flexRadioDefault2.Checked;
                     Session["EsUrgente"] = flexSwitchCheckDefault.Checked;
 
-                    // Redirigir a la página gerente.aspx
-                    Response.Redirect("gerente.aspx");
                     LimpiarCampos();
                 lblConfirmacion.Visible = true;
                 // scrpit mensaje de éxito

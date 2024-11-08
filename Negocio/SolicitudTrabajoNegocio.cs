@@ -2,6 +2,7 @@
 using Dominio;
 using System.Collections.Generic;
 using System;
+using System.Globalization;
 
 namespace Negocio
 {
@@ -40,6 +41,41 @@ namespace Negocio
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<SolicitudTrabajo> listarConSP()
+        {
+            List<SolicitudTrabajo> lista = new List<SolicitudTrabajo>();
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearProcedimiento("storedListar");
+                datos.ejecutarLectura();
+                while (datos.Lector.Read())
+                {
+                    SolicitudTrabajo aux = new SolicitudTrabajo();
+                    aux.Dni = (int)datos.Lector["Dni"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.TipoTrabajo = (string)datos.Lector["TipoTrabajo"];
+                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Localidad = (string)datos.Lector["Localidad"];
+                    aux.Provincia = (string)datos.Lector["Provincia"];
+                    aux.TecnicoAsignado = (string)datos.Lector["TecnicoAsignado"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
             finally

@@ -32,7 +32,8 @@
             </div>
             <asp:Button class="btn btn-primary" ID="btn_Login" type="submit" runat="server" Text="Login" OnClick="btn_Login_Click" />
             <br />
-            <asp:Label ID="LabelLogin" runat="server" Text=""></asp:Label>
+            <br />
+            <asp:Label ID="LabelLogin" runat="server" Text="" ForeColor="#EA0000"></asp:Label>
         </div>
         <div class="col">
         </div>

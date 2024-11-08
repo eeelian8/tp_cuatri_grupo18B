@@ -18,6 +18,7 @@ create table dbo.GERENTES(
 	[Apellido] [varchar](100) not null
 )
 go
+drop table ESPECIALIDADES
 create table dbo.ESPECIALIDADES(
 	[Id] [int] identity(1,1) not null,
 	[Nombre] [varchar](80) not null,
@@ -26,6 +27,7 @@ create table dbo.ESPECIALIDADES(
     primary key nonclustered (Nombre),
 )
 go
+drop table TECNICOS
 create table dbo.TECNICOS(
 	[Id] [int] identity(1,1) not null,
 	[CodTecnico] [varchar] (10) not null,
@@ -52,6 +54,7 @@ create table dbo.RECEPCIONISTAS(
 	[Apellido] [varchar](100) not null
 )
 go
+drop table SOLICITUDES_TRABAJO
 create table dbo.SOLICITUDES_TRABAJO(
 	[Id] [int] identity(1,1) not null,
 	[Dni] [int] not null,
@@ -73,6 +76,7 @@ create table dbo.SOLICITUDES_TRABAJO(
 	on update cascade
 )
 go
+drop table TIPOS_TRABAJO
 create table dbo.TIPOS_TRABAJO(
 	[Id] [int] identity(1,1) not null,
 	[Nombre] [varchar](50) not null,
@@ -179,4 +183,7 @@ VALUES
 (34567890, 'Instalación de iluminación exterior', 'Laura', 'Martínez', 'Instalación de luces en el patio exterior.', 934567890, 'Ruta 8 km 10', 'Tigre', 'Buenos Aires', 1, 'T002'),
 (45678901, 'Cambio de interruptor', 'Diego', 'Sosa', 'Cambio de interruptor de luz dañado.', 945678901, 'Calle del Sol 321', 'Quilmes', 'Buenos Aires', 3, 'T001');
 
-Select Id, Usuario, Password, NivelRol from USUARIOS where Usuario = 'tec001' AND Password = 'tecnico2024'
+create procedure storedListar as 
+Select ST.Dni, ST.Nombre, ST.TipoTrabajo, ST.Direccion, ST.Localidad, ST.Provincia, ST.TecnicoAsignado from SOLICITUDES_TRABAJO as ST
+where ST.Estado = 1
+exec storedListar
