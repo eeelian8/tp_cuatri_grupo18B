@@ -22,25 +22,25 @@
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
-                        <asp:Repeater ID="repTareas" runat="server" OnItemCommand="tareaSeleccionada">
+                        <asp:Repeater ID="repTareas" runat="server" OnItemCommand="tareaSeleccionada" OnItemDataBound="CargarDatos">
                             <ItemTemplate>
                                 <asp:LinkButton ID="lnkTrabajo" runat="server" CssClass="list-group-item list-group-item-action" 
-                                              CommandName="Select" CommandArgument='<%# Eval("Id") %>'>
+                                              CommandName="Select">
                                     <div class="d-flex w-100 justify-content-between">
-                                        <h6 class="mb-1"><%# Eval("TipoTrabajo") %></h6>
-                                        <small class="text-muted">#<%# Eval("Id") %></small>
+                                        <h6 class="mb-1"><asp:Label ID="lblTipoTrabajo" runat="server" /></h6>
+                                        <small class="text-muted">#<asp:Label ID="lblId" runat="server" /></small>
                                     </div>
                                     <div class="row mt-2">
                                         <div class="col-8">
                                             <div class="border p-2 mb-2">
-                                                <%# Eval("Descripcion") %>
+                                                <asp:Label ID="lblDescripcion" runat="server" />
                                             </div>
                                         </div>
                                         <div class="col-4">
-                                            <p class="mb-1"><%# Eval("Direccion") %></p>
-                                            <p class="mb-1"><%# Eval("Localidad") %></p>
-                                            <p class="mb-1"><%# Eval("Provincia") %></p>
-                                            <p class="mb-1">Tel: <%# Eval("Telefono") %></p>
+                                            <p class="mb-1"><asp:Label ID="lblDireccion" runat="server" /></p>
+                                            <p class="mb-1"><asp:Label ID="lblLocalidad" runat="server" /></p>
+                                            <p class="mb-1"><asp:Label ID="lblProvincia" runat="server" /></p>
+                                            <p class="mb-1">Tel: <asp:Label ID="lblTelefono" runat="server" /></p>
                                         </div>
                                     </div>
                                 </asp:LinkButton>
