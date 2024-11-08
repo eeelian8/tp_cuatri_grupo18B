@@ -104,6 +104,23 @@ create table dbo.IMAGENES_TECNICO(
 	on delete cascade
 	on update cascade
 )
+go
+create table dbo.USUARIOS(
+	[Id][int] identity(1,1) not null,
+	[Usuario][varchar](20) not null,
+	[Password][varchar](20) not null,
+	[NivelRol][int] not null,
+	constraint PK_Usuarios
+    primary key nonclustered (Usuario)
+)
+
+INSERT INTO dbo.USUARIOS ([Usuario], [Password], [NivelRol])
+VALUES
+('adm001', 'administracion2024', 1),
+('ger001', 'gerencia2024', 2),
+('tec001', 'tecnico2024', 3),
+('tec002', 'tecnico2024', 3),
+('rec001', 'recepcion2024', 4)
 
 INSERT INTO dbo.[ADMINISTRADORES] ([CodAdminitrador], [NivelRol], [Celular], [Nombre], [Apellido])
 VALUES 

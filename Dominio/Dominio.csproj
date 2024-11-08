@@ -48,6 +48,7 @@
     <Compile Include="SolicitudTrabajo.cs" />
     <Compile Include="Tecnico.cs" />
     <Compile Include="TipoTrabajo.cs" />
+    <Compile Include="Usuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data-Management\Data-Management.csproj">
