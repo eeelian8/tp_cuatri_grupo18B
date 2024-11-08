@@ -72,8 +72,6 @@ namespace AppSeguridad
                     Session["Provincia"] = cliente.Provincia;
                     Session["Estado"] = cliente.Estado;
                     Session["TipoTrabajo"] = cliente.TipoTrabajo;
-
-                    // Guardar valores adicionales del formulario
                     Session["FechaCarga"] = txtFechaCarga.Text;
                     Session["EsPresupuesto"] = flexRadioDefault1.Checked;
                     Session["EsReparacion"] = flexRadioDefault2.Checked;
