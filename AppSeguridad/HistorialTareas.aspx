@@ -40,23 +40,23 @@
                         <h5 class="mb-0">Tareas Aceptadas</h5>
                     </div>
                     <div class="card-body">
-                        <asp:Repeater ID="repTareasAceptadas" runat="server">
+                       <asp:Repeater ID="repTareasAceptadas" runat="server" OnItemDataBound="CargarDatos">
                             <ItemTemplate>
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <h6 class="card-title d-flex justify-content-between">
-                                            <span><%# Eval("TipoTrabajo") %></span>
-                                            <small class="text-muted">#<%# Eval("Id") %></small>
+                                            <asp:Label ID="lblTipoTrabajo" runat="server" />
+                                            <small class="text-muted">#<asp:Label ID="lblId" runat="server" /></small>
                                         </h6>
                                         <div class="border p-2 mb-2">
-                                            <%# Eval("Descripcion") %>
+                                            <asp:Label ID="lblDescripcion" runat="server" />
                                         </div>
                                         <p class="card-text">
-                                            <%# Eval("Direccion") %>,
-                                            <%# Eval("Localidad") %>,
-                                            <%# Eval("Provincia") %>
+                                            <asp:Label ID="lblDireccion" runat="server" />,
+                                            <asp:Label ID="lblLocalidad" runat="server" />,
+                                            <asp:Label ID="lblProvincia" runat="server" />
                                         </p>
-                                        <small class="text-muted">Tel: <%# Eval("Telefono") %></small>
+                                        <small class="text-muted">Tel: <asp:Label ID="lblTelefono" runat="server" /></small>
                                     </div>
                                 </div>
                             </ItemTemplate>
