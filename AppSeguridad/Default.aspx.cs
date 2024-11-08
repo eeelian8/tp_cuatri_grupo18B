@@ -18,66 +18,52 @@ namespace AppSeguridad
 
         protected void btn_Login_Click(object sender, EventArgs e)
         {
-            Usuario usr; 
+            string usuario = InputUser.Text;
+            string password = InputPassword.Text;
+            int nivelRol = 0;
+            if (ListBoxLogin.SelectedItem.Text == "Administrador")
+            {
+                nivelRol = 1;
+            }
+            else if(ListBoxLogin.SelectedItem.Text == "Gerente")
+            {
+                nivelRol = 2;
+            }
+            else if( ListBoxLogin.SelectedItem.Text == "Tecnico")
+            {
+                nivelRol = 3;
+            }
+            else if (ListBoxLogin.SelectedItem.Text == "Recepcionista")
+            {
+                nivelRol = 4;
+            }
+
             UsuarioNegocio usrNegocio = new UsuarioNegocio();
-
-            try
+            if (usrNegocio.Loguear(usuario, password, nivelRol))
             {
-                int nivelRol = 0;
-
-                if(ListBoxLogin.SelectedItem.Text == "Administrativo")
+                switch (nivelRol)
                 {
-                    nivelRol = 1;
-                }
-                if (ListBoxLogin.SelectedItem.Text == "Gerente")
-                {
-                    nivelRol = 2;
-                }
-                if (ListBoxLogin.SelectedItem.Text == "Tecnico")
-                {
-                    nivelRol = 3;
-                }
-                if (ListBoxLogin.SelectedItem.Text == "Recepcionista")
-                {
-                    nivelRol = 4;
-                }
-
-                usr = new Usuario(InputUser.Text, InputPassword.Text, nivelRol);
-
-                if (usrNegocio.Loguear(usr))
-                {
-                    switch (nivelRol)
-                    {
-                        case 1:
-                            Session.Add("admin", usr);
-                            Response.Redirect("Administrador.aspx", false);
-                            break;
-                        case 2:
-                            Session.Add("gerente", usr);
-                            Response.Redirect("Gerente.aspx", false);
-                            break;
-                        case 3:
-                            Session.Add("tecnico", usr);
-                            Response.Redirect("Tecnico.aspx", false);
-                            break;
-                        case 4:
-                            Session.Add("recepcionista", usr);
-                            Response.Redirect("Recepcion.aspx", false);
-                            break;
-                    }
-                }
-                else { 
-                
-                    
+                    case 1:
+                        Response.Redirect("Administrador.aspx", false);
+                        break;
+                    case 2:
+                        Response.Redirect("Gerente.aspx", false);
+                        break;
+                    case 3:
+                        Response.Redirect("Tecnico.aspx", false);
+                        break;
+                    case 4:
+                        Response.Redirect("Recepcion.aspx", false);
+                        break;
+                    default:
+                        break;
                 }
             }
-            catch (Exception ex)
+            else
             {
-
-                Session.Add("Error", ex.ToString());
+                LabelLogin.Text = "Contraseña o usuario equivocado... intente nuevamente o comuniquese con su administrador.";
             }
 
-           
         }
     }
 }

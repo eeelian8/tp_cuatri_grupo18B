@@ -16,7 +16,7 @@ namespace Negocio
             {
 
                 datos.setearConsulta("select Tec.CodTecnico, Tec.NivelRol, Tec.Celular, Tec.Nombre, Tec.Apellido, Tec.Direccion, Tec.Localidad, Tec.Provincia, Tec.Especialidad from TECNICOS as Tec");
-                datos.ejecutarLectura(); ;
+                datos.ejecutarLectura(); 
 
                 while (datos.Lector.Read())
                 {

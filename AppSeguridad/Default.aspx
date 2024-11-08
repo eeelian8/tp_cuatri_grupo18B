@@ -31,6 +31,8 @@
                 <asp:TextBox ID="InputPassword" class="form-control" runat="server" type="password"></asp:TextBox>
             </div>
             <asp:Button class="btn btn-primary" ID="btn_Login" type="submit" runat="server" Text="Login" OnClick="btn_Login_Click" />
+            <br />
+            <asp:Label ID="LabelLogin" runat="server" Text=""></asp:Label>
         </div>
         <div class="col">
         </div>

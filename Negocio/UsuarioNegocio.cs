@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 using Data_Management;
@@ -10,51 +11,41 @@ namespace Negocio
 {
     public class UsuarioNegocio
     {
-        public bool Loguear(Usuario usr) {
-
+        public bool Loguear(string user, string pass, int nr)
+        {
             AccesoDatos datos = new AccesoDatos();
+
             try
             {
-                datos.setearConsulta("Select Id, Usuario, Password, NivelRol from USUARIOS where Usuario = @user AND Password = @pass");
-                datos.setearParametro("@user", usr.usuario);
-                datos.setearParametro("@pass", usr.password);
-
+                datos.setearConsulta("Select U.Id, U.Usuario, U.Password, U.NivelRol from USUARIOS as U where U.Usuario = @user AND U.Password = @pass AND U.NivelRol = @nr");
+                datos.setearParametro("@user", user);
+                datos.setearParametro("@pass", pass);
+                datos.setearParametro("@nr", nr);
                 datos.ejecutarLectura();
-                while (datos.Lector.Read()) {
 
-                    usr.id = (int)datos.Lector["Id"];
-                    switch ((int)(datos.Lector["NivelRol"]))
-                    {
-                        case 1:
-                            usr.nivelRol = NivelRol.ADMINISTRADOR;
-                            break;
-                        case 2:
-                            usr.nivelRol = NivelRol.GERENTE;
-                            break;
-                        case 3:
-                            usr.nivelRol = NivelRol.TECNICO;
-                            break;
-                        case 4:
-                            usr.nivelRol = NivelRol.RECEPCIONISTA;
-                            break;
-                    }
-                    usr.usuario = (string)datos.Lector["Usuario"];
-                    usr.password = (string)datos.Lector["Password"];
-                    return true;
-
+                int count = 0;
+                if (datos.Lector.Read())
+                {
+                    count = (int)datos.Lector[0];
                 }
-                return false;
+
+                if (count > 0)
+                {
+                    return true;
+                }
+
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-            finally { 
+            finally
+            {
                 datos.cerrarConexion();
             }
 
-        } 
+            return false;
+        }
 
     }
 }

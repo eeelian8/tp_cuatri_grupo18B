@@ -89,12 +89,6 @@ create table dbo.IMAGENES_TRABAJO(
 	on update cascade
 )
 go
-create table dbo.USER_X_PASSWORD(
-	[Id] [int] identity(1,1) not null,
-	[User] [varchar](50) not null,
-	[Pass] [varchar](100) not null
-)
-go
 create table dbo.IMAGENES_TECNICO(
 	[Id] [int] identity(1,1) not null,
 	[ImgUrl] [varchar](150) not null,
@@ -184,3 +178,5 @@ VALUES
 (23456789, 'Mantenimiento de sistema eléctrico', 'Carlos', 'González', 'Revisión completa del sistema eléctrico de la vivienda.', 923456789, 'Diagonal 789', 'La Plata', 'Buenos Aires', 1, 'T003'),
 (34567890, 'Instalación de iluminación exterior', 'Laura', 'Martínez', 'Instalación de luces en el patio exterior.', 934567890, 'Ruta 8 km 10', 'Tigre', 'Buenos Aires', 1, 'T002'),
 (45678901, 'Cambio de interruptor', 'Diego', 'Sosa', 'Cambio de interruptor de luz dañado.', 945678901, 'Calle del Sol 321', 'Quilmes', 'Buenos Aires', 3, 'T001');
+
+Select Id, Usuario, Password, NivelRol from USUARIOS where Usuario = 'tec001' AND Password = 'tecnico2024'
