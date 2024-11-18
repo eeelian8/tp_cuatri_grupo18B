@@ -1,30 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/MasterPage.Master" CodeBehind="Recepcion.aspx.cs" Inherits="AppSeguridad.Clientes" %>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <style>
-        body {
-            background-image: url('/Images/FondoRecepcion.jpg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position: center;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-        }
-
-        .RequiredMessage {
-            font-style: italic;
-            padding: 0;
-            margin: 0;
-            font-size: 14px;
-        }
-
-        h1, h2, p, label {
-            color: white;
-        }
-    </style>
-
     <div class="container">
         <h2>Solicitud de Trabajo</h2>
         <p>Complete el formulario para enviar la solicitud.</p>
