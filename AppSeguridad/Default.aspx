@@ -3,12 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <style>
-        body {
-            background-color: #343A40;
-            color: white;
-        }
-    </style>
+   
     <br />
     <br />
     <div class="row">
@@ -30,7 +25,7 @@
                 <label for="exampleInputPassword1" class="form-label">Contraseña</label>
                 <asp:TextBox ID="InputPassword" class="form-control" runat="server" type="password"></asp:TextBox>
             </div>
-            <asp:Button class="btn btn-primary" ID="btn_Login" type="submit" runat="server" Text="Login" OnClick="btn_Login_Click" />
+            <asp:Button class="btn-crema" ID="btn_Login" type="submit" runat="server" Text="Login" OnClick="btn_Login_Click" />
             <br />
             <br />
             <asp:Label ID="LabelLogin" runat="server" Text="" ForeColor="#EA0000"></asp:Label>

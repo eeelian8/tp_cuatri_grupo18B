@@ -22,22 +22,20 @@ namespace AppSeguridad
         {
             clienteNegocio = new RecepcionNegocio();
             cliente = new Recepcion();
+
             if (!IsPostBack)
             {
-
-
-                // Establece la fecha de carga actual en el TextBox
                 txtFechaCarga.Text = DateTime.Now.ToString("dd/MM/yyyy");
-
-         
-                List<TipoTrabajo> tiposTrabajos = clienteNegocio.ListarTipos();
-
-                ddlItems.DataSource = tiposTrabajos;
-                ddlItems.DataValueField = "Nombre";
-                ddlItems.DataBind();
-                ddlItems.Items.Insert(0, new ListItem("Seleccione un tipo de trabajo", "0"));
+                CargarTiposTrabajos();
             }
-
+        }
+        private void CargarTiposTrabajos()
+        {
+            List<TipoTrabajo> tiposTrabajos = clienteNegocio.ListarTipos();
+            ddlItems.DataSource = tiposTrabajos;
+            ddlItems.DataValueField = "Nombre";
+            ddlItems.DataBind();
+            ddlItems.Items.Insert(0, new ListItem("Seleccione un tipo de trabajo", "0"));
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -143,5 +141,36 @@ namespace AppSeguridad
             txtObservaciones.Text = string.Empty;
             ddlItems.SelectedIndex = 0;
         }
+        protected void btnHistorialCliente_Click(object sender, EventArgs e)
+        {
+
+        }
+        protected void btnHistorial_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CargarHistorialTrabajos();
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(UpdatePanel1, UpdatePanel1.GetType(), "ShowError",
+                    $"alert('Error al cargar el historial: {ex.Message}');", true);
+            }
+        }
+
+        private void CargarHistorialTrabajos()
+        {
+            try
+            {
+                DataTable dtHistorial = clienteNegocio.ObtenerHistorialTrabajos();
+                dgvHistorial.DataSource = dtHistorial;
+                dgvHistorial.DataBind();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

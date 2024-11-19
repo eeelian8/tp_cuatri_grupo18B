@@ -63,7 +63,7 @@
             <!-- historial -->
             <div class="d-grid">
                 <asp:Button ID="btnHistorial" runat="server" Text="Historial de trabajos" 
-                           CssClass="btn btn-primary" OnClick="btnHistorial_Click" />
+                           CssClass="btn-crema" OnClick="btnHistorial_Click" />
             </div>
         </div>
         <div class="col"></div>
@@ -75,7 +75,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalDenegarLabel">Motivo de Denegación</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-crema" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <asp:TextBox ID="txtMotivoDenegacion" runat="server" CssClass="form-control" 
@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal-footer">
                     <asp:Button ID="btnConfirmarDenegar" runat="server" Text="Confirmar" 
-                              CssClass="btn btn-primary" OnClick="btnConfirmarDenegar_Click"/>
+                              CssClass="btn-crema" OnClick="btnConfirmarDenegar_Click"/>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 </div>
             </div>

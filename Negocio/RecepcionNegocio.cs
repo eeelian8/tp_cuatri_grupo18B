@@ -3,6 +3,7 @@ using Data_Management;
 using Dominio;
 using System;
 using System.Net;
+using System.Data;
 
 namespace Negocio
 {
@@ -174,29 +175,31 @@ namespace Negocio
                 throw ex;
             }
         }
+       
+         public DataTable ObtenerHistorialTrabajos()
+        {
+            DataTable dt = new DataTable();
 
-        /* public Recepcion Buscar(string cod)
-         {
-             RecepcionNegocio clienteNeg = new RecepcionNegocio();
-             List<Recepcion> ListaClientes = new List<Recepcion>();
-             ListaClientes = clienteNeg.Listar();
+            try
+            {
+                datos.setearConsulta("SELECT Dni,TipoTrabajo, Nombre,Apellido,Descripcion, Telefono, Direccion, Localidad, Provincia,Estado,TecnicoAsignado FROM SOLICITUDES_TRABAJO");
 
-             try
-             {
-                 foreach (Recepcion cli in ListaClientes)
-                 {
-                     if (cli.CodRecepcionista == cod)
-                     {
-                         return cli;
-                     }
-                 }
-                 return null;
-             }
-             catch (Exception)
-             {
-                 throw;
-             }
-         }*/
+                datos.ejecutarLectura();
+                dt.Load(datos.Lector);
 
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
+    
+
+
