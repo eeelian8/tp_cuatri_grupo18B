@@ -11,7 +11,7 @@
         <div class="d-flex justify-content-end position-fixed" style="top: 10px; right: 20px; z-index: 1050;">
             <!-- Cambiamos el botón por un LinkButton -->
             <asp:LinkButton ID="btnHistorial" runat="server" OnClick="btnHistorial_Click" 
-                           CssClass="btn-crema" OnClientClick="return false;">
+                           CssClass="btn-crema" CausesValidation="false" OnClientClick="return false;">
                 Historial Trabajos
             </asp:LinkButton>
         </div>
@@ -33,11 +33,11 @@
                         </div>
                         <div class="col-sm-3 d-flex justify-content-center">
                             <asp:Button ID="btnBuscar" runat="server" Text="Completar Formulario"
-                                OnClick="btnBuscar_Click" CssClass="btn-crema" />
+                                OnClick="btnBuscar_Click"  CausesValidation="false" CssClass="btn-crema" />
                         </div>
                         <div class="col-sm-3 d-flex justify-content-center">
                             <asp:Button ID="BtnHistorialCliente" runat="server" Text="Historial Cliente"
-                                OnClick="btnHistorialCliente_Click" CssClass="btn-crema" />
+                                OnClick="btnHistorialCliente_Click"  CausesValidation="false" CssClass="btn-crema" />
                         </div>
                     </div>
 
@@ -196,7 +196,41 @@
                 </div>
             </div>
         </div>
+    <!-- Agregar este código después del modal existente -->
+<div class="modal fade" id="modalHistorialCliente" tabindex="-1" aria-labelledby="modalHistorialClienteLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalHistorialClienteLabel">Historial del Cliente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server">
+                    <ContentTemplate>
+                        <div class="table-responsive">
+                            <asp:GridView ID="dgvHistorialCliente" runat="server" 
+                                CssClass="table table-bordered table-striped table-hover" 
+                                AutoGenerateColumns="True"
+                                GridLines="None"
+                                AllowPaging="True"
+                                PageSize="10"
+                                CellPadding="4">
+                                <HeaderStyle CssClass="table-dark" />
+                                <RowStyle CssClass="align-middle" />
+                                <AlternatingRowStyle CssClass="table-light" />
+                                <PagerStyle CssClass="pagination-ys" />
+                            </asp:GridView>
+                        </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
     </div>
+</div>
+   
 
     <!-- Scripts necesarios -->
     <script type="text/javascript">
@@ -227,5 +261,14 @@
                 $(this).find('.table-responsive').css('max-height', (window.innerHeight * 0.7) + 'px');
             });
         });
+       
+            
+
+            // Ajustar altura del modal de historial cliente
+            $('#modalHistorialCliente').on('shown.bs.modal', function () {
+                $(this).find('.table-responsive').css('max-height', (window.innerHeight * 0.7) + 'px');
+            });
+        
     </script>
+
 </asp:Content>

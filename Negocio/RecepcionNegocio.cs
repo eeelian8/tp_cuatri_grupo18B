@@ -198,6 +198,29 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public DataTable ObtenerHistorialCliente(string dni)
+        {
+            DataTable dt = new DataTable();
+
+            try
+            {
+                datos.setearConsulta("SELECT id, TipoTrabajo, Descripcion, Estado, TecnicoAsignado " +
+                                    "FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni ORDER BY id DESC");
+                datos.setearParametro("@Dni", dni);
+                datos.ejecutarLectura();
+                dt.Load(datos.Lector);
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
     

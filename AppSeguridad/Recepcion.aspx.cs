@@ -27,6 +27,8 @@ namespace AppSeguridad
             {
                 txtFechaCarga.Text = DateTime.Now.ToString("dd/MM/yyyy");
                 CargarTiposTrabajos();
+                CargarHistorialTrabajos();
+                
             }
         }
         private void CargarTiposTrabajos()
@@ -143,13 +145,48 @@ namespace AppSeguridad
         }
         protected void btnHistorialCliente_Click(object sender, EventArgs e)
         {
+            try
+            {
+                string dni = txtDni.Text.Trim();
 
+                if (string.IsNullOrEmpty(dni))
+                {
+                    ScriptManager.RegisterStartupScript(UpdatePanel2, UpdatePanel2.GetType(), "ShowError",
+                        "alert('Por favor, ingrese un DNI para ver el historial del cliente.');", true);
+                    return;
+                }
+
+                DataTable dtHistorialCliente = clienteNegocio.ObtenerHistorialCliente(dni);
+
+                if (dtHistorialCliente.Rows.Count > 0)
+                {
+                    dgvHistorialCliente.DataSource = dtHistorialCliente;
+                    dgvHistorialCliente.DataBind();
+
+                    // Mostrar el modal
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowModalScript",
+                        "$(document).ready(function() { $('#modalHistorialCliente').modal('show'); });", true);
+                }
+                else
+                {
+                    ScriptManager.RegisterStartupScript(UpdatePanel2, UpdatePanel2.GetType(), "ShowError",
+                        "alert('No se encontraron registros para este cliente.');", true);
+                }
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(UpdatePanel2, UpdatePanel2.GetType(), "ShowError",
+                    $"alert('Error al cargar el historial del cliente: {ex.Message}');", true);
+            }
         }
         protected void btnHistorial_Click(object sender, EventArgs e)
         {
             try
             {
                 CargarHistorialTrabajos();
+                // Explicitly register a script to show the modal
+                ScriptManager.RegisterStartupScript(this, GetType(), "ShowModalScript",
+                    "$(document).ready(function() { $('#modalHistorial').modal('show'); });", true);
             }
             catch (Exception ex)
             {
