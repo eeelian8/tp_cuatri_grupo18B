@@ -15,7 +15,7 @@ namespace Negocio
             try
             {
 
-                datos.setearConsulta("select Tec.CodTecnico, Tec.NivelRol, Tec.Celular, Tec.Nombre, Tec.Apellido, Tec.Direccion, Tec.Localidad, Tec.Provincia, Tec.Especialidad from TECNICOS as Tec");
+                datos.setearConsulta("select Tec.CodTecnico, Tec.NivelRol, Tec.Celular, Tec.Nombre, Tec.Apellido, Tec.Direccion, Tec.Localidad, Tec.Provincia from TECNICOS as Tec");
                 datos.ejecutarLectura(); 
 
                 while (datos.Lector.Read())
@@ -29,7 +29,6 @@ namespace Negocio
                     aux.Direccion = (string)datos.Lector["Direccion"];
                     aux.Localidad = (string)datos.Lector["Localidad"];
                     aux.Provincia = (string)datos.Lector["Provincia"];
-                    aux.Especialidad = (int)datos.Lector["Especialidad"];
 
                     lista.Add(aux);
                 }
@@ -84,7 +83,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("insert into TECNICOS (CodTecnico, NivelRol, Celular, Nombre, Apellido, Direccion, Localidad, Provincia, Especialidad) Values(@CodTecnico, @NivelRol, @Celular, @Nombre, @Apellido, @Direccion, @Localidad, @Provincia, @Especialidad)");
+                datos.setearConsulta("insert into TECNICOS (CodTecnico, NivelRol, Celular, Nombre, Apellido, Direccion, Localidad, Provincia) Values(@CodTecnico, @NivelRol, @Celular, @Nombre, @Apellido, @Direccion, @Localidad, @Provincia)");
                 datos.setearParametro("@CodTecnico", tec.CodTecnico);
                 datos.setearParametro("@NivelRol", tec.NivelRol);
                 datos.setearParametro("@Celular", tec.Celular);
@@ -93,7 +92,6 @@ namespace Negocio
                 datos.setearParametro("@Direccion", tec.Direccion);
                 datos.setearParametro("@Localidad", tec.Localidad);
                 datos.setearParametro("@Provincia", tec.Provincia);
-                datos.setearParametro("@Especialidad", tec.Especialidad);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -112,7 +110,7 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("update TECNICOS set CodTecnico = @CodTecnico, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Localidad = @Localidad, Provincia = @Provincia, Especialidad = @Especialidad where CodTecnico = @CodTecnico ");
+                datos.setearConsulta("update TECNICOS set CodTecnico = @CodTecnico, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Localidad = @Localidad, Provincia = @Provincia where CodTecnico = @CodTecnico ");
                 datos.setearParametro("@CodTecnico", tec.CodTecnico);
                 datos.setearParametro("@NivelRol", tec.NivelRol);
                 datos.setearParametro("@Celular", tec.Celular);
@@ -121,7 +119,6 @@ namespace Negocio
                 datos.setearParametro("@Direccion", tec.Direccion);
                 datos.setearParametro("@Localidad", tec.Localidad);
                 datos.setearParametro("@Provincia", tec.Provincia);
-                datos.setearParametro("@Especialidad", tec.Especialidad);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

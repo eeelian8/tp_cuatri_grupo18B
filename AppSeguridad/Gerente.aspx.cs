@@ -15,7 +15,6 @@ namespace AppSeguridad
         protected void Page_Load(object sender, EventArgs e)
         {
             SolicitudTrabajoNegocio stNegocio = new SolicitudTrabajoNegocio();
-            gv_solicitudes.DataSource = stNegocio.listarConSP();
             gv_solicitudes.DataBind();
         }
     }
