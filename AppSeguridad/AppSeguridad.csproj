@@ -69,7 +69,7 @@
   <ItemGroup>
     <Content Include="Administrador.aspx" />
     <Content Include="HistorialTareas.aspx" />
-    <Content Include="Images\fondo.jpg" />
+    <Content Include="Images\logotipo.png" />
     <Content Include="Recepcion.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Gerente.aspx" />

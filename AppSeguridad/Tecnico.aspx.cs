@@ -27,35 +27,31 @@ namespace AppSeguridad
             agendaXtecnico = agendaXtecnicoNegocio.Listar(Cod);
 
             Calendario.FirstDayOfWeek = FirstDayOfWeek.Sunday;
-            Calendario.ShowGridLines = true;
             Calendario.DayStyle.Height = new Unit(50);
             Calendario.DayStyle.Width = new Unit(150);
-            Calendario.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
         }
 
         protected void Calendario_DayRender(object sender, DayRenderEventArgs e)
         {
             foreach (TrabajosPorTecnico aux in agendaXtecnico)
             {
-                if(aux.FechaInicio.Date == e.Day.Date)
+                for (int i = aux.FechaInicio.Day; i<=aux.FechaFin.Day; i++)
                 {
-                    Literal literal1 = new Literal();
-                    literal1.Text = "<br/>";
-                    e.Cell.Controls.Add(literal1);
-                    Label label1 = new Label();
-                    label1.Text = aux.NombreTrabajo;
-                    label1.Font.Size = new FontUnit(FontSize.Small);
-                    e.Cell.Controls.Add(label1);
-                }
-                if (aux.FechaFin.Date == e.Day.Date)
-                {
-                    Literal literal1 = new Literal();
-                    literal1.Text = "<br/>";
-                    e.Cell.Controls.Add(literal1);
-                    Label label1 = new Label();
-                    label1.Text = aux.NombreTrabajo;
-                    label1.Font.Size = new FontUnit(FontSize.Small);
-                    e.Cell.Controls.Add(label1);
+                    if(i == e.Day.Date.Day && aux.FechaInicio.Month == e.Day.Date.Month)
+                    {
+                        Literal literal1 = new Literal();
+                        literal1.Text = "<br/>";
+                        e.Cell.Controls.Add(literal1);
+                        Label label1 = new Label();
+                        label1.Text = aux.NombreTrabajo;
+                        label1.Font.Size = new FontUnit(FontSize.Small);
+                        e.Cell.Controls.Add(label1);
+                        e.Cell.BackColor = System.Drawing.Color.LightGray;
+                        e.Cell.ForeColor = System.Drawing.Color.Black;
+                        e.Cell.BorderStyle = BorderStyle.Outset;
+                        e.Cell.BorderWidth = 2;
+                        e.Cell.BorderColor = System.Drawing.Color.Black;
+                    }
                 }
             }
         }
