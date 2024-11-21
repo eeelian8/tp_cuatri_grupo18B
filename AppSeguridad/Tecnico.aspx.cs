@@ -1,184 +1,124 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.EnterpriseServices.CompensatingResourceManager;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-using Dominio;
-using Negocio;
-
 namespace AppSeguridad
 {
-    public partial class WebForm1 : System.Web.UI.Page
+    public partial class Tecnico : System.Web.UI.Page
     {
+
+        List<TrabajosPorTecnico> agendaXtecnico = new List<TrabajosPorTecnico>();
+        TrabajosPorTecnicoNegocio agendaXtecnicoNegocio = new TrabajosPorTecnicoNegocio();
+
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            CargarSolicitudes();
-            if (!IsPostBack)
-            {
-                btnAceptar.Enabled = false;
-                btnDenegar.Enabled = false;
-                btnAceptar.CssClass = "btn btn-secondary px-4";
-                btnDenegar.CssClass = "btn btn-secondary px-4";
-            }
+            string usr = Request.QueryString["usr"].ToString();
+            string Cod = BusquedaCodPorUsr(usr);
+
+
+            agendaXtecnico = agendaXtecnicoNegocio.Listar(Cod);
+
+            Calendario.FirstDayOfWeek = FirstDayOfWeek.Sunday;
+            Calendario.ShowGridLines = true;
+            Calendario.DayStyle.Height = new Unit(50);
+            Calendario.DayStyle.Width = new Unit(150);
+            Calendario.OtherMonthDayStyle.BackColor = System.Drawing.Color.AliceBlue;
         }
 
-        protected void CargarDatos(object sender, RepeaterItemEventArgs e)
+        protected void Calendario_DayRender(object sender, DayRenderEventArgs e)
         {
-            SolicitudTrabajo solicitud = (SolicitudTrabajo)e.Item.DataItem;
-
-            Label lblTipoTrabajo = (Label)e.Item.FindControl("lblTipoTrabajo");
-            Label lblId = (Label)e.Item.FindControl("lblId");
-            Label lblDescripcion = (Label)e.Item.FindControl("lblDescripcion");
-            Label lblDireccion = (Label)e.Item.FindControl("lblDireccion");
-            Label lblLocalidad = (Label)e.Item.FindControl("lblLocalidad");
-            Label lblProvincia = (Label)e.Item.FindControl("lblProvincia");
-            Label lblTelefono = (Label)e.Item.FindControl("lblTelefono");
-            LinkButton lnkTrabajo = (LinkButton)e.Item.FindControl("lnkTrabajo");
-
-            lblTipoTrabajo.Text = solicitud.TipoTrabajo;
-            lblId.Text = solicitud.Id.ToString();
-            lblDescripcion.Text = solicitud.Descripcion;
-            lblDireccion.Text = solicitud.Direccion;
-            lblLocalidad.Text = solicitud.Localidad;
-            lblProvincia.Text = solicitud.Provincia;
-            lblTelefono.Text = solicitud.Telefono.ToString();
-
-            lnkTrabajo.CommandArgument = solicitud.Id.ToString();
-        }
-
-        private void CargarSolicitudes()
-        {
-            try
+            foreach (TrabajosPorTecnico aux in agendaXtecnico)
             {
-                SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
-                List<SolicitudTrabajo> lista = negocio.ListarPendientes();  // lista las que tienen Estado = 1
-                repTareas.DataSource = lista;
-                repTareas.DataBind();
-
-                btnAceptar.Enabled = false;
-                btnDenegar.Enabled = false;
-                btnAceptar.CssClass = "btn btn-secondary px-4";
-                btnDenegar.CssClass = "btn btn-secondary px-4";
-            }
-            catch (Exception ex)
-            {
-                Response.Write("Error al cargar solicitudes: " + ex.Message);
-            }
-        }
-
-        protected void btnAceptar_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string idTarea = Session["TareaSeleccionada"].ToString();
-                SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
-                negocio.Aceptar(int.Parse(idTarea));
-
-                //volver estado original (ya no hace falta + creo esto de recargar los botones)
-                CargarSolicitudes();
-                btnAceptar.Enabled = false;
-                btnDenegar.Enabled = false;
-                btnAceptar.CssClass = "btn btn-secondary px-4";
-                btnDenegar.CssClass = "btn btn-secondary px-4";
-            }
-            catch (Exception ex)
-            {
-                Response.Write("Error al aceptar la solicitud: " + ex.Message);
-            }
-        }
-
-        protected void repTareas_ItemDataBound(object sender, RepeaterItemEventArgs e)
-        {
-            if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
-            {
-                SolicitudTrabajo solicitud = (SolicitudTrabajo)e.Item.DataItem;
-
-                Label lblTipoTrabajo = (Label)e.Item.FindControl("lblTipoTrabajo");
-                Label lblId = (Label)e.Item.FindControl("lblId");
-                Label lblDescripcion = (Label)e.Item.FindControl("lblDescripcion");
-                Label lblDireccion = (Label)e.Item.FindControl("lblDireccion");
-                Label lblLocalidad = (Label)e.Item.FindControl("lblLocalidad");
-                Label lblProvincia = (Label)e.Item.FindControl("lblProvincia");
-                Label lblTelefono = (Label)e.Item.FindControl("lblTelefono");
-                LinkButton lnkTrabajo = (LinkButton)e.Item.FindControl("lnkTrabajo");
-
-                lblTipoTrabajo.Text = solicitud.TipoTrabajo;
-                lblId.Text = solicitud.Id.ToString();
-                lblDescripcion.Text = solicitud.Descripcion;
-                lblDireccion.Text = solicitud.Direccion;
-                lblLocalidad.Text = solicitud.Localidad;
-                lblProvincia.Text = solicitud.Provincia;
-                lblTelefono.Text = solicitud.Telefono.ToString();
-
-                lnkTrabajo.CommandArgument = solicitud.Id.ToString(); //(mantiene seleccion)
-            }
-        }
-
-        protected void tareaSeleccionada(object source, RepeaterCommandEventArgs e)
-        {
-            if (e.CommandName == "Select")
-            {
-                string idTareaSeleccionada = ((LinkButton)e.Item.FindControl("lnkTrabajo")).CommandArgument;
-                Session["TareaSeleccionada"] = idTareaSeleccionada;
-
-                btnAceptar.Enabled = true;
-                btnDenegar.Enabled = true;
-                btnAceptar.CssClass = "btn btn-success px-4";
-                btnDenegar.CssClass = "btn btn-danger px-4";
-
-                foreach (RepeaterItem item in repTareas.Items)
+                if(aux.FechaInicio.Date == e.Day.Date)
                 {
-                    LinkButton link = (LinkButton)item.FindControl("lnkTrabajo");
-                    if (link.CommandArgument == idTareaSeleccionada)
-                        link.CssClass = "list-group-item list-group-item-action active";
-                    else
-                        link.CssClass = "list-group-item list-group-item-action";
+                    Literal literal1 = new Literal();
+                    literal1.Text = "<br/>";
+                    e.Cell.Controls.Add(literal1);
+                    Label label1 = new Label();
+                    label1.Text = aux.NombreTrabajo;
+                    label1.Font.Size = new FontUnit(FontSize.Small);
+                    e.Cell.Controls.Add(label1);
+                }
+                if (aux.FechaFin.Date == e.Day.Date)
+                {
+                    Literal literal1 = new Literal();
+                    literal1.Text = "<br/>";
+                    e.Cell.Controls.Add(literal1);
+                    Label label1 = new Label();
+                    label1.Text = aux.NombreTrabajo;
+                    label1.Font.Size = new FontUnit(FontSize.Small);
+                    e.Cell.Controls.Add(label1);
                 }
             }
         }
 
-       
-
-
-        protected void btnConfirmarDenegar_Click(object sender, EventArgs e)
-    {
-        try
+        protected void Calendario_SelectionChanged(object sender, EventArgs e)
         {
-            string motivo = txtMotivoDenegacion.Text;
-            if (string.IsNullOrEmpty(motivo))//no motivos vacios
+            LabelAction.Text = "Date changed to :" + Calendario.SelectedDate.ToShortDateString();
+        }
+
+        protected void Calendario_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
+        {
+            LabelAction.Text = "Month changed to :" + e.NewDate.ToShortDateString();
+        }
+
+        public string BusquedaCodPorUsr(string usuario)
+        {
+            string codigo = " ";
+
+            AdministradorNegocio administradorNegocio = new AdministradorNegocio();
+            GerenteNegocio gerenteNegocio = new GerenteNegocio();
+            RecepcionNegocio recepcionNegocio = new RecepcionNegocio(); 
+            TecnicoNegocio tecnicoNegocio = new TecnicoNegocio();
+            UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
+
+            List<Dominio.Administrador> listaAdministradores = administradorNegocio.Listar();
+            List<Dominio.Gerente> listaGerentes = gerenteNegocio.Listar();
+            List<Dominio.Recepcion> listaRecepcionistas = recepcionNegocio.Listar();
+            List<Dominio.Tecnico> listaTecnicos = tecnicoNegocio.Listar();
+            List<Dominio.Usuario> listaUsuarios = usuarioNegocio.Listar();
+
+            Usuario usrAux = listaUsuarios.Find(x => x.usuario == usuario);
+            Dominio.Administrador admAux;
+            Dominio.Recepcion recAux;
+            Dominio.Gerente gerAux;
+            Dominio.Tecnico tecAux;
+
+            if(usrAux != null)
             {
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alertMessage", "alert('Debe ingresar un motivo');", true);
-                return;
+                admAux = listaAdministradores.Find(x => x.NroDocumento == usrAux.NroDocumento);
+                gerAux = listaGerentes.Find(x => x.NroDocumento == usrAux.NroDocumento);
+                recAux = listaRecepcionistas.Find(x => x.NroDocumento == usrAux.NroDocumento);
+                tecAux = listaTecnicos.Find(x => x.NroDocumento == usrAux.NroDocumento);
+
+                if (admAux != null)
+                {
+                    return admAux.CodAdministrador;
+                }
+                if (gerAux != null)
+                {
+                    return gerAux.CodGerente;
+                }
+                if (recAux != null)
+                {
+                    return recAux.CodRecepcionista;
+                }
+                if (tecAux != null)
+                {
+                    return tecAux.CodTecnico;
+                }
             }
 
-            Session["MotivoRechazo"] = motivo;//session que desp llegara a Gerente.aspx
-            txtMotivoDenegacion.Text = ""; //limpiar textbox
-
-                string idTarea = Session["TareaSeleccionada"].ToString();
-                SolicitudTrabajoNegocio solicitud = new SolicitudTrabajoNegocio();
-                solicitud.Rechazar(int.Parse(idTarea)); //estado solicitud a 3(rechazado)
-
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "closeModal",
-                "var myModal = bootstrap.Modal.getInstance(document.getElementById('modalDenegar')); myModal.hide();", true);
-
-                CargarSolicitudes();//recargar pagina
+            return codigo;
         }
-        catch (Exception ex)
-        {
-            Response.Write("Error: " + ex.Message);
-        }
-    }
-
-        protected void btnHistorial_Click(object sender, EventArgs e)
-        {
-            Response.Redirect("HistorialTareas.aspx");
-        }
-
-
 
     }
 }
-

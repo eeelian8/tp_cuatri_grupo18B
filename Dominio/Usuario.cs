@@ -14,6 +14,7 @@ namespace Dominio
         public string usuario { get; set; }
         public string password { get; set; }
         public int nivelRol { get; set; }
+        public int NroDocumento { get; set; }
 
     }
 }

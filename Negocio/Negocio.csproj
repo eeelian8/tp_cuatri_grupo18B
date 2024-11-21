@@ -48,6 +48,7 @@
     <Compile Include="SolicitudTrabajoNegocio.cs" />
     <Compile Include="TarjetaTecnicosNegocio.cs" />
     <Compile Include="TecnicoNegocio.cs" />
+    <Compile Include="TrabajosPorTecnicoNegocio.cs" />
     <Compile Include="UsuarioNegocio.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,71 +1,71 @@
-use SEGURIDAD_DB 
+create database SEGURIDAD_DB 
+go 
+use SEGURIDAD_DB
 go
-create table dbo.[ADMINISTRADORES](
+create table ADMINISTRADORES(
 	[Id] [int] identity(1,1) not null,
-	[CodAdminitrador] [varchar](150) not null,
+	[CodAdminitrador] [varchar](10) not null,
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
-	[Apellido] [varchar](100) not null
+	[Apellido] [varchar](100) not null,
+	[NroDocumento][int] not null
 )
 go
-create table dbo.GERENTES(
+create table GERENTES(
 	[Id] [int] identity(1,1) not null,
 	[CodGerente] [varchar](10) not null,
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
-	[Apellido] [varchar](100) not null
+	[Apellido] [varchar](100) not null,
+	[NroDocumento][int] not null
 )
 go
-drop table ESPECIALIDADES
-create table dbo.ESPECIALIDADES(
-	[Id] [int] identity(1,1) not null,
-	[Nombre] [varchar](80) not null,
-	[Descripcion] [varchar](150) null,
-	constraint PK_NombreEspecialidad
-    primary key nonclustered (Nombre),
-)
-go
-drop table TECNICOS
-create table dbo.TECNICOS(
+create table TECNICOS(
 	[Id] [int] identity(1,1) not null,
 	[CodTecnico] [varchar] (10) not null,
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
 	[Apellido] [varchar](100) not null,
+	[Provincia][varchar](80) not null,
 	[Localidad][varchar](80) null,
-	[Especialidad] [varchar](80) null,
+	[NroDocumento][int] not null,
 	constraint PK_CodTecnicos
-    primary key nonclustered (CodTecnico),
-	constraint FK_EspecialidadTecnico foreign key (Especialidad)
-	references ESPECIALIDADES(Nombre)
-	on delete cascade
-	on update cascade
+    primary key nonclustered (CodTecnico)
 )
 go
-create table dbo.RECEPCIONISTAS(
+create table RECEPCIONISTAS(
 	[Id] [int] identity(1,1) not null,
 	[CodRecepcionista] [varchar](10) not null,
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
-	[Apellido] [varchar](100) not null
+	[Apellido] [varchar](100) not null,
+	[NroDocumento][int] not null
 )
 go
-drop table SOLICITUDES_TRABAJO
-create table dbo.SOLICITUDES_TRABAJO(
+create table TIPOS_TRABAJO(
 	[Id] [int] identity(1,1) not null,
-	[Dni] [int] not null,
-	[TipoTrabajo] [varchar](120) null,
-	[Nombre] [varchar](100) not null,
-	[Apellido][varchar](100) not null,
-	[Descripcion][varchar](150) not null,
-	[Telefono][int] not null,
-	[Direccion][varchar](120) not null,
-	[Localidad][varchar](80) not null,
-	[Provincia][varchar](80) not null,
+	[Nombre] [varchar](50) not null,
+	[Descripcion][varchar](150) null,
+	[DuracionCantDias][int] not null,
+	constraint PK_TiposTrabajo
+    primary key nonclustered (Id)
+)
+go
+create table SOLICITUDES_TRABAJO(
+	[Id][int] identity(1,1) not null,
+	[DniCliente] [int] not null,
+	[IdTipoTrabajo][int] not null,
+	[NombreCliente] [varchar](100) not null,
+	[ApellidoCliente][varchar](100) not null,
+	[DescripcionTrabajo][varchar](150) not null,
+	[TelefonoCliente][int] not null,
+	[DireccionCliente][varchar](120) not null,
+	[LocalidadCliente][varchar](80) not null,
+	[ProvinciaCliente][varchar](80) not null,
 	[Estado][int] not null,
 	[TecnicoAsignado][varchar](10) null,
 	constraint PK_IdSolicitudTrabajo
@@ -73,17 +73,39 @@ create table dbo.SOLICITUDES_TRABAJO(
 	constraint FK_TecnicoXsolicitud foreign key (TecnicoAsignado)
 	references TECNICOS(CodTecnico)
 	on delete cascade
+	on update cascade,
+	constraint FK_TipoTrabajoXsolicitud foreign key (IdTipoTrabajo)
+	references TIPOS_TRABAJO(Id)
+	on delete cascade
 	on update cascade
 )
 go
-drop table TIPOS_TRABAJO
-create table dbo.TIPOS_TRABAJO(
-	[Id] [int] identity(1,1) not null,
-	[Nombre] [varchar](50) not null,
-	[Descripcion][varchar](150) null
+create table FECHAS_TRABAJO(
+	[Id][int] identity(1, 1) not null,
+	[IdSolicitudTrabajo][int] not null,
+	[FechaAsignacionTecnico][date] null,
+	[FechaInicio][date] null,
+	[FechaFin][date] null,
+	constraint FK_FechasXsolicitud foreign key (IdSolicitudTrabajo)
+	references SOLICITUDES_TRABAJO(Id)
+	on delete cascade
+	on update cascade
 )
 go
-create table dbo.IMAGENES_TRABAJO(
+
+
+create table REPORTES_TRABAJO(
+	[Id][int] identity(1, 1) not null,
+	[IdSolicitudTrabajo][int] not null,
+	[FechaReporte][date] not null,
+	[DescripcionReporte][varchar](150) not null,
+	constraint FK_ReportesXsolicitud foreign key (IdSolicitudTrabajo)
+	references SOLICITUDES_TRABAJO(Id)
+	on delete cascade
+	on update cascade
+)
+go
+create table IMAGENES_TRABAJO(
 	[Id] [int] identity(1,1) not null,
 	[ImgUrl] [varchar](150) not null,
 	[IdTrabajo][int] not null,
@@ -93,7 +115,7 @@ create table dbo.IMAGENES_TRABAJO(
 	on update cascade
 )
 go
-create table dbo.IMAGENES_TECNICO(
+create table IMAGENES_TECNICO(
 	[Id] [int] identity(1,1) not null,
 	[ImgUrl] [varchar](150) not null,
 	[CodTecnico] [varchar](10) not null,
@@ -103,87 +125,57 @@ create table dbo.IMAGENES_TECNICO(
 	on update cascade
 )
 go
-create table dbo.USUARIOS(
+create table USUARIOS(
 	[Id][int] identity(1,1) not null,
-	[Usuario][varchar](20) not null,
-	[Password][varchar](20) not null,
+	[Usuario][varchar](50) not null,
+	[Password][varchar](50) not null,
 	[NivelRol][int] not null,
+	[NroDocumento][int] not null,
 	constraint PK_Usuarios
     primary key nonclustered (Usuario)
 )
 
-INSERT INTO dbo.USUARIOS ([Usuario], [Password], [NivelRol])
+INSERT INTO dbo.[GERENTES] ([CodGerente], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
+VALUES 
+('G001', 2, 987654321, 'Luis', 'García', 4423254);
+
+INSERT INTO dbo.[TECNICOS] ([CodTecnico], [NivelRol], [Celular], [Nombre], [Apellido], [Localidad], [Provincia], [NroDocumento])
+VALUES 
+('T001', 3, 987654321, 'Carlos', 'López', 'Pilar' ,'Buenos aires', 41565789),
+('T002', 3, 912345678, 'María', 'Fernández', 'Tigre','Buenos aires', 51565729),
+('T003', 3, 923456789, 'Juan', 'Pérez', 'Lanus', 'Buenos aires', 43666219);
+
+INSERT INTO dbo.[RECEPCIONISTAS] ([CodRecepcionista], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
+VALUES 
+('RC001', 4, 987654321, 'Lucía', 'Gómez', 22398564);
+
+INSERT INTO dbo.USUARIOS ([Usuario], [Password], [NivelRol], [NroDocumento])
 VALUES
-('adm001', 'administracion2024', 1),
-('ger001', 'gerencia2024', 2),
-('tec001', 'tecnico2024', 3),
-('tec002', 'tecnico2024', 3),
-('rec001', 'recepcion2024', 4)
+('adm001', 'administracion2024', 1, 20507899),
+('ger001', 'gerencia2024', 2, 4423254),
+('tec001', 'tecnico2024', 3, 41565789),
+('tec002', 'tecnico2024', 3, 51565729),
+('rec001', 'recepcion2024', 4, 22398564)
 
-INSERT INTO dbo.[ADMINISTRADORES] ([CodAdminitrador], [NivelRol], [Celular], [Nombre], [Apellido])
+INSERT INTO dbo.[ADMINISTRADORES] ([CodAdminitrador], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
 VALUES 
-('ADMIN001', 1, 987654321, 'Juan', 'Pérez'),
-('ADMIN002', 1, 912345678, 'María', 'Gómez'),
-('ADMIN003', 1, 923456789, 'Carlos', 'Ramírez'),
-('ADMIN004', 1, 934567890, 'Ana', 'Martínez');
+('ADMIN001', 1, 987654321, 'Juan', 'Pérez', 20507899);
 
-
-INSERT INTO dbo.[GERENTES] ([CodGerente], [NivelRol], [Celular], [Nombre], [Apellido])
+INSERT INTO TIPOS_TRABAJO (Nombre, Descripcion, DuracionCantDias)
 VALUES 
-('G001', 2, 987654321, 'Luis', 'García'),
-('G002', 2, 912345678, 'Laura', 'Hernández'),
-('G003', 2, 923456789, 'Jorge', 'Rodríguez'),
-('G004', 2, 934567890, 'Carla', 'Sánchez'),
-('G005', 2, 945678901, 'Pedro', 'Martínez');
+('Instalacion sistema de vigilancia de Instalaciones', 'Supervisión continua de instalaciones con monitoreo y reportes', 8),
+('Instalación de Sistemas de Seguridad', 'Instalación y configuración de cámaras, alarmas u otros sistemas', 5),
+('Monitoreo de Alarmas', 'Seguimiento y respuesta ante alertas de seguridad a distancia', 3);
 
-INSERT INTO dbo.[ESPECIALIDADES] ([Nombre], [Descripcion])
+INSERT INTO SOLICITUDES_TRABAJO (DniCliente, IdTipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente, Estado, TecnicoAsignado)
 VALUES 
-('Electricidad Residencial', 'Instalación y mantenimiento de sistemas eléctricos en viviendas y residencias.'),
-('Electricidad Industrial', 'Mantenimiento y reparación de maquinaria y sistemas eléctricos en fábricas e industrias.'),
-('Electricidad Comercial', 'Instalación de sistemas eléctricos en tiendas, oficinas y edificios comerciales.'),
-('Automatización', 'Configuración y mantenimiento de sistemas de automatización y control industrial.'),
-('Redes de Baja Tensión', 'Instalación y mantenimiento de redes de baja tensión para diversos tipos de edificaciones.'),
-('Mantenimiento de Subestaciones', 'Revisión y reparación de equipos en subestaciones eléctricas.'),
-('Energía Solar', 'Instalación y mantenimiento de paneles solares y sistemas de energía renovable.');
+(12345678, 1, 'Juan', 'Pérez', 'Supervisión continua de instalaciones con monitoreo y reportes', 1145678901, 'Av. Libertad 1234', 'Buenos Aires', 'Buenos Aires', 1, 'T001'),
+(87654321, 2, 'Ana', 'González', 'Instalación y configuración de cámaras, alarmas u otros sistemas', 1156781234, 'Calle Falsa 567', 'La Plata', 'Buenos Aires', 1, 'T002'),
+(56789123, 3, 'Carlos', 'López', 'Servicio de monitoreo de alarmas para residencia particular', 1123456789, 'Av. Mitre 890', 'Córdoba', 'Córdoba', 1, null),
+(23456789, 2, 'María', 'Rodríguez', 'Instalación y configuración de cámaras, alarmas u otros sistemas', 1134567890, 'Calle Principal 45', 'Pilar', 'Buenos Aires', 1, 'T003');
 
-INSERT INTO dbo.[TECNICOS] ([CodTecnico], [NivelRol], [Celular], [Nombre], [Apellido], [Localidad], [Especialidad])
+INSERT INTO FECHAS_TRABAJO ([IdSolicitudTrabajo], [FechaAsignacionTecnico], [FechaInicio], [FechaFin])
 VALUES 
-('T001', 3, 987654321, 'Carlos', 'López', 'Pilar' ,'Electricidad Residencial'),
-('T002', 3, 912345678, 'María', 'Fernández', 'Tigre','Electricidad Industrial'),
-('T003', 3, 923456789, 'Juan', 'Pérez', 'Lanus', 'Automatización'),
-('T004', 3, 934567890, 'Ana', 'Martínez', 'Belgrano', 'Redes de Baja Tensión'),
-('T005', 3, 945678901, 'Pedro', 'Rodríguez', '9 de julio', 'Mantenimiento de Subestaciones'),
-('T006', 3, 956789012, 'Luis', 'González', 'Palermo', 'Energía Solar'),
-('T007', 3, 967890123, 'Laura', 'Hernández', 'Moreno', 'Electricidad Comercial');
-
-INSERT INTO dbo.[RECEPCIONISTAS] ([CodRecepcionista], [NivelRol], [Celular], [Nombre], [Apellido])
-VALUES 
-('RC001', 4, 987654321, 'Lucía', 'Gómez'),
-('RC002', 4, 912345678, 'Fernando', 'Ríos'),
-('RC003', 4, 923456789, 'Claudia', 'Lara'),
-('RC004', 4, 934567890, 'Diego', 'Sosa'),
-('RC005', 4, 945678901, 'Patricia', 'Méndez');
-
-INSERT INTO dbo.[TIPOS_TRABAJO] ([Nombre], [Descripcion])
-VALUES 
-('Instalación de toma corriente', 'Instalación de tomas de corriente en diferentes espacios de la vivienda.'),
-('Reparación de cableado', 'Reparación de cables dañados o deteriorados en el sistema eléctrico.'),
-('Mantenimiento de sistema eléctrico', 'Revisión y mantenimiento general de todo el sistema eléctrico de la vivienda.'),
-('Instalación de iluminación exterior', 'Instalación de sistemas de iluminación en áreas exteriores, como patios y jardines.'),
-('Cambio de interruptor', 'Sustitución de interruptores de luz dañados o no funcionales.'),
-('Instalación de paneles solares', 'Instalación de sistemas de paneles solares para energía renovable.'),
-('Diagnóstico eléctrico', 'Análisis y diagnóstico de fallas en el sistema eléctrico de la propiedad.');
-
-INSERT INTO dbo.[SOLICITUDES_TRABAJO] 
-([Dni], [TipoTrabajo], [Nombre], [Apellido], [Descripcion], [Telefono], [Direccion], [Localidad], [Provincia], [Estado], [TecnicoAsignado])
-VALUES 
-(12345678, 'Instalación de toma corriente', 'Santiago', 'Pérez', 'Solicitud para instalar tomas de corriente en sala de estar.', 987654321, 'Av. Principal 123', 'Buenos Aires', 'Buenos Aires', 1, 'T001'),
-(87654321, 'Reparación de cableado', 'Ana', 'López', 'Reparación de cableado dañado en cocina.', 912345678, 'Calle Falsa 456', 'CABA', 'Buenos Aires', 2, 'T002'),
-(23456789, 'Mantenimiento de sistema eléctrico', 'Carlos', 'González', 'Revisión completa del sistema eléctrico de la vivienda.', 923456789, 'Diagonal 789', 'La Plata', 'Buenos Aires', 1, 'T003'),
-(34567890, 'Instalación de iluminación exterior', 'Laura', 'Martínez', 'Instalación de luces en el patio exterior.', 934567890, 'Ruta 8 km 10', 'Tigre', 'Buenos Aires', 1, 'T002'),
-(45678901, 'Cambio de interruptor', 'Diego', 'Sosa', 'Cambio de interruptor de luz dañado.', 945678901, 'Calle del Sol 321', 'Quilmes', 'Buenos Aires', 3, 'T001');
-
-create procedure storedListar as 
-Select ST.Dni, ST.Nombre, ST.TipoTrabajo, ST.Direccion, ST.Localidad, ST.Provincia, ST.TecnicoAsignado from SOLICITUDES_TRABAJO as ST
-where ST.Estado = 1
-exec storedListar
+(1, '2024-10-29', '2024-11-01', '2024-11-08'),
+(2, '2024-10-30', '2024-11-11', '2024-11-15'),
+(4, '2024-10-31', '2024-11-19', '2024-11-23');

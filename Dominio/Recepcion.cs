@@ -10,8 +10,11 @@ namespace Dominio
     {
         public int Id { get; set; }
         public string Documento { get; set; }
+        public string CodRecepcionista { get; set; }
         public string Nombre { get; set; }
         public string Apellido { get; set; }
+        public int NivelRol { get; set; }
+        public int Celular { get; set; }
         public int Telefono { get; set; }
         public string Direccion { get; set; }
         public string Localidad { get; set; }
@@ -19,6 +22,7 @@ namespace Dominio
         public string TipoTrabajo { get; set; }
         public string Descripcion { get; set; }
         public int Estado { get; set; }
+        public int NroDocumento { get; set; }
 
     }
 }

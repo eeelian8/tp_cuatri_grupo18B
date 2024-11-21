@@ -10,12 +10,6 @@
         <div class="col">
         </div>
         <div class="col-6">
-            <asp:ListBox ID="ListBoxLogin" class="form-select form-select-sm" runat="server" Rows="1" Font-Bold="True">
-                <asp:ListItem Value="1" Text="Administrador"></asp:ListItem>
-                <asp:ListItem Value="2" Text="Gerente"></asp:ListItem>
-                <asp:ListItem Value="3" Text="Recepcionista"></asp:ListItem>
-                <asp:ListItem Value="4" Text="Tecnico"></asp:ListItem>
-            </asp:ListBox>
             <br />
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Usuario</label>

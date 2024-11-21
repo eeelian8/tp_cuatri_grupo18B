@@ -75,26 +75,27 @@ namespace Negocio
             }
 
         }
+
         public List<Recepcion> Listar()
         {
             List<Recepcion> lista = new List<Recepcion>();
-
+            AccesoDatos datos = new AccesoDatos();
 
             try
             {
 
-                datos.setearConsulta("select Cli.Documento , Cli.Nombre,Cli.Telefono  Cli.Direccion, Cli.Localidad, Cli.Provincia from CLIENTES as Cli");
+                datos.setearConsulta("select rec.CodRecepcionista, rec.NivelRol, rec.Celular, rec.Nombre, rec.Apellido, rec.NroDocumento from RECEPCIONISTAS as rec");
                 datos.ejecutarLectura(); ;
 
                 while (datos.Lector.Read())
                 {
                     Recepcion aux = new Recepcion();
-                    aux.Documento = (string)datos.Lector["dni"];
-                    aux.Telefono = (int)datos.Lector["Telefono"];
+                    aux.CodRecepcionista = (string)datos.Lector["CodRecepcionista"];
+                    aux.NivelRol = (int)datos.Lector["NivelRol"];
+                    aux.Celular = (int)datos.Lector["Celular"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Direccion = (string)datos.Lector["Direccion"];
-                    aux.Localidad = (string)datos.Lector["Localidad"];
-
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.NroDocumento = (int)datos.Lector["NroDocumento"];
 
                     lista.Add(aux);
                 }
@@ -111,6 +112,42 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        //public List<Recepcion> Listar()
+        //{
+        //    List<Recepcion> lista = new List<Recepcion>();
+
+        //    try
+        //    {
+
+        //        datos.setearConsulta("select Cli.Documento , Cli.Nombre,Cli.Telefono  Cli.Direccion, Cli.Localidad, Cli.Provincia from CLIENTES as Cli");
+        //        datos.ejecutarLectura(); ;
+
+        //        while (datos.Lector.Read())
+        //        {
+        //            Recepcion aux = new Recepcion();
+        //            aux.Documento = (string)datos.Lector["dni"];
+        //            aux.Telefono = (int)datos.Lector["Telefono"];
+        //            aux.Nombre = (string)datos.Lector["Nombre"];
+        //            aux.Direccion = (string)datos.Lector["Direccion"];
+        //            aux.Localidad = (string)datos.Lector["Localidad"];
+
+
+        //            lista.Add(aux);
+        //        }
+
+        //        return lista;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
         public int Agregar(Recepcion cli)
         {
 
