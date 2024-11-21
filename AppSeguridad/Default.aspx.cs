@@ -21,24 +21,17 @@ namespace AppSeguridad
             string usuario = InputUser.Text;
             string password = InputPassword.Text;
             int nivelRol = 0;
-            if (ListBoxLogin.SelectedItem.Text == "Administrador")
-            {
-                nivelRol = 1;
-            }
-            else if(ListBoxLogin.SelectedItem.Text == "Gerente")
-            {
-                nivelRol = 2;
-            }
-            else if( ListBoxLogin.SelectedItem.Text == "Tecnico")
-            {
-                nivelRol = 3;
-            }
-            else if (ListBoxLogin.SelectedItem.Text == "Recepcionista")
-            {
-                nivelRol = 4;
-            }
+            Usuario usrAux;
 
             UsuarioNegocio usrNegocio = new UsuarioNegocio();
+            List<Usuario> listaUsuarios = usrNegocio.Listar();
+            usrAux = listaUsuarios.Find(x => x.usuario == usuario);
+
+            if (usrAux != null)
+            {
+                nivelRol = usrAux.nivelRol;   
+            }
+
             if (usrNegocio.Loguear(usuario, password, nivelRol))
             {
                 switch (nivelRol)

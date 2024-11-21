@@ -55,7 +55,7 @@ namespace Negocio
             try
             {
 
-                datos.setearConsulta("select usr.Usuario, usr.Password, usr.NroDocumento from USUARIOS as usr");
+                datos.setearConsulta("select usr.Usuario, usr.Password, usr.NroDocumento, usr.NivelRol from USUARIOS as usr");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -64,6 +64,7 @@ namespace Negocio
                     aux.usuario = (string)datos.Lector["Usuario"];
                     aux.password = (string)datos.Lector["Password"];
                     aux.NroDocumento = (int)datos.Lector["NroDocumento"];
+                    aux.nivelRol = (int)datos.Lector["NivelRol"];
 
                     lista.Add(aux);
                 }
