@@ -14,14 +14,38 @@ namespace AppSeguridad
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            SolicitudTrabajoNegocio stNegocio = new SolicitudTrabajoNegocio();
-            gv_solicitudes.DataBind();
+            if (!IsPostBack)
+            {
+                CargarSolicitudesPendientes();
+            }
+
         }
+
+        private void CargarSolicitudesPendientes()
+        {
+            try
+            {
+                SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+                gv_solicitudes.DataSource = negocio.ListarPendientes();
+                gv_solicitudes.DataBind();
+            }
+            catch (Exception ex)
+            {
+                Response.Write(ex.Message);
+            }
+        }
+        protected void gv_solicitudes_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            int idSolicitud = Convert.ToInt32(gv_solicitudes.SelectedRow.Cells[0].Text); //ID solicitud TIENE que estar en pos[0]
+        }
+
         protected void btnTarjetasTecnicos_Click(object sender, EventArgs e)
         {
             Response.Redirect("TarjetaTecnicos.aspx");
         }
     }
+
 }
 
             

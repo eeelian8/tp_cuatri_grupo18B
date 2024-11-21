@@ -16,7 +16,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT DniCliente, TIPOS_TRABAJO.Nombre as TipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente FROM SOLICITUDES_TRABAJO INNER JOIN TIPOS_TRABAJO ON SOLICITUDES_TRABAJO.IdTipoTrabajo = TIPOS_TRABAJO.Id WHERE Estado = 1");
+                datos.setearConsulta("SELECT ST.Id, ST.DniCliente as Dni, TT.Nombre as TipoTrabajo, ST.NombreCliente as Nombre, ST.TelefonoCliente as Telefono, ST.ProvinciaCliente as Provincia, ST.LocalidadCliente as Localidad FROM SOLICITUDES_TRABAJO ST INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id WHERE ST.Estado = 1");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -26,13 +26,9 @@ namespace Negocio
                     aux.Dni = (int)datos.Lector["Dni"];
                     aux.TipoTrabajo = (string)datos.Lector["TipoTrabajo"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Descripcion = (string)datos.Lector["DescripcionTrabajo"];
-                    aux.Telefono = (int)datos.Lector["TelefonoCliente"];
-                    aux.Direccion = (string)datos.Lector["DireccionCliente"];
-                    aux.Localidad = (string)datos.Lector["Localidad"];
+                    aux.Telefono = (int)datos.Lector["Telefono"];
                     aux.Provincia = (string)datos.Lector["Provincia"];
-                    aux.Estado = (int)datos.Lector["Estado"];
+                    aux.Localidad = (string)datos.Lector["Localidad"];
 
                     lista.Add(aux);
                 }
