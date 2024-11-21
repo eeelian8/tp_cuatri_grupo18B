@@ -46,7 +46,6 @@
     <Compile Include="GerenteNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolicitudTrabajoNegocio.cs" />
-    <Compile Include="TarjetaTecnicosNegocio.cs" />
     <Compile Include="TecnicoNegocio.cs" />
     <Compile Include="TrabajosPorTecnicoNegocio.cs" />
     <Compile Include="UsuarioNegocio.cs" />

@@ -168,5 +168,68 @@ namespace Negocio
                 throw;
             }
         }
+        public List<Tecnico> ListarTecnicos()
+        {
+            List<Tecnico> lista = new List<Tecnico>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta(@"
+            SELECT 
+                T.Id, 
+                T.CodTecnico, 
+                T.NivelRol, 
+                T.Celular, 
+                T.Nombre, 
+                T.Apellido, 
+                T.Localidad, 
+                T.Provincia, 
+                T.NroDocumento,
+                IT.ImgUrl
+            FROM TECNICOS T
+            LEFT JOIN IMAGENES_TECNICO IT ON T.CodTecnico = IT.CodTecnico");
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Tecnico tecnico = new Tecnico
+                    {
+                        
+                        CodTecnico = datos.Lector["CodTecnico"].ToString(),
+                        NivelRol = Convert.ToInt32(datos.Lector["NivelRol"]),
+                        Celular = Convert.ToInt32(datos.Lector["Celular"]),
+                        Nombre = datos.Lector["Nombre"].ToString(),
+                        Apellido = datos.Lector["Apellido"].ToString(),
+                        Localidad = datos.Lector["Localidad"].ToString(),
+                        Provincia = datos.Lector["Provincia"].ToString(),
+                        NroDocumento = Convert.ToInt32(datos.Lector["NroDocumento"])
+                    };
+
+                    // Verificar si la URL de imagen es válida
+                    if (!string.IsNullOrEmpty(datos.Lector["ImgUrl"]?.ToString()) && Uri.IsWellFormedUriString(datos.Lector["ImgUrl"]?.ToString(), UriKind.Absolute))
+                    {
+                        tecnico.ImgUrl = datos.Lector["ImgUrl"].ToString();
+                    }
+                    else
+                    {
+                        tecnico.ImgUrl = "https://thumbs.dreamstime.com/z/perfil-de-usuario-vectorial-avatar-predeterminado-179376714.jpg?ct=jpeg"; // Imagen por defecto si no hay imagen válida
+                    }
+
+                    lista.Add(tecnico);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

@@ -4,5 +4,9 @@
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container">
         <asp:GridView ID="gv_solicitudes" runat="server" class="table"></asp:GridView>
+        
+        <!-- Botón para ir a Tarjetas de Técnicos -->
+        <asp:Button ID="btnTarjetasTecnicos" runat="server" Text="Ver Tarjetas de Técnicos" 
+            CssClass="btn btn-primary" OnClick="btnTarjetasTecnicos_Click" />
     </div>
 </asp:Content>

@@ -17,5 +17,6 @@ namespace Dominio
         public string Localidad { get; set; }
         public string Provincia { get; set; }
         public int NroDocumento { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

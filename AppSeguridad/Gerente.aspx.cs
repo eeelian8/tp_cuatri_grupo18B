@@ -17,5 +17,13 @@ namespace AppSeguridad
             SolicitudTrabajoNegocio stNegocio = new SolicitudTrabajoNegocio();
             gv_solicitudes.DataBind();
         }
+        protected void btnTarjetasTecnicos_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("TarjetaTecnicos.aspx");
+        }
     }
 }
+
+            
+
+           
