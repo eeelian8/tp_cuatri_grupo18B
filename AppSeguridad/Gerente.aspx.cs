@@ -38,6 +38,16 @@ namespace AppSeguridad
         {
 
             int idSolicitud = Convert.ToInt32(gv_solicitudes.SelectedRow.Cells[0].Text); //ID solicitud TIENE que estar en pos[0]
+            Session["IdSolicitudSeleccionada"] = idSolicitud;
+            btnAsignarTrabajo.Enabled = true;
+        }
+
+        protected void btnAsignarTrabajo_Click(object sender, EventArgs e)
+        {
+            if (Session["IdSolicitudSeleccionada"] != null)
+            {
+                Response.Redirect("AsignarTecnico.aspx");
+            }
         }
 
         protected void btnTarjetasTecnicos_Click(object sender, EventArgs e)
@@ -48,6 +58,6 @@ namespace AppSeguridad
 
 }
 
-            
 
-           
+
+
