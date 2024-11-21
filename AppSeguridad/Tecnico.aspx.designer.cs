@@ -24,15 +24,6 @@ namespace AppSeguridad
         protected global::System.Web.UI.WebControls.Calendar Calendario;
 
         /// <summary>
-        /// Control LabelAction.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAction;
-
-        /// <summary>
         /// Control lbl_FechaActual.
         /// </summary>
         /// <remarks>
@@ -69,30 +60,30 @@ namespace AppSeguridad
         protected global::System.Web.UI.WebControls.Label lbl_FechaFin;
 
         /// <summary>
-        /// Control Button1.
+        /// Control btn_verDetalle.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btn_verDetalle;
 
         /// <summary>
-        /// Control Button2.
+        /// Control btn_informar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.Button btn_informar;
 
         /// <summary>
-        /// Control Button3.
+        /// Control btn_cambiarEstado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button3;
+        protected global::System.Web.UI.WebControls.Button btn_cambiarEstado;
     }
 }

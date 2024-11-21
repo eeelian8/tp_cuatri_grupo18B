@@ -29,6 +29,23 @@ namespace AppSeguridad
             Calendario.FirstDayOfWeek = FirstDayOfWeek.Sunday;
             Calendario.DayStyle.Height = new Unit(50);
             Calendario.DayStyle.Width = new Unit(150);
+
+            lbl_FechaActual.Text = "FECHA ACTUAL: " + Calendario.TodaysDate.Date.ToShortDateString();
+
+            lbl_Trabajo.ForeColor = System.Drawing.Color.Black;
+            lbl_FechaInicio.ForeColor = System.Drawing.Color.Black;
+            lbl_FechaFin.ForeColor = System.Drawing.Color.Black;
+
+            foreach ( TrabajosPorTecnico tpt in agendaXtecnico)
+            {
+                if(tpt.FechaInicio < Calendario.TodaysDate.Date && tpt.FechaFin > Calendario.TodaysDate.Date)
+                {
+                    lbl_Trabajo.Text = tpt.NombreTrabajo;
+                    lbl_FechaInicio.Text = "FECHA INICIO: " + tpt.FechaInicio.ToShortDateString();
+                    lbl_FechaFin.Text = "FECHA FIN: " + tpt.FechaFin.ToShortDateString();
+                }
+            }
+
         }
 
         protected void Calendario_DayRender(object sender, DayRenderEventArgs e)
@@ -54,16 +71,6 @@ namespace AppSeguridad
                     }
                 }
             }
-        }
-
-        protected void Calendario_SelectionChanged(object sender, EventArgs e)
-        {
-            LabelAction.Text = "Fecha seleccionada :" + Calendario.SelectedDate.ToShortDateString();
-        }
-
-        protected void Calendario_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
-        {
-            LabelAction.Text = "Cambio el mes a :" + e.NewDate.ToShortDateString();
         }
 
         public string BusquedaCodPorUsr(string usuario)
@@ -116,5 +123,9 @@ namespace AppSeguridad
             return codigo;
         }
 
+        protected void Calendario_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
