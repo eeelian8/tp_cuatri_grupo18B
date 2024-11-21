@@ -8,7 +8,8 @@ create table ADMINISTRADORES(
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
-	[Apellido] [varchar](100) not null
+	[Apellido] [varchar](100) not null,
+	[NroDocumento][int] not null
 )
 go
 create table GERENTES(
@@ -17,7 +18,8 @@ create table GERENTES(
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
-	[Apellido] [varchar](100) not null
+	[Apellido] [varchar](100) not null,
+	[NroDocumento][int] not null
 )
 go
 create table TECNICOS(
@@ -29,6 +31,7 @@ create table TECNICOS(
 	[Apellido] [varchar](100) not null,
 	[Provincia][varchar](80) not null,
 	[Localidad][varchar](80) null,
+	[NroDocumento][int] not null,
 	constraint PK_CodTecnicos
     primary key nonclustered (CodTecnico)
 )
@@ -39,11 +42,12 @@ create table RECEPCIONISTAS(
 	[NivelRol] [int] not null,
 	[Celular] [int] not null,
 	[Nombre] [varchar](100) not null,
-	[Apellido] [varchar](100) not null
+	[Apellido] [varchar](100) not null,
+	[NroDocumento][int] not null
 )
 go
 create table SOLICITUDES_TRABAJO(
-	[Id] [int] identity(1,1) not null,
+	[Id][int] identity(1,1) not null,
 	[DniCliente] [int] not null,
 	[IdTipoTrabajo][int] not null,
 	[NombreCliente] [varchar](100) not null,
@@ -124,35 +128,36 @@ create table USUARIOS(
 	[Usuario][varchar](50) not null,
 	[Password][varchar](50) not null,
 	[NivelRol][int] not null,
+	[NroDocumento][int] not null,
 	constraint PK_Usuarios
     primary key nonclustered (Usuario)
 )
 
-INSERT INTO dbo.[GERENTES] ([CodGerente], [NivelRol], [Celular], [Nombre], [Apellido])
+INSERT INTO dbo.[GERENTES] ([CodGerente], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
 VALUES 
-('G001', 2, 987654321, 'Luis', 'García');
+('G001', 2, 987654321, 'Luis', 'García', 4423254);
 
-INSERT INTO dbo.[TECNICOS] ([CodTecnico], [NivelRol], [Celular], [Nombre], [Apellido], [Localidad], [Provincia])
+INSERT INTO dbo.[TECNICOS] ([CodTecnico], [NivelRol], [Celular], [Nombre], [Apellido], [Localidad], [Provincia], [NroDocumento])
 VALUES 
-('T001', 3, 987654321, 'Carlos', 'López', 'Pilar' ,'Buenos aires'),
-('T002', 3, 912345678, 'María', 'Fernández', 'Tigre','Buenos aires'),
-('T003', 3, 923456789, 'Juan', 'Pérez', 'Lanus', 'Buenos aires');
+('T001', 3, 987654321, 'Carlos', 'López', 'Pilar' ,'Buenos aires', 41565789),
+('T002', 3, 912345678, 'María', 'Fernández', 'Tigre','Buenos aires', 51565729),
+('T003', 3, 923456789, 'Juan', 'Pérez', 'Lanus', 'Buenos aires', 43666219);
 
-INSERT INTO dbo.[RECEPCIONISTAS] ([CodRecepcionista], [NivelRol], [Celular], [Nombre], [Apellido])
+INSERT INTO dbo.[RECEPCIONISTAS] ([CodRecepcionista], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
 VALUES 
-('RC001', 4, 987654321, 'Lucía', 'Gómez');
+('RC001', 4, 987654321, 'Lucía', 'Gómez', 22398564);
 
-INSERT INTO dbo.USUARIOS ([Usuario], [Password], [NivelRol])
+INSERT INTO dbo.USUARIOS ([Usuario], [Password], [NivelRol], [NroDocumento])
 VALUES
-('adm001', 'administracion2024', 1),
-('ger001', 'gerencia2024', 2),
-('tec001', 'tecnico2024', 3),
-('tec002', 'tecnico2024', 3),
-('rec001', 'recepcion2024', 4)
+('adm001', 'administracion2024', 1, 20507899),
+('ger001', 'gerencia2024', 2, 4423254),
+('tec001', 'tecnico2024', 3, 41565789),
+('tec002', 'tecnico2024', 3, 51565729),
+('rec001', 'recepcion2024', 4, 22398564)
 
-INSERT INTO dbo.[ADMINISTRADORES] ([CodAdminitrador], [NivelRol], [Celular], [Nombre], [Apellido])
+INSERT INTO dbo.[ADMINISTRADORES] ([CodAdminitrador], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
 VALUES 
-('ADMIN001', 1, 987654321, 'Juan', 'Pérez');
+('ADMIN001', 1, 987654321, 'Juan', 'Pérez', 20507899);
 
 INSERT INTO TIPOS_TRABAJO (Nombre, Descripcion, DuracionCantDias)
 VALUES 
@@ -169,8 +174,6 @@ VALUES
 
 INSERT INTO FECHAS_TRABAJO ([IdSolicitudTrabajo], [FechaAsignacionTecnico], [FechaInicio], [FechaFin])
 VALUES 
-(4, '2024-10-29', '2024-11-01', '2024-10-18'),
-(5, '2024-10-28', '2024-11-04', '2024-10-08'),
-(6, '2024-10-30', '2024-11-11', '2024-10-15'),
-(7, '2024-10-31', '2024-11-19', '2024-10-21');
-
+(1, '2024-10-29', '2024-11-01', '2024-11-08'),
+(2, '2024-10-30', '2024-11-11', '2024-11-15'),
+(4, '2024-10-31', '2024-11-19', '2024-11-23');

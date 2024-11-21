@@ -50,7 +50,7 @@ namespace AppSeguridad
                         Response.Redirect("Gerente.aspx", false);
                         break;
                     case 3:
-                        Response.Redirect("Tecnico.aspx", false);
+                        Response.Redirect("Tecnico.aspx?usr="+usuario, false);
                         break;
                     case 4:
                         Response.Redirect("Recepcion.aspx", false);

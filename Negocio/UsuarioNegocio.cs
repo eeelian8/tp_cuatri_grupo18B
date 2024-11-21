@@ -47,5 +47,39 @@ namespace Negocio
             return false;
         }
 
+        public List<Usuario> Listar()
+        {
+            List<Usuario> lista = new List<Usuario>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+
+                datos.setearConsulta("select usr.Usuario, usr.Password, usr.NroDocumento from USUARIOS as usr");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Usuario aux = new Usuario();
+                    aux.usuario = (string)datos.Lector["Usuario"];
+                    aux.password = (string)datos.Lector["Password"];
+                    aux.NroDocumento = (int)datos.Lector["NroDocumento"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

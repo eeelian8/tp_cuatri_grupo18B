@@ -15,7 +15,7 @@ namespace Negocio
             try
             {
 
-                datos.setearConsulta("select ger.CodGerente, ger.NivelRol, ger.Celular, ger.Nombre, ger.Apellido, ger.Direccion, ger.Localidad, ger.Provincia from GERENTE as ger");
+                datos.setearConsulta("select ger.CodGerente, ger.NivelRol, ger.Celular, ger.Nombre, ger.Apellido, ger.NroDocumento from GERENTES as ger");
                 datos.ejecutarLectura(); ;
 
                 while (datos.Lector.Read())
@@ -26,9 +26,7 @@ namespace Negocio
                     aux.Celular = (int)datos.Lector["Celular"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Direccion = (string)datos.Lector["Direccion"];
-                    aux.Localidad = (string)datos.Lector["Localidad"];
-                    aux.Provincia = (string)datos.Lector["Provincia"];
+                    aux.NroDocumento = (int)datos.Lector["NroDocumento"];
 
                     lista.Add(aux);
                 }
@@ -51,7 +49,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("select count(*) from GERENTE where CodGerente = @CodGerente");
+                datos.setearConsulta("select count(*) from GERENTES where CodGerente = @CodGerente");
                 datos.setearParametro("@CodGerente", ger.CodGerente);
                 datos.ejecutarLectura();
 
@@ -83,15 +81,13 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("insert into GERENTE (CodGerente, NivelRol, Celular, Nombre, Apellido, Direccion, Localidad, Provincia) Values(@CodGerente, @NivelRol, @Celular, @Nombre, @Apellido, @Direccion, @Localidad, @Provincia)");
+                datos.setearConsulta("insert into GERENTES (CodGerente, NivelRol, Celular, Nombre, Apellido, NroDocumento) Values(@CodGerente, @NivelRol, @Celular, @Nombre, @Apellido, @NroDocumento)");
                 datos.setearParametro("@CodGerente", ger.CodGerente);
                 datos.setearParametro("@NivelRol", ger.NivelRol);
                 datos.setearParametro("@Celular", ger.Celular);
                 datos.setearParametro("@Nombre", ger.Nombre);
                 datos.setearParametro("@Apellido", ger.Apellido);
-                datos.setearParametro("@Direccion", ger.Direccion);
-                datos.setearParametro("@Localidad", ger.Localidad);
-                datos.setearParametro("@Provincia", ger.Provincia);
+                datos.setearParametro("@NroDocumento", ger.NroDocumento);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -110,15 +106,13 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("update GERENTE set CodGerente = @CodGerente, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Localidad = @Localidad, Provincia = @Provincia where CodGerente = @CodGerente ");
+                datos.setearConsulta("update GERENTES set CodGerente = @CodGerente, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, NroDocumento = @NroDocumento where CodGerente = @CodGerente ");
                 datos.setearParametro("@CodGerente", ger.CodGerente);
                 datos.setearParametro("@NivelRol", ger.NivelRol);
                 datos.setearParametro("@Celular", ger.Celular);
                 datos.setearParametro("@Nombre", ger.Nombre);
                 datos.setearParametro("@Apellido", ger.Apellido);
-                datos.setearParametro("@Direccion", ger.Direccion);
-                datos.setearParametro("@Localidad", ger.Localidad);
-                datos.setearParametro("@Provincia", ger.Provincia);
+                datos.setearParametro("@NroDocumento", ger.NroDocumento);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -134,7 +128,7 @@ namespace Negocio
             try
             {
                 AccesoDatos datos = new AccesoDatos();
-                datos.setearConsulta("delete from GERENTE where CodGerente = @CodGerente");
+                datos.setearConsulta("delete from GERENTES where CodGerente = @CodGerente");
                 datos.setearParametro("@CodGerente", cod);
                 datos.ejecutarAccion();
             }

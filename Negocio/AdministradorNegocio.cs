@@ -20,20 +20,18 @@ namespace Negocio
             try
             {
 
-                datos.setearConsulta("select Adm.CodAdministrador, Adm.NivelRol, Adm.Celular, Adm.Nombre, Adm.Apellido, Adm.Direccion, Adm.Localidad, Adm.Provincia from ADMINISTRADOR as Adm");
-                datos.ejecutarLectura();;
+                datos.setearConsulta("select adm.CodAdminitrador, adm.NivelRol, adm.Celular, adm.Nombre, adm.Apellido, adm.NroDocumento from ADMINISTRADORES as adm");
+                datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     Administrador aux = new Administrador();
-                    aux.CodAdministrador = (string)datos.Lector["CodAdministrador"];
+                    aux.CodAdministrador = (string)datos.Lector["CodAdminitrador"];
                     aux.NivelRol = (int)datos.Lector["NivelRol"];
                     aux.Celular = (int)datos.Lector["Celular"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Direccion = (string)datos.Lector["Direccion"];
-                    aux.Localidad = (string)datos.Lector["Localidad"];
-                    aux.Provincia = (string)datos.Lector["Provincia"];
+                    aux.NroDocumento = (int)datos.Lector["NroDocumento"];
 
                     lista.Add(aux);
                 }
@@ -56,8 +54,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("select count(*) from ADMNINISTRADOR where CodAdministrador = @CodAdministrador");
-                datos.setearParametro("@CodAdministrador", adm.CodAdministrador);
+                datos.setearConsulta("select count(*) from ADMNINISTRADORES where CodAdminitrador = @CodAdminitrador");
+                datos.setearParametro("@CodAdminitrador", adm.CodAdministrador);
                 datos.ejecutarLectura();
 
                 int count = 0;
@@ -88,15 +86,13 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("insert into ADMINISTRADOR (CodAdministrador, NivelRol, Celular, Nombre, Apellido, Direccion, Localidad, Provincia) Values(@CodAdministrador, @NivelRol, @Celular, @Nombre, @Apellido, @Direccion, @Localidad, @Provincia)");
-                datos.setearParametro("@CodAdministrador", adm.CodAdministrador);
+                datos.setearConsulta("insert into ADMINISTRADORES (CodAdminitrador, NivelRol, Celular, Nombre, Apellido, NroDocumento) Values(@CodAdminitrador, @NivelRol, @Celular, @Nombre, @Apellido, @NroDocumento)");
+                datos.setearParametro("@CodAdminitrador", adm.CodAdministrador);
                 datos.setearParametro("@NivelRol", adm.NivelRol);
                 datos.setearParametro("@Celular", adm.Celular);
                 datos.setearParametro("@Nombre", adm.Nombre);
                 datos.setearParametro("@Apellido", adm.Apellido);
-                datos.setearParametro("@Direccion", adm.Direccion);
-                datos.setearParametro("@Localidad", adm.Localidad);
-                datos.setearParametro("@Provincia", adm.Provincia);
+                datos.setearParametro("@NroDocumento", adm.NroDocumento);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -115,15 +111,13 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("update ADMINISTRADOR set CodAdministrador = @CodAdministrador, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Localidad = @Localidad, Provincia = @Provincia where CodAdministrador = @CodAdministrador ");
-                datos.setearParametro("@CodAdministrador", adm.CodAdministrador);
+                datos.setearConsulta("update ADMINISTRADORES set CodAdminitrador = @CodAdminitrador, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, NroDocumento = @NroDocumento where CodAdminitrador = @CodAdminitrador ");
+                datos.setearParametro("@CodAdminitrador", adm.CodAdministrador);
                 datos.setearParametro("@NivelRol", adm.NivelRol);
                 datos.setearParametro("@Celular", adm.Celular);
                 datos.setearParametro("@Nombre", adm.Nombre);
                 datos.setearParametro("@Apellido", adm.Apellido);
-                datos.setearParametro("@Direccion", adm.Direccion);
-                datos.setearParametro("@Localidad", adm.Localidad);
-                datos.setearParametro("@Provincia", adm.Provincia);
+                datos.setearParametro("@NroDocumento", adm.NroDocumento);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)

@@ -2,6 +2,8 @@
 using Dominio;
 using System.Collections.Generic;
 using System;
+using System.Collections;
+using System.Runtime.ConstrainedExecution;
 
 namespace Negocio
 {
@@ -15,8 +17,8 @@ namespace Negocio
             try
             {
 
-                datos.setearConsulta("select Tec.CodTecnico, Tec.NivelRol, Tec.Celular, Tec.Nombre, Tec.Apellido, Tec.Direccion, Tec.Localidad, Tec.Provincia from TECNICOS as Tec");
-                datos.ejecutarLectura(); 
+                datos.setearConsulta("select Tec.CodTecnico, Tec.NivelRol, Tec.Celular, Tec.Nombre, Tec.Apellido, Tec.Localidad, Tec.Provincia, Tec.NroDocumento from TECNICOS as Tec");
+                datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
@@ -26,9 +28,9 @@ namespace Negocio
                     aux.Celular = (int)datos.Lector["Celular"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Direccion = (string)datos.Lector["Direccion"];
                     aux.Localidad = (string)datos.Lector["Localidad"];
                     aux.Provincia = (string)datos.Lector["Provincia"];
+                    aux.NroDocumento = (int)datos.Lector["NroDocumento"];
 
                     lista.Add(aux);
                 }
@@ -83,15 +85,15 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("insert into TECNICOS (CodTecnico, NivelRol, Celular, Nombre, Apellido, Direccion, Localidad, Provincia) Values(@CodTecnico, @NivelRol, @Celular, @Nombre, @Apellido, @Direccion, @Localidad, @Provincia)");
+                datos.setearConsulta("insert into TECNICOS (CodTecnico, NivelRol, Celular, Nombre, Apellido, Localidad, Provincia, NroDocumento) Values(@CodTecnico, @NivelRol, @Celular, @Nombre, @Apellido, @Localidad, @Provincia, @NroDocumento)");
                 datos.setearParametro("@CodTecnico", tec.CodTecnico);
                 datos.setearParametro("@NivelRol", tec.NivelRol);
                 datos.setearParametro("@Celular", tec.Celular);
                 datos.setearParametro("@Nombre", tec.Nombre);
                 datos.setearParametro("@Apellido", tec.Apellido);
-                datos.setearParametro("@Direccion", tec.Direccion);
                 datos.setearParametro("@Localidad", tec.Localidad);
                 datos.setearParametro("@Provincia", tec.Provincia);
+                datos.setearParametro("@NroDocumento", tec.NroDocumento);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -110,13 +112,12 @@ namespace Negocio
             AccesoDatos datos = new AccesoDatos();
             try
             {
-                datos.setearConsulta("update TECNICOS set CodTecnico = @CodTecnico, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, Direccion = @Direccion, Localidad = @Localidad, Provincia = @Provincia where CodTecnico = @CodTecnico ");
+                datos.setearConsulta("update TECNICOS set CodTecnico = @CodTecnico, NivelRol = @NivelRol, Celular = @Celular, Nombre = @Nombre, Apellido = @Apellido, Localidad = @Localidad, Provincia = @Provincia, NroDocumento = @NroDocumento where CodTecnico = @CodTecnico ");
                 datos.setearParametro("@CodTecnico", tec.CodTecnico);
                 datos.setearParametro("@NivelRol", tec.NivelRol);
                 datos.setearParametro("@Celular", tec.Celular);
                 datos.setearParametro("@Nombre", tec.Nombre);
                 datos.setearParametro("@Apellido", tec.Apellido);
-                datos.setearParametro("@Direccion", tec.Direccion);
                 datos.setearParametro("@Localidad", tec.Localidad);
                 datos.setearParametro("@Provincia", tec.Provincia);
                 datos.ejecutarAccion();
