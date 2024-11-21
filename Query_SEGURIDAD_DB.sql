@@ -46,6 +46,15 @@ create table RECEPCIONISTAS(
 	[NroDocumento][int] not null
 )
 go
+create table TIPOS_TRABAJO(
+	[Id] [int] identity(1,1) not null,
+	[Nombre] [varchar](50) not null,
+	[Descripcion][varchar](150) null,
+	[DuracionCantDias][int] not null,
+	constraint PK_TiposTrabajo
+    primary key nonclustered (Id)
+)
+go
 create table SOLICITUDES_TRABAJO(
 	[Id][int] identity(1,1) not null,
 	[DniCliente] [int] not null,
@@ -83,15 +92,8 @@ create table FECHAS_TRABAJO(
 	on update cascade
 )
 go
-create table TIPOS_TRABAJO(
-	[Id] [int] identity(1,1) not null,
-	[Nombre] [varchar](50) not null,
-	[Descripcion][varchar](150) null,
-	[DuracionCantDias][int] not null,
-	constraint PK_TiposTrabajo
-    primary key nonclustered (Id)
-)
-go 
+
+
 create table REPORTES_TRABAJO(
 	[Id][int] identity(1, 1) not null,
 	[IdSolicitudTrabajo][int] not null,
