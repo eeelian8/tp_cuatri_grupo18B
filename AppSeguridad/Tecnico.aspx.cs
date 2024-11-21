@@ -58,12 +58,12 @@ namespace AppSeguridad
 
         protected void Calendario_SelectionChanged(object sender, EventArgs e)
         {
-            LabelAction.Text = "Date changed to :" + Calendario.SelectedDate.ToShortDateString();
+            LabelAction.Text = "Fecha seleccionada :" + Calendario.SelectedDate.ToShortDateString();
         }
 
         protected void Calendario_VisibleMonthChanged(object sender, MonthChangedEventArgs e)
         {
-            LabelAction.Text = "Month changed to :" + e.NewDate.ToShortDateString();
+            LabelAction.Text = "Cambio el mes a :" + e.NewDate.ToShortDateString();
         }
 
         public string BusquedaCodPorUsr(string usuario)

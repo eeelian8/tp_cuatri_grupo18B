@@ -4,7 +4,7 @@
     <!-- Agregar ScriptManager al inicio de la página -->
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-
+    <br />
     <div class="container">
         <h2>Solicitud de Trabajo</h2>
         <p>Complete el formulario para enviar la solicitud.</p>

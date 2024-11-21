@@ -4,6 +4,8 @@ using Dominio;
 using System;
 using System.Net;
 using System.Data;
+using System.Reflection;
+using System.Security.Cryptography;
 
 namespace Negocio
 {
@@ -112,42 +114,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
-        //public List<Recepcion> Listar()
-        //{
-        //    List<Recepcion> lista = new List<Recepcion>();
-
-        //    try
-        //    {
-
-        //        datos.setearConsulta("select Cli.Documento , Cli.Nombre,Cli.Telefono  Cli.Direccion, Cli.Localidad, Cli.Provincia from CLIENTES as Cli");
-        //        datos.ejecutarLectura(); ;
-
-        //        while (datos.Lector.Read())
-        //        {
-        //            Recepcion aux = new Recepcion();
-        //            aux.Documento = (string)datos.Lector["dni"];
-        //            aux.Telefono = (int)datos.Lector["Telefono"];
-        //            aux.Nombre = (string)datos.Lector["Nombre"];
-        //            aux.Direccion = (string)datos.Lector["Direccion"];
-        //            aux.Localidad = (string)datos.Lector["Localidad"];
-
-
-        //            lista.Add(aux);
-        //        }
-
-        //        return lista;
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex;
-        //    }
-        //    finally
-        //    {
-        //        datos.cerrarConexion();
-        //    }
-        //}
         public int Agregar(Recepcion cli)
         {
 
@@ -155,7 +121,7 @@ namespace Negocio
             try
             {
                 datos.limpiarParametros();
-                datos.setearConsulta("SELECT COUNT(1) FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni");
+                datos.setearConsulta("SELECT COUNT(1) FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni");
                 datos.setearParametro("@Dni", cli.Documento);
                 datos.ejecutarLectura();
                 if (datos.Lector.Read() && Convert.ToInt32(datos.Lector[0]) > 0)
@@ -191,27 +157,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-
-        public void Modificar(Recepcion cli)
-        {
-
-            try
-            {
-                datos.setearConsulta("update CLIENTES set Documento= @Dni , Nombre = @Nombre, Telefono = @Telefono, Direccion = @Direccion, Localidad = @Localidad, Provincia = @Provincia where Documento = @Dni ");
-                datos.setearParametro("@Dni", cli.Documento);
-                datos.setearParametro("@Nombre", cli.Nombre);
-                datos.setearParametro("@Telefono", cli.Telefono);
-                datos.setearParametro("@Direccion", cli.Direccion);
-                datos.setearParametro("@Localidad", cli.Localidad);
-                datos.setearParametro("@Provincia", cli.Provincia);
-                datos.ejecutarLectura();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
        
          public DataTable ObtenerHistorialTrabajos()
         {
@@ -219,7 +164,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Dni,TipoTrabajo, Nombre,Apellido,Descripcion, Telefono, Direccion, Localidad, Provincia,Estado,TecnicoAsignado FROM SOLICITUDES_TRABAJO");
+                datos.setearConsulta("SELECT DniCliente, TT.Nombre as TipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente, Estado, TecnicoAsignado FROM SOLICITUDES_TRABAJO inner join TIPOS_TRABAJO TT on SOLICITUDES_TRABAJO.IdTipoTrabajo = TT.Id");
 
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);
@@ -238,11 +183,9 @@ namespace Negocio
         public DataTable ObtenerHistorialCliente(string dni)
         {
             DataTable dt = new DataTable();
-
             try
             {
-                datos.setearConsulta("SELECT id, TipoTrabajo, Descripcion, Estado, TecnicoAsignado " +
-                                    "FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni ORDER BY id DESC");
+                datos.setearConsulta("SELECT tt.Nombre as TipoTrabajo, DescripcionTrabajo, Estado, TecnicoAsignado FROM SOLICITUDES_TRABAJO inner join TIPOS_TRABAJO as tt on tt.Id = SOLICITUDES_TRABAJO.IdTipoTrabajo WHERE DniCliente = @Dni ORDER BY id DESC");
                 datos.setearParametro("@Dni", dni);
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);
