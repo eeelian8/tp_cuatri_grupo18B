@@ -121,7 +121,7 @@ namespace Negocio
             SolicitudTrabajo solicitud = null;
             try
             {
-                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE Id = @Id");
+                datos.setearConsulta("SELECT ST.Id, ST.DniCliente as Dni, TT.Nombre as TipoTrabajo, ST.NombreCliente as Nombre, ST.TelefonoCliente as Telefono, ST.ProvinciaCliente as Provincia, ST.LocalidadCliente as Localidad, ST.ApellidoCliente as Apellido, ST.DireccionCliente as Direccion FROM SOLICITUDES_TRABAJO ST INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id WHERE St.Id = 1");
                 datos.setearParametro("@Id", id);
                 datos.ejecutarLectura();
 
@@ -158,22 +158,23 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE Estado = 2");  // 2 = Aceptadas
+                datos.setearConsulta("select st.Id, DniCliente, tt.Nombre as TipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente, Estado from SOLICITUDES_TRABAJO as st inner join TIPOS_TRABAJO as tt on st.IdTipoTrabajo = tt.Id where Estado = 2");  // 2 = Aceptadas
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     SolicitudTrabajo aux = new SolicitudTrabajo();
+
                     aux.Id = (int)datos.Lector["Id"];
-                    aux.Dni = (int)datos.Lector["Dni"];
+                    aux.Dni = (int)datos.Lector["DniCliente"];
                     aux.TipoTrabajo = (string)datos.Lector["TipoTrabajo"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Descripcion = (string)datos.Lector["Descripcion"];
-                    aux.Telefono = (int)datos.Lector["Telefono"];
-                    aux.Direccion = (string)datos.Lector["Direccion"];
-                    aux.Localidad = (string)datos.Lector["Localidad"];
-                    aux.Provincia = (string)datos.Lector["Provincia"];
+                    aux.Nombre = (string)datos.Lector["NombreCliente"];
+                    aux.Apellido = (string)datos.Lector["ApellidoCliente"];
+                    aux.Descripcion = (string)datos.Lector["DescripcionTrabajo"];
+                    aux.Telefono = (int)datos.Lector["TelefonoCliente"];
+                    aux.Direccion = (string)datos.Lector["DireccionCliente"];
+                    aux.Localidad = (string)datos.Lector["LocalidadCliente"];
+                    aux.Provincia = (string)datos.Lector["ProvinciaCliente"];
                     aux.Estado = (int)datos.Lector["Estado"];
 
                     lista.Add(aux);

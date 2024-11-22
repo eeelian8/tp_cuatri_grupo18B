@@ -16,7 +16,7 @@ namespace AppSeguridad
             int st = int.Parse(Request.QueryString["st"]);
 
             SolicitudTrabajoNegocio solicitudTrabajoNegocio = new SolicitudTrabajoNegocio();
-            List<SolicitudTrabajo> listSolicitudesTrabajo = solicitudTrabajoNegocio.ListarPendientes();
+            List<SolicitudTrabajo> listSolicitudesTrabajo = solicitudTrabajoNegocio.ListarAceptadas();
             SolicitudTrabajo stAux;
              
             stAux = listSolicitudesTrabajo.Find(x => x.Id == st);
