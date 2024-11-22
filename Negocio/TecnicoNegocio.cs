@@ -231,5 +231,53 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Tecnico> ListarTecnicosDisponibles(DateTime fecha)
+        {
+            List<Tecnico> lista = new List<Tecnico>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+
+                string consulta = @"SELECT DISTINCT t.CodTecnico, t.NivelRol, t.Celular, t.Nombre, t.Apellido, t.Localidad, t.Provincia, t.NroDocumento 
+                              FROM TECNICOS t
+                              WHERE t.CodTecnico NOT IN (
+                                  SELECT ST.TecnicoAsignado 
+                                  FROM SOLICITUDES_TRABAJO ST
+                                  INNER JOIN FECHAS_TRABAJO FT ON ST.Id = FT.IdSolicitudTrabajo
+                                  WHERE @Fecha BETWEEN FT.FechaInicio AND FT.FechaFin
+                              )";
+
+                datos.setearConsulta(consulta);
+                datos.setearParametro("@Fecha", fecha);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Tecnico aux = new Tecnico();
+                    aux.CodTecnico = (string)datos.Lector["CodTecnico"];
+                    aux.NivelRol = (int)datos.Lector["NivelRol"];
+                    aux.Celular = (int)datos.Lector["Celular"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Apellido = (string)datos.Lector["Apellido"];
+                    aux.Localidad = (string)datos.Lector["Localidad"];
+                    aux.Provincia = (string)datos.Lector["Provincia"];
+                    aux.NroDocumento = (int)datos.Lector["NroDocumento"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

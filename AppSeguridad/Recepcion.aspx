@@ -4,7 +4,7 @@
     <!-- Agregar ScriptManager al inicio de la página -->
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-
+    <br />
     <div class="container">
         <h2>Solicitud de Trabajo</h2>
         <p>Complete el formulario para enviar la solicitud.</p>
@@ -102,7 +102,7 @@
                 <div class="col-sm-6">
                     <asp:TextBox ID="txtTelefono" runat="server" CssClass="form-control" Placeholder="Ej: 15-4567-8900"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorTelefono" ControlToValidate="txtTelefono" CssClass="RequiredMessage" runat="server" ErrorMessage="*El campo Dirección es obligatorio." Display="Dynamic" ForeColor="#CC0000"></asp:RequiredFieldValidator>
-                    <asp:RegularExpressionValidator ID="RegularExpressionValidatorTelefono" ControlToValidate="txtTelefono" CssClass="RequiredMessage" runat="server" ErrorMessage="*Formato de teléfono inválido. Ej: 12-3456-7890" ValidationExpression="^\d{2}-\d{4}-\d{4}$" EnableClientScript="true" Display="Dynamic" ForeColor="#CC0000"></asp:RegularExpressionValidator>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidatorTelefono" ControlToValidate="txtTelefono" CssClass="RequiredMessage" runat="server" ErrorMessage="*Formato de teléfono inválido. Ej: 12-3456-7890" ValidationExpression="^\d{2}\d{4}\d{4}$" EnableClientScript="true" Display="Dynamic" ForeColor="#CC0000"></asp:RegularExpressionValidator>
                 </div>
             </div>
 

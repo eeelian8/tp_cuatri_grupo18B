@@ -44,60 +44,50 @@ namespace AppSeguridad
         {
             try
             {
+                cliente.Documento = txtDni.Text;
+                cliente.Nombre = txtNombre.Text;
+                cliente.Apellido = txtNombre.Text.Split(' ').Length > 1 ? txtNombre.Text.Split(' ')[1] : "";
 
-            cliente.Documento=txtDni.Text;
-            cliente.Nombre = txtNombre.Text;
-            cliente.Apellido = txtNombre.Text.Split(' ').Length > 1 ? txtNombre.Text.Split(' ')[1] : ""; // para no sumar otra label y txtbox mas. Lo que hace aca es tomar la segunda parte del nombre ocmo apellido
-            cliente.Telefono = int.Parse(txtTelefono.Text);
-            cliente.Descripcion = txtObservaciones.Text;
-            cliente.Direccion = txtDireccion.Text;
-            cliente.Localidad = txtLocalidad.Text;
-            cliente.Provincia = txtProvincia.Text;
-            cliente.Estado = 1;
-            cliente.TipoTrabajo = ddlItems.SelectedItem.Text;
+                // Validar el campo teléfono
+                if (int.TryParse(txtTelefono.Text, out int telefono))
+                {
+                    cliente.Telefono = telefono;
+                }
+                else
+                {
+                    // Mostrar un mensaje de error si el formato no es válido
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+                        "alert('El campo Teléfono debe contener solo números.');", true);
+                    return; // Salir del método para evitar un fallo.
+                }
+
+                cliente.Descripcion = txtObservaciones.Text;
+                cliente.Direccion = txtDireccion.Text;
+                cliente.Localidad = txtLocalidad.Text;
+                cliente.Provincia = txtProvincia.Text;
+                cliente.Estado = 1;
+                cliente.TipoTrabajo = ddlItems.SelectedItem.Text;
 
                 int resultado = clienteNegocio.Agregar(cliente);
 
                 if (resultado == 1)
-
-            {
-                    // Guardar los datos en la sesión
-                    Session["Documento"] = cliente.Documento;
-                    Session["Nombre"] = cliente.Nombre;
-                    Session["Apellido"] = cliente.Apellido;
-                    Session["Telefono"] = cliente.Telefono;
-                    Session["Descripcion"] = cliente.Descripcion;
-                    Session["Direccion"] = cliente.Direccion;
-                    Session["Localidad"] = cliente.Localidad;
-                    Session["Provincia"] = cliente.Provincia;
-                    Session["Estado"] = cliente.Estado;
-                    Session["TipoTrabajo"] = cliente.TipoTrabajo;
-                    Session["FechaCarga"] = txtFechaCarga.Text;
-                    Session["EsPresupuesto"] = flexRadioDefault1.Checked;
-                    Session["EsReparacion"] = flexRadioDefault2.Checked;
-                    Session["EsUrgente"] = flexSwitchCheckDefault.Checked;
-
-                    LimpiarCampos();
-                lblConfirmacion.Visible = true;
-                // scrpit mensaje de éxito
-                ScriptManager.RegisterStartupScript(this, GetType(), "ShowMessage",
-                    "alert('Solicitud guardada con éxito.');", true);
+                {
+                    
+                    lblConfirmacion.Visible = true;
+                    lblConfirmacion.Text = "Solicitud enviada con éxito."; // Asegúrate de que tenga texto
                 }
                 else
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
-                "alert('El DNI ya existe en el sistema.');", true);
+        "alert('Hubo un problema al guardar la solicitud. Intente nuevamente.');", true);
                 }
             }
             catch (Exception ex)
-            { // Mostrar mensaje de error
+            {
                 ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
                     $"alert('Error al guardar la solicitud: {ex.Message}');", true);
-
-                throw ;
+                throw;
             }
-
-
         }
         protected void btnBuscar_Click(object sender, EventArgs e)
         {

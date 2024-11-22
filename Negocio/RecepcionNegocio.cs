@@ -15,7 +15,7 @@ namespace Negocio
             Recepcion cliente = null;
             try
             {
-                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni");
+                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni");
                 datos.setearParametro("@Dni", DNI);
                 datos.ejecutarLectura();
 
@@ -25,11 +25,11 @@ namespace Negocio
 
 
                     cliente.Documento = DNI;
-                    cliente.Nombre = (string)datos.Lector["Nombre"];
-                    cliente.Telefono = (int)datos.Lector["Telefono"];
-                    cliente.Direccion = (string)datos.Lector["Direccion"];
-                    cliente.Localidad = (string)datos.Lector["Localidad"];
-                    cliente.Provincia = (string)datos.Lector["Provincia"];
+                    cliente.Nombre = (string)datos.Lector["NombreCliente"];
+                    cliente.Telefono = (int)datos.Lector["TelefonoCliente"];
+                    cliente.Direccion = (string)datos.Lector["DireccionCliente"];
+                    cliente.Localidad = (string)datos.Lector["LocalidadCliente"];
+                    cliente.Provincia = (string)datos.Lector["ProvinciaCliente"];
 
                 }
 
@@ -155,18 +155,14 @@ namespace Negocio
             try
             {
                 datos.limpiarParametros();
-                datos.setearConsulta("SELECT COUNT(1) FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni");
+                datos.setearConsulta("SELECT COUNT(1) FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni");
                 datos.setearParametro("@Dni", cli.Documento);
                 datos.ejecutarLectura();
-                if (datos.Lector.Read() && Convert.ToInt32(datos.Lector[0]) > 0)
-                {
-                    // El DNI ya existe
-                    return -1;
-                }
+               
                 datos.cerrarConexion();
                 datos.limpiarParametros();
 
-                datos.setearConsulta("INSERT INTO SOLICITUDES_TRABAJO (Dni, Nombre, Apellido, Descripcion, Telefono, Direccion, Localidad, Provincia, TipoTrabajo, Estado) VALUES (@Dni, @Nombre, @Apellido, @Descripcion, @Telefono, @Direccion, @Localidad, @Provincia, @TipoTrabajo, @Estado)");
+                datos.setearConsulta("INSERT INTO SOLICITUDES_TRABAJO (DniCliente, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente,IdTipoTrabajo,  Estado) VALUES (@Dni, @Nombre, @Apellido, @Descripcion, @Telefono, @Direccion, @Localidad, @Provincia, @TipoTrabajo, @Estado)");
                 datos.setearParametro("@Dni", cli.Documento);
                 datos.setearParametro("@Nombre", cli.Nombre);
                 datos.setearParametro("@Apellido", cli.Apellido);
@@ -175,7 +171,7 @@ namespace Negocio
                 datos.setearParametro("@Direccion", cli.Direccion);
                 datos.setearParametro("@Localidad", cli.Localidad);
                 datos.setearParametro("@Provincia", cli.Provincia);
-                datos.setearParametro("@TipoTrabajo", cli.TipoTrabajo);
+                datos.setearParametro("@TipoTrabajo", 2);
                 datos.setearParametro("@Estado", 1);
                 datos.ejecutarAccion();
                 return 1;
@@ -219,7 +215,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT Dni,TipoTrabajo, Nombre,Apellido,Descripcion, Telefono, Direccion, Localidad, Provincia,Estado,TecnicoAsignado FROM SOLICITUDES_TRABAJO");
+                datos.setearConsulta("SELECT DniCliente,IdTipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente,  Estado FROM SOLICITUDES_TRABAJO");
 
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);
@@ -241,8 +237,8 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT id, TipoTrabajo, Descripcion, Estado, TecnicoAsignado " +
-                                    "FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni ORDER BY id DESC");
+                datos.setearConsulta("SELECT id, DireccionCliente, DescripcionTrabajo, Estado, TecnicoAsignado " +
+                                    "FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni ORDER BY id DESC");
                 datos.setearParametro("@Dni", dni);
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);

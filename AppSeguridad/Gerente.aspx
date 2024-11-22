@@ -29,7 +29,8 @@
         <asp:Button ID="btnTarjetasTecnicos" runat="server" Text="Ver Tarjetas de Técnicos" 
             CssClass="btn btn-primary" OnClick="btnTarjetasTecnicos_Click" />
     <div class="mt-3">
-        <asp:Button ID="btnAsignarTrabajo" runat="server" Text="Asignar trabajo" CssClass="btn btn-secondary " />
+        <asp:Button ID="btnAsignarTrabajo" runat="server" Text="Asignar trabajo" CssClass="btn btn-secondary " OnClick="btnAsignarTrabajo_Click" 
+            Enabled="false" />
     </div>
     
 </asp:Content>
