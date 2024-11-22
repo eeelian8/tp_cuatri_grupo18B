@@ -3,8 +3,10 @@ using Negocio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,6 +15,7 @@ namespace AppSeguridad
 {
     public partial class Tecnico : System.Web.UI.Page
     {
+        int colorIndex = 0;
 
         List<TrabajosPorTecnico> agendaXtecnico = new List<TrabajosPorTecnico>();
         TrabajosPorTecnicoNegocio agendaXtecnicoNegocio = new TrabajosPorTecnicoNegocio();
@@ -48,7 +51,12 @@ namespace AppSeguridad
                 }
                 else
                 {
-                    lbl_Trabajo.Text = "POR EL MOMENTO NO TIENEN NINGUN TRABAJO ASIGNADO ...";
+                    if(tpt.FechaInicio > Calendario.TodaysDate)
+                    {
+                        lbl_FechaActual.Text = Calendario.TodaysDate.Date.ToShortDateString();
+                        int diasFaltantes = (tpt.FechaInicio - Calendario.TodaysDate).Days;
+                        lbl_Trabajo.Text = "POR EL MOMENTO, NO TIENES TRABAJOS ASIGNADOS EL DIA DE HOY. <br/>" + "FALTAN " + diasFaltantes + " PARA SU PROXIMO TRABAJO";
+                    }
                 }
             }
 
@@ -56,20 +64,36 @@ namespace AppSeguridad
 
         protected void Calendario_DayRender(object sender, DayRenderEventArgs e)
         {
+            colorIndex = 0;
+
+            List<System.Drawing.Color> colores = new List<System.Drawing.Color>
+            {
+                System.Drawing.Color.LightSkyBlue,
+                System.Drawing.Color.LightGreen,
+                System.Drawing.Color.LightCoral,
+                System.Drawing.Color.Plum
+            };
+
             foreach (TrabajosPorTecnico aux in agendaXtecnico)
             {
+                colorIndex++;
+
                 for (int i = aux.FechaInicio.Day; i <= aux.FechaFin.Day; i++)
                 {
                     if (i == e.Day.Date.Day && aux.FechaInicio.Month == e.Day.Date.Month)
                     {
+                        System.Drawing.Color trabajoColor = colores[colorIndex];
+
                         Literal literal1 = new Literal();
                         literal1.Text = "<br/>";
                         e.Cell.Controls.Add(literal1);
+
                         Label label1 = new Label();
                         label1.Text = aux.NombreTrabajo;
                         label1.Font.Size = new FontUnit(FontSize.Small);
                         e.Cell.Controls.Add(label1);
-                        e.Cell.BackColor = System.Drawing.Color.LightGray;
+
+                        e.Cell.BackColor = trabajoColor;
                         e.Cell.ForeColor = System.Drawing.Color.Black;
                         e.Cell.BorderStyle = BorderStyle.Outset;
                         e.Cell.BorderWidth = 2;
@@ -144,7 +168,8 @@ namespace AppSeguridad
             if (st != 0)
             {
                 Response.Redirect("VerDetalle.aspx?st=" + st, false);
-            } else
+            }
+            else
             {
 
             }

@@ -50,11 +50,11 @@
                         </div>
                         <br />
                         <div class="row">
-                            <div class="col"></div>
-                            <div class="col">
+                            <div class="col-2"></div>
+                            <div class="col-8">
                                 <asp:Label ID="lbl_Trabajo" runat="server" Font-Size="Large" BorderStyle="None" Font-Bold="True"></asp:Label>
                             </div>
-                            <div class="col"></div>
+                            <div class="col-2"></div>
                         </div>
                         <br />
                         <div class="row">

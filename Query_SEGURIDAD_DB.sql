@@ -157,25 +157,4 @@ VALUES
 ('tec002', 'tecnico2024', 3, 51565729),
 ('rec001', 'recepcion2024', 4, 22398564)
 
-INSERT INTO dbo.[ADMINISTRADORES] ([CodAdminitrador], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
-VALUES 
-('ADMIN001', 1, 987654321, 'Juan', 'Pérez', 20507899);
-
-INSERT INTO TIPOS_TRABAJO (Nombre, Descripcion, DuracionCantDias)
-VALUES 
-('Instalacion sistema de vigilancia de Instalaciones', 'Supervisión continua de instalaciones con monitoreo y reportes', 8),
-('Instalación de Sistemas de Seguridad', 'Instalación y configuración de cámaras, alarmas u otros sistemas', 5),
-('Monitoreo de Alarmas', 'Seguimiento y respuesta ante alertas de seguridad a distancia', 3);
-
-INSERT INTO SOLICITUDES_TRABAJO (DniCliente, IdTipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente, Estado, TecnicoAsignado)
-VALUES 
-(12345678, 1, 'Juan', 'Pérez', 'Supervisión continua de instalaciones con monitoreo y reportes', 1145678901, 'Av. Libertad 1234', 'Buenos Aires', 'Buenos Aires', 1, 'T001'),
-(87654321, 2, 'Ana', 'González', 'Instalación y configuración de cámaras, alarmas u otros sistemas', 1156781234, 'Calle Falsa 567', 'La Plata', 'Buenos Aires', 1, 'T002'),
-(56789123, 3, 'Carlos', 'López', 'Servicio de monitoreo de alarmas para residencia particular', 1123456789, 'Av. Mitre 890', 'Córdoba', 'Córdoba', 1, null),
-(23456789, 2, 'María', 'Rodríguez', 'Instalación y configuración de cámaras, alarmas u otros sistemas', 1134567890, 'Calle Principal 45', 'Pilar', 'Buenos Aires', 1, 'T003');
-
-INSERT INTO FECHAS_TRABAJO ([IdSolicitudTrabajo], [FechaAsignacionTecnico], [FechaInicio], [FechaFin])
-VALUES 
-(1, '2024-10-29', '2024-11-01', '2024-11-08'),
-(2, '2024-10-30', '2024-11-11', '2024-11-15'),
-(4, '2024-10-31', '2024-11-19', '2024-11-23');
+select * from SOLICITUDES_TRABAJO
