@@ -16,13 +16,14 @@ namespace AppSeguridad
 
         List<TrabajosPorTecnico> agendaXtecnico = new List<TrabajosPorTecnico>();
         TrabajosPorTecnicoNegocio agendaXtecnicoNegocio = new TrabajosPorTecnicoNegocio();
-
+        int st = 0;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             string usr = Request.QueryString["usr"].ToString();
             string Cod = BusquedaCodPorUsr(usr);
 
+            txtUsuario.Text = Cod;
 
             agendaXtecnico = agendaXtecnicoNegocio.Listar(Cod);
 
@@ -36,13 +37,18 @@ namespace AppSeguridad
             lbl_FechaInicio.ForeColor = System.Drawing.Color.Black;
             lbl_FechaFin.ForeColor = System.Drawing.Color.Black;
 
-            foreach ( TrabajosPorTecnico tpt in agendaXtecnico)
+            foreach (TrabajosPorTecnico tpt in agendaXtecnico)
             {
-                if(tpt.FechaInicio < Calendario.TodaysDate.Date && tpt.FechaFin > Calendario.TodaysDate.Date)
+                if (tpt.FechaInicio < Calendario.TodaysDate.Date && tpt.FechaFin > Calendario.TodaysDate.Date)
                 {
                     lbl_Trabajo.Text = tpt.NombreTrabajo;
                     lbl_FechaInicio.Text = "FECHA INICIO: " + tpt.FechaInicio.ToShortDateString();
                     lbl_FechaFin.Text = "FECHA FIN: " + tpt.FechaFin.ToShortDateString();
+                    st = tpt.IdTrabajo;
+                }
+                else
+                {
+                    lbl_Trabajo.Text = "POR EL MOMENTO NO TIENEN NINGUN TRABAJO ASIGNADO ...";
                 }
             }
 
@@ -52,9 +58,9 @@ namespace AppSeguridad
         {
             foreach (TrabajosPorTecnico aux in agendaXtecnico)
             {
-                for (int i = aux.FechaInicio.Day; i<=aux.FechaFin.Day; i++)
+                for (int i = aux.FechaInicio.Day; i <= aux.FechaFin.Day; i++)
                 {
-                    if(i == e.Day.Date.Day && aux.FechaInicio.Month == e.Day.Date.Month)
+                    if (i == e.Day.Date.Day && aux.FechaInicio.Month == e.Day.Date.Month)
                     {
                         Literal literal1 = new Literal();
                         literal1.Text = "<br/>";
@@ -79,7 +85,7 @@ namespace AppSeguridad
 
             AdministradorNegocio administradorNegocio = new AdministradorNegocio();
             GerenteNegocio gerenteNegocio = new GerenteNegocio();
-            RecepcionNegocio recepcionNegocio = new RecepcionNegocio(); 
+            RecepcionNegocio recepcionNegocio = new RecepcionNegocio();
             TecnicoNegocio tecnicoNegocio = new TecnicoNegocio();
             UsuarioNegocio usuarioNegocio = new UsuarioNegocio();
 
@@ -95,7 +101,7 @@ namespace AppSeguridad
             Dominio.Gerente gerAux;
             Dominio.Tecnico tecAux;
 
-            if(usrAux != null)
+            if (usrAux != null)
             {
                 admAux = listaAdministradores.Find(x => x.NroDocumento == usrAux.NroDocumento);
                 gerAux = listaGerentes.Find(x => x.NroDocumento == usrAux.NroDocumento);
@@ -126,6 +132,22 @@ namespace AppSeguridad
         protected void Calendario_SelectionChanged(object sender, EventArgs e)
         {
 
+        }
+
+        protected void btn_informar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btn_verDetalle_Click(object sender, EventArgs e)
+        {
+            if (st != 0)
+            {
+                Response.Redirect("VerDetalle.aspx?st=" + st, false);
+            } else
+            {
+
+            }
         }
     }
 }

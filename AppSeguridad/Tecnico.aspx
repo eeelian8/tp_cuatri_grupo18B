@@ -8,7 +8,20 @@
             background-color: ghostwhite;
             border-radius: 12px;
         }
+
+        #usr {
+            display: flex;
+            align-content: end;
+            justify-content: end;
+            flex-wrap: wrap;
+            flex-flow: row;
+        }
     </style>
+    <br />
+    <div id="usr">
+        <img src="Images/logoUsuario.png" alt="Logo Usuario" height="35" width="40" />
+        <asp:Label ID="txtUsuario" runat="server" BorderStyle="None" Font-Bold="True" Font-Size="Larger" ForeColor="White" Font-Italic="True"></asp:Label>
+    </div>
     <br />
     <div class="container text-center">
         <div class="row">
@@ -29,7 +42,9 @@
                     <div class="container text-center" id="trabajoActual">
                         <br />
                         <div class="row">
-                            <div class="col-3"><asp:Label ID="lbl_FechaActual" runat="server" Text="" Font-Size="Medium"></asp:Label></div>
+                            <div class="col-3">
+                                <asp:Label ID="lbl_FechaActual" runat="server" Text="" Font-Size="Medium"></asp:Label>
+                            </div>
                             <div class="col-5"></div>
                             <div class="col-4"></div>
                         </div>
@@ -54,8 +69,8 @@
                         <br />
                     </div>
                     <br />
-                    <asp:Button ID="btn_verDetalle" runat="server" Text="Ver Detalle" CssClass="btn-crema" />
-                    <asp:Button ID="btn_informar" runat="server" Text="Crear Informe" CssClass="btn-crema" />
+                    <asp:Button ID="btn_verDetalle" runat="server" Text="Ver Detalle" CssClass="btn-crema" OnClick="btn_verDetalle_Click" />
+                    <asp:Button ID="btn_informar" runat="server" Text="Crear Informe" CssClass="btn-crema" OnClick="btn_informar_Click" />
                     <asp:Button ID="btn_cambiarEstado" runat="server" Text="Cambiar estado" CssClass="btn-crema" />
                 </div>
             </div>
