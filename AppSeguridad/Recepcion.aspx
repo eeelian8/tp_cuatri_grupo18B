@@ -150,7 +150,7 @@
             </div>
 
             <div class="col-sm-4 mb-3 ">
-                <asp:FileUpload ID="fileUploadImagen" runat="server" CssClass="file-upload-hidden btn-crema " AllowMultiple="true" />
+                <asp:FileUpload ID="fileUploadImagen" runat="server" CssClass="file-upload-hidden btn-crema" Visible="false" AllowMultiple="true" />
             </div>
 
             <div class="row mb-3">
