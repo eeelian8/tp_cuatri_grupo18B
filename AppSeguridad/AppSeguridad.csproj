@@ -71,11 +71,13 @@
     <Content Include="AsignarTecnico.aspx" />
     <Content Include="HistorialTareas.aspx" />
     <Content Include="Images\logotipo.png" />
+    <Content Include="Images\logoUsuario.png" />
     <Content Include="Recepcion.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Gerente.aspx" />
     <Content Include="Global.asax" />
     <Content Include="TarjetaTecnicos.aspx" />
+    <Content Include="VerDetalle.aspx" />
     <Content Include="Web.config" />
     <Content Include="Tecnico.aspx" />
   </ItemGroup>
@@ -146,6 +148,13 @@
     </Compile>
     <Compile Include="Tecnico.aspx.designer.cs">
       <DependentUpon>Tecnico.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="VerDetalle.aspx.cs">
+      <DependentUpon>VerDetalle.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="VerDetalle.aspx.designer.cs">
+      <DependentUpon>VerDetalle.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
