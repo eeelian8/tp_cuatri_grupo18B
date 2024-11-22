@@ -28,9 +28,9 @@ namespace AppSeguridad
                 txtFechaCarga.Text = DateTime.Now.ToString("dd/MM/yyyy");
                 CargarTiposTrabajos();
                 CargarHistorialTrabajos();
-                
             }
         }
+
         private void CargarTiposTrabajos()
         {
             List<TipoTrabajo> tiposTrabajos = clienteNegocio.ListarTipos();
@@ -38,6 +38,30 @@ namespace AppSeguridad
             ddlItems.DataValueField = "Nombre";
             ddlItems.DataBind();
             ddlItems.Items.Insert(0, new ListItem("Seleccione un tipo de trabajo", "0"));
+        }
+        private void CargarHistorialTrabajos()
+        {
+            try
+            {
+                DataTable dtHistorial = clienteNegocio.ObtenerHistorialTrabajos();
+                dgvHistorial.DataSource = dtHistorial;
+                dgvHistorial.DataBind();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void LimpiarCampos()
+        {
+            txtDni.Text = string.Empty;
+            txtNombre.Text = string.Empty;
+            txtTelefono.Text = string.Empty;
+            txtDireccion.Text = string.Empty;
+            txtLocalidad.Text = string.Empty;
+            txtProvincia.Text = string.Empty;
+            txtObservaciones.Text = string.Empty;
+            ddlItems.SelectedIndex = 0;
         }
 
         protected void btnSubmit_Click(object sender, EventArgs e)
@@ -72,7 +96,7 @@ namespace AppSeguridad
 
                 if (resultado == 1)
                 {
-                    
+
                     lblConfirmacion.Visible = true;
                     lblConfirmacion.Text = "Solicitud enviada con éxito."; // Asegúrate de que tenga texto
                 }
@@ -94,7 +118,7 @@ namespace AppSeguridad
             try
             {
                 cliente = clienteNegocio.GetCliente(txtDni.Text.Trim());
-                if (cliente !=null)
+                if (cliente != null)
                 {
 
                     txtNombre.Text = cliente.Nombre;
@@ -107,9 +131,9 @@ namespace AppSeguridad
                 }
                 else
                 {
-                    
+
                     LimpiarCampos();
-                // Mostrar la alerta si el DNI no existe
+                    // Mostrar la alerta si el DNI no existe
                     alertaDniNoExiste.Visible = true;
                     //script para que aparezca el cartel 5 segundos
                     ScriptManager.RegisterStartupScript(this, GetType(), "HideAlert", "hideAlertAfterTimeout();", true);
@@ -121,18 +145,21 @@ namespace AppSeguridad
             }
         }
 
-
-        private void LimpiarCampos()
-        {    //ya no podian ser mas null
-            txtDni.Text = string.Empty;
-            txtNombre.Text = string.Empty;
-            txtTelefono.Text = string.Empty;
-            txtDireccion.Text = string.Empty;
-            txtLocalidad.Text = string.Empty;
-            txtProvincia.Text = string.Empty;
-            txtObservaciones.Text = string.Empty;
-            ddlItems.SelectedIndex = 0;
+        protected void btnHistorial_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                CargarHistorialTrabajos();
+                ScriptManager.RegisterStartupScript(this, GetType(), "ShowHistorialModal", "showHistorialModal();", true);
+                UpdatePanel1.Update();
+            }
+            catch (Exception ex)
+            {
+                ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+                    $"alert('Error al cargar el historial: {ex.Message}');", true);
+            }
         }
+
         protected void btnHistorialCliente_Click(object sender, EventArgs e)
         {
             try
@@ -141,7 +168,7 @@ namespace AppSeguridad
 
                 if (string.IsNullOrEmpty(dni))
                 {
-                    ScriptManager.RegisterStartupScript(UpdatePanel2, UpdatePanel2.GetType(), "ShowError",
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
                         "alert('Por favor, ingrese un DNI para ver el historial del cliente.');", true);
                     return;
                 }
@@ -152,52 +179,22 @@ namespace AppSeguridad
                 {
                     dgvHistorialCliente.DataSource = dtHistorialCliente;
                     dgvHistorialCliente.DataBind();
-
-                    // Mostrar el modal
-                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowModalScript",
-                        "$(document).ready(function() { $('#modalHistorialCliente').modal('show'); });", true);
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowHistorialClienteModal", "showHistorialClienteModal();", true);
+                    UpdatePanel2.Update();
                 }
                 else
                 {
-                    ScriptManager.RegisterStartupScript(UpdatePanel2, UpdatePanel2.GetType(), "ShowError",
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
                         "alert('No se encontraron registros para este cliente.');", true);
                 }
             }
             catch (Exception ex)
             {
-                ScriptManager.RegisterStartupScript(UpdatePanel2, UpdatePanel2.GetType(), "ShowError",
+                ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
                     $"alert('Error al cargar el historial del cliente: {ex.Message}');", true);
             }
         }
-        protected void btnHistorial_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                CargarHistorialTrabajos();
-                // Explicitly register a script to show the modal
-                ScriptManager.RegisterStartupScript(this, GetType(), "ShowModalScript",
-                    "$(document).ready(function() { $('#modalHistorial').modal('show'); });", true);
-            }
-            catch (Exception ex)
-            {
-                ScriptManager.RegisterStartupScript(UpdatePanel1, UpdatePanel1.GetType(), "ShowError",
-                    $"alert('Error al cargar el historial: {ex.Message}');", true);
-            }
-        }
 
-        private void CargarHistorialTrabajos()
-        {
-            try
-            {
-                DataTable dtHistorial = clienteNegocio.ObtenerHistorialTrabajos();
-                dgvHistorial.DataSource = dtHistorial;
-                dgvHistorial.DataBind();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
     }
 }
