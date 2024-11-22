@@ -53,7 +53,38 @@ namespace AppSeguridad
 
         protected void btnAsignar_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                string codTecnicoSeleccionado = null;
+                foreach (RepeaterItem item in repTecnicos.Items)
+                {
+                    RadioButton rb = (RadioButton)item.FindControl("rbTecnico");
+                    if (rb != null && rb.Checked)
+                    {
+                        codTecnicoSeleccionado = rb.Attributes["value"];
+                        break;
+                    }
+                }
+
+                if (codTecnicoSeleccionado == null)
+                {
+                    Response.Write("Seleccione un técnico");
+                    return;
+                }
+
+                int idSolicitud = (int)Session["IdSolicitudSeleccionada"];
+                SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+                int duracion = negocio.ObtenerDuracionTrabajo(idSolicitud);
+                DateTime fechaInicio = calFecha.SelectedDate;
+                DateTime fechaFin = fechaInicio.AddDays(duracion);
+
+                negocio.AsignarTecnico(idSolicitud, codTecnicoSeleccionado, fechaInicio, fechaFin);
+                Response.Redirect("Gerente.aspx");
+            }
+            catch (Exception ex)
+            {
+                Response.Write("Error, no se asignó trabajo: " + ex.Message);
+            }
         }
 
         protected void repTecnicos_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -66,8 +97,13 @@ namespace AppSeguridad
                     RadioButton rb = (RadioButton)e.Item.FindControl("rbTecnico");
                     Label lbl = (Label)e.Item.FindControl("lblNombreTecnico");
 
-                    lbl.Text = dataItem.Nombre + " " + dataItem.Apellido + " - " + dataItem.Localidad;
+                    // debug
+                    Response.Write("CodTecnico: " + dataItem.CodTecnico + "<br/>");
+
+                    // guardar CodTecnico
                     rb.ID = dataItem.CodTecnico;
+                    rb.Attributes["value"] = dataItem.CodTecnico; //guardar valor xqe NO SE MANTENIA
+                    lbl.Text = dataItem.Nombre + " " + dataItem.Apellido + " - " + dataItem.Localidad;
                 }
             }
             catch (Exception ex)

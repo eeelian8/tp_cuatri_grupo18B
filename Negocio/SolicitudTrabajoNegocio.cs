@@ -190,5 +190,60 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+       
+        public int ObtenerDuracionTrabajo(int idSolicitud)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta(@"SELECT TT.DuracionCantDias 
+                              FROM SOLICITUDES_TRABAJO ST 
+                              INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id 
+                              WHERE ST.Id = @IdSolicitud");
+                datos.setearParametro("@IdSolicitud", idSolicitud);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    return (int)datos.Lector["DuracionCantDias"];
+                }
+                throw new Exception("trabajo no encontrado");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public void AsignarTecnico(int idSolicitud, string codTecnico, DateTime fechaInicio, DateTime fechaFin)
+        {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("UPDATE SOLICITUDES_TRABAJO SET TecnicoAsignado = @CodTecnico, Estado = 2 WHERE Id = @IdSolicitud");
+                datos.setearParametro("@CodTecnico", codTecnico);
+                datos.setearParametro("@IdSolicitud", idSolicitud);
+                datos.ejecutarAccion();
+
+                
+                datos = new AccesoDatos();
+                datos.setearConsulta("INSERT INTO FECHAS_TRABAJO (IdSolicitudTrabajo, FechaAsignacionTecnico, FechaInicio, FechaFin) VALUES (@IdSolicitud, GETDATE(), @FechaInicio, @FechaFin)");
+                datos.setearParametro("@IdSolicitud", idSolicitud);
+                datos.setearParametro("@FechaInicio", fechaInicio);
+                datos.setearParametro("@FechaFin", fechaFin);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
