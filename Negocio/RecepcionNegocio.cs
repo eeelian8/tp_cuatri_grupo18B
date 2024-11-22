@@ -4,8 +4,6 @@ using Dominio;
 using System;
 using System.Net;
 using System.Data;
-using System.Reflection;
-using System.Security.Cryptography;
 
 namespace Negocio
 {
@@ -17,7 +15,7 @@ namespace Negocio
             Recepcion cliente = null;
             try
             {
-                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE Dni = @Dni");
+                datos.setearConsulta("SELECT * FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni");
                 datos.setearParametro("@Dni", DNI);
                 datos.ejecutarLectura();
 
@@ -27,11 +25,11 @@ namespace Negocio
 
 
                     cliente.Documento = DNI;
-                    cliente.Nombre = (string)datos.Lector["Nombre"];
-                    cliente.Telefono = (int)datos.Lector["Telefono"];
-                    cliente.Direccion = (string)datos.Lector["Direccion"];
-                    cliente.Localidad = (string)datos.Lector["Localidad"];
-                    cliente.Provincia = (string)datos.Lector["Provincia"];
+                    cliente.Nombre = (string)datos.Lector["NombreCliente"];
+                    cliente.Telefono = (int)datos.Lector["TelefonoCliente"];
+                    cliente.Direccion = (string)datos.Lector["DireccionCliente"];
+                    cliente.Localidad = (string)datos.Lector["LocalidadCliente"];
+                    cliente.Provincia = (string)datos.Lector["ProvinciaCliente"];
 
                 }
 
@@ -114,6 +112,42 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        //public List<Recepcion> Listar()
+        //{
+        //    List<Recepcion> lista = new List<Recepcion>();
+
+        //    try
+        //    {
+
+        //        datos.setearConsulta("select Cli.Documento , Cli.Nombre,Cli.Telefono  Cli.Direccion, Cli.Localidad, Cli.Provincia from CLIENTES as Cli");
+        //        datos.ejecutarLectura(); ;
+
+        //        while (datos.Lector.Read())
+        //        {
+        //            Recepcion aux = new Recepcion();
+        //            aux.Documento = (string)datos.Lector["dni"];
+        //            aux.Telefono = (int)datos.Lector["Telefono"];
+        //            aux.Nombre = (string)datos.Lector["Nombre"];
+        //            aux.Direccion = (string)datos.Lector["Direccion"];
+        //            aux.Localidad = (string)datos.Lector["Localidad"];
+
+
+        //            lista.Add(aux);
+        //        }
+
+        //        return lista;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //    finally
+        //    {
+        //        datos.cerrarConexion();
+        //    }
+        //}
         public int Agregar(Recepcion cli)
         {
 
@@ -124,15 +158,11 @@ namespace Negocio
                 datos.setearConsulta("SELECT COUNT(1) FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni");
                 datos.setearParametro("@Dni", cli.Documento);
                 datos.ejecutarLectura();
-                if (datos.Lector.Read() && Convert.ToInt32(datos.Lector[0]) > 0)
-                {
-                    // El DNI ya existe
-                    return -1;
-                }
+               
                 datos.cerrarConexion();
                 datos.limpiarParametros();
 
-                datos.setearConsulta("INSERT INTO SOLICITUDES_TRABAJO (Dni, Nombre, Apellido, Descripcion, Telefono, Direccion, Localidad, Provincia, TipoTrabajo, Estado) VALUES (@Dni, @Nombre, @Apellido, @Descripcion, @Telefono, @Direccion, @Localidad, @Provincia, @TipoTrabajo, @Estado)");
+                datos.setearConsulta("INSERT INTO SOLICITUDES_TRABAJO (DniCliente, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente,IdTipoTrabajo,  Estado) VALUES (@Dni, @Nombre, @Apellido, @Descripcion, @Telefono, @Direccion, @Localidad, @Provincia, @TipoTrabajo, @Estado)");
                 datos.setearParametro("@Dni", cli.Documento);
                 datos.setearParametro("@Nombre", cli.Nombre);
                 datos.setearParametro("@Apellido", cli.Apellido);
@@ -141,7 +171,7 @@ namespace Negocio
                 datos.setearParametro("@Direccion", cli.Direccion);
                 datos.setearParametro("@Localidad", cli.Localidad);
                 datos.setearParametro("@Provincia", cli.Provincia);
-                datos.setearParametro("@TipoTrabajo", cli.TipoTrabajo);
+                datos.setearParametro("@TipoTrabajo", 2);
                 datos.setearParametro("@Estado", 1);
                 datos.ejecutarAccion();
                 return 1;
@@ -157,6 +187,27 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void Modificar(Recepcion cli)
+        {
+
+            try
+            {
+                datos.setearConsulta("update CLIENTES set Documento= @Dni , Nombre = @Nombre, Telefono = @Telefono, Direccion = @Direccion, Localidad = @Localidad, Provincia = @Provincia where Documento = @Dni ");
+                datos.setearParametro("@Dni", cli.Documento);
+                datos.setearParametro("@Nombre", cli.Nombre);
+                datos.setearParametro("@Telefono", cli.Telefono);
+                datos.setearParametro("@Direccion", cli.Direccion);
+                datos.setearParametro("@Localidad", cli.Localidad);
+                datos.setearParametro("@Provincia", cli.Provincia);
+                datos.ejecutarLectura();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
        
          public DataTable ObtenerHistorialTrabajos()
         {
@@ -164,7 +215,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT DniCliente, TT.Nombre as TipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente, Estado, TecnicoAsignado FROM SOLICITUDES_TRABAJO inner join TIPOS_TRABAJO TT on SOLICITUDES_TRABAJO.IdTipoTrabajo = TT.Id");
+                datos.setearConsulta("SELECT DniCliente,IdTipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente,  Estado FROM SOLICITUDES_TRABAJO");
 
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);
@@ -183,9 +234,11 @@ namespace Negocio
         public DataTable ObtenerHistorialCliente(string dni)
         {
             DataTable dt = new DataTable();
+
             try
             {
-                datos.setearConsulta("SELECT tt.Nombre as TipoTrabajo, DescripcionTrabajo, Estado, TecnicoAsignado FROM SOLICITUDES_TRABAJO inner join TIPOS_TRABAJO as tt on tt.Id = SOLICITUDES_TRABAJO.IdTipoTrabajo WHERE DniCliente = @Dni ORDER BY id DESC");
+                datos.setearConsulta("SELECT id, DireccionCliente, DescripcionTrabajo, Estado, TecnicoAsignado " +
+                                    "FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni ORDER BY id DESC");
                 datos.setearParametro("@Dni", dni);
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);
