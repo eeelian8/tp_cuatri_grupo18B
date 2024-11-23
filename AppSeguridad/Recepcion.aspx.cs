@@ -172,9 +172,9 @@ namespace AppSeguridad
         {
             try
             {
-                string dni = txtDni.Text.Trim();
+                int dni = int.Parse(txtDni.Text.Trim());
 
-                if (string.IsNullOrEmpty(dni))
+                if (string.IsNullOrEmpty(dni.ToString()))
                 {
                     ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
                         "alert('Por favor, ingrese un DNI para ver el historial del cliente.');", true);

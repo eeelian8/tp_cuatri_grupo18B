@@ -68,12 +68,12 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="ddlItems" class="col-sm-2 col-form-label">Tipo Trabajo :</label>
+                <label for="ddlItems" class="col-sm-2 col-form-label">Tipo Trabajo:</label>
                 <asp:DropDownList ID="ddlItems" runat="server"></asp:DropDownList>
             </div>
 
             <div class="row mb-3">
-                <label for="txtNombre" class="col-sm-2 col-form-label">Nombre :</label>
+                <label for="txtNombre" class="col-sm-2 col-form-label">Nombre Completo:</label>
                 <div class="col-sm-6">
                     <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" Placeholder="Ej: Juan Pérez"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorNombre" ControlToValidate="txtNombre" CssClass="RequiredMessage" runat="server" ErrorMessage="*El campo Nombre es obligatorio." Display="Dynamic" ForeColor="#CC0000"></asp:RequiredFieldValidator>
@@ -91,7 +91,7 @@
             </div>
 
             <div class="row mb-3">
-                <label for="txtDireccion" class="col-sm-2 col-form-label">Direccion :</label>
+                <label for="txtDireccion" class="col-sm-2 col-form-label">Direccion:</label>
                 <div class="col-sm-6">
                     <asp:TextBox ID="txtDireccion" runat="server" CssClass="form-control" Placeholder="Ej: calle Wallaby, 42"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorDireccion" ControlToValidate="txtDireccion" CssClass="RequiredMessage" runat="server" ErrorMessage="*El campo Dirección es obligatorio." Display="Dynamic" ForeColor="#CC0000"></asp:RequiredFieldValidator>
@@ -100,7 +100,7 @@
             </div>
 
             <div class="row mb-3">
-                <label for="txtLocalidad" class="col-sm-2 col-form-label">Localidad :</label>
+                <label for="txtLocalidad" class="col-sm-2 col-form-label">Localidad:</label>
                 <div class="col-sm-6">
                     <asp:TextBox ID="txtLocalidad" runat="server" CssClass="form-control" Placeholder="Ej: Tigre"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidatorLocalidad" ControlToValidate="txtLocalidad" CssClass="RequiredMessage" runat="server" ErrorMessage="*El campo Localidad es obligatorio." Display="Dynamic" ForeColor="#CC0000"></asp:RequiredFieldValidator>
@@ -109,7 +109,7 @@
             </div>
 
             <div class="row mb-3">
-                <label for="txtProvincia" class="col-sm-2 col-form-label">Provincia :</label>
+                <label for="txtProvincia" class="col-sm-2 col-form-label">Provincia:</label>
                 <div class="col-sm-6">
                     <asp:TextBox ID="txtProvincia" runat="server" CssClass="form-control" Placeholder="Ej: Buenos Aires"></asp:TextBox>
                     <asp:RequiredFieldValidator ID="RequiredFieldValidator1" ControlToValidate="txtProvincia" CssClass="RequiredMessage" runat="server" ErrorMessage="*El campo Provincia es obligatorio." Display="Dynamic" ForeColor="#CC0000"></asp:RequiredFieldValidator>

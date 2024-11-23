@@ -160,7 +160,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT DniCliente,IdTipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente,  Estado FROM SOLICITUDES_TRABAJO");
+                datos.setearConsulta("SELECT DniCliente as Dni, tt.Nombre as Trabajo, NombreCliente as Nombre, ApellidoCliente as Apellido, DescripcionTrabajo as Descripcion, TelefonoCliente as Telefono, DireccionCliente as Direccion, LocalidadCliente as Localidad, ProvinciaCliente as Provincia,  Estado FROM SOLICITUDES_TRABAJO st inner join TIPOS_TRABAJO tt on st.IdTipoTrabajo = tt.Id");
 
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);
@@ -176,14 +176,13 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public DataTable ObtenerHistorialCliente(string dni)
+        public DataTable ObtenerHistorialCliente(int dni)
         {
             DataTable dt = new DataTable();
 
             try
             {
-                datos.setearConsulta("SELECT NombreCliente,TelefonoCliente,DireccionCliente, DescripcionTrabajo, Estado, TecnicoAsignado " +
-                                    "FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni");
+                datos.setearConsulta("SELECT NombreCliente as Nombre, TelefonoCliente as Telefono, DireccionCliente as Direccion, tt.Nombre as Trabajo, DescripcionTrabajo as Descripcion, t.Nombre + ' ' + t.Apellido as Tecnico, Estado FROM SOLICITUDES_TRABAJO st inner join TECNICOS t on st.TecnicoAsignado = t.CodTecnico inner join TIPOS_TRABAJO tt on st.IdTipoTrabajo = tt.Id WHERE DniCliente = @Dni");
                 datos.setearParametro("@Dni", dni);
                 datos.ejecutarLectura();
                 dt.Load(datos.Lector);
