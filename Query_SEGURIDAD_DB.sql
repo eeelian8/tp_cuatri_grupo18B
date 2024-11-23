@@ -135,6 +135,16 @@ create table USUARIOS(
     primary key nonclustered (Usuario)
 )
 
+create table ETAPAS_TRABAJO(
+	[Id][int] identity(1,1) not null,
+	[IdTipoTrabajo][int] not null,
+	[Etapa][varchar](120) not null
+	constraint FK_etapasXtrabajo foreign key (IdTipoTrabajo)
+	references TIPOS_TRABAJO(Id)
+	on delete cascade
+	on update cascade
+)
+
 INSERT INTO dbo.[GERENTES] ([CodGerente], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
 VALUES 
 ('G001', 2, 987654321, 'Luis', 'García', 4423254);
@@ -142,7 +152,7 @@ VALUES
 INSERT INTO dbo.[TECNICOS] ([CodTecnico], [NivelRol], [Celular], [Nombre], [Apellido], [Localidad], [Provincia], [NroDocumento])
 VALUES 
 ('T001', 3, 987654321, 'Carlos', 'López', 'Pilar' ,'Buenos aires', 41565789),
-('T002', 3, 912345678, 'María', 'Fernández', 'Tigre','Buenos aires', 51565729),
+('T002', 3, 912345678, 'Maria', 'Fernández', 'Tigre','Buenos aires', 51565729),
 ('T003', 3, 923456789, 'Juan', 'Pérez', 'Lanus', 'Buenos aires', 43666219);
 
 INSERT INTO dbo.[RECEPCIONISTAS] ([CodRecepcionista], [NivelRol], [Celular], [Nombre], [Apellido], [NroDocumento])
@@ -157,4 +167,23 @@ VALUES
 ('tec002', 'tecnico2024', 3, 51565729),
 ('rec001', 'recepcion2024', 4, 22398564)
 
-select * from SOLICITUDES_TRABAJO
+INSERT INTO ETAPAS_TRABAJO (IdTipoTrabajo, Etapa)
+VALUES 
+    -- Etapas para "Instalación sistema de vigilancia de instalaciones"
+    (1, 'Evaluación de necesidades'),
+    (1, 'Diseño del sistema'),
+    (1, 'Instalación del sistema'),
+    (1, 'Pruebas y ajustes'),
+    (1, 'Capacitación al usuario'),
+    -- Etapas para "Instalación de sistemas de seguridad"
+    (2, 'Diagnóstico inicial'),
+    (2, 'Selección de equipos'),
+    (2, 'Instalación de equipos'),
+    (2, 'Configuración del sistema'),
+    (2, 'Entrega y capacitación'),
+    -- Etapas para "Monitoreo de alarmas"
+    (3, 'Configuración del panel de control'),
+    (3, 'Prueba de sensores'),
+    (3, 'Conexión al centro de monitoreo'),
+    (3, 'Verificación del sistema'),
+    (3, 'Activación y seguimiento');

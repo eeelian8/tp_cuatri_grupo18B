@@ -20,6 +20,7 @@ namespace AppSeguridad
         List<TrabajosPorTecnico> agendaXtecnico = new List<TrabajosPorTecnico>();
         TrabajosPorTecnicoNegocio agendaXtecnicoNegocio = new TrabajosPorTecnicoNegocio();
         int st = 0;
+        string ntAux = "";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -45,13 +46,14 @@ namespace AppSeguridad
                 if (tpt.FechaInicio <= Calendario.TodaysDate.Date && tpt.FechaFin >= Calendario.TodaysDate.Date)
                 {
                     lbl_Trabajo.Text = tpt.NombreTrabajo;
+                    ntAux = tpt.NombreTrabajo;
                     lbl_FechaInicio.Text = "FECHA INICIO: " + tpt.FechaInicio.ToShortDateString();
                     lbl_FechaFin.Text = "FECHA FIN: " + tpt.FechaFin.ToShortDateString();
                     st = tpt.IdTrabajo;
                 }
                 else
                 {
-                    if(tpt.FechaInicio > Calendario.TodaysDate)
+                    if (tpt.FechaInicio > Calendario.TodaysDate)
                     {
                         lbl_FechaActual.Text = Calendario.TodaysDate.Date.ToShortDateString();
                         int diasFaltantes = (tpt.FechaInicio - Calendario.TodaysDate).Days;
@@ -60,6 +62,17 @@ namespace AppSeguridad
                 }
             }
 
+            CargarTiposTrabajos(ntAux);
+
+        }
+
+        protected void CargarTiposTrabajos(string nombreTrabajo)
+        {
+            EtapasPorTrabajoNegocio etapasPorTrabajoNegocio = new EtapasPorTrabajoNegocio();
+            List<EtapasPorTrabajo> etapas = etapasPorTrabajoNegocio.ListarPorTrabajo(nombreTrabajo);
+            ddl_CambiarEstado.DataSource = etapas;
+            ddl_CambiarEstado.DataValueField = "Etapa";
+            ddl_CambiarEstado.DataBind();
         }
 
         protected void Calendario_DayRender(object sender, DayRenderEventArgs e)

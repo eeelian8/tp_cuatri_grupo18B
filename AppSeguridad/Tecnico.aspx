@@ -69,9 +69,21 @@
                         <br />
                     </div>
                     <br />
-                    <asp:Button ID="btn_verDetalle" runat="server" Text="Ver Detalle" CssClass="btn-crema" OnClick="btn_verDetalle_Click" />
-                    <asp:Button ID="btn_informar" runat="server" Text="Crear Informe" CssClass="btn-crema" OnClick="btn_informar_Click" />
-                    <asp:Button ID="btn_cambiarEstado" runat="server" Text="Cambiar estado" CssClass="btn-crema" />
+                    <div class="row">
+                        <div class="col-3"></div>
+                        <div class="col-2">
+                            <asp:Button ID="btn_verDetalle" runat="server" Text="Ver Detalle" CssClass="btn-crema" OnClick="btn_verDetalle_Click" />
+                        </div>
+                        <div class="col-2">
+                            <asp:Button ID="btn_informar" runat="server" Text="Crear Informe" CssClass="btn-crema" OnClick="btn_informar_Click" />
+                        </div>
+                        <div class="col-2">
+                            <div class="dropdown">
+                                <asp:DropDownList ID="ddl_CambiarEstado" CssClass="btn-crema" runat="server" class="btn btn-secondary dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false" ViewStateMode="Inherit"></asp:DropDownList>
+                            </div>
+                        </div>
+                        <div class="col-3"></div>
+                    </div>
                 </div>
             </div>
             <div class="col"></div>
