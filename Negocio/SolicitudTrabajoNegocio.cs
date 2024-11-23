@@ -16,7 +16,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT ST.Id, ST.DniCliente as Dni, TT.Nombre as TipoTrabajo, ST.NombreCliente as Nombre, ST.TelefonoCliente as Telefono, ST.ProvinciaCliente as Provincia, ST.LocalidadCliente as Localidad, ST.ApellidoCliente as Apellido, ST.DireccionCliente as Direccion FROM SOLICITUDES_TRABAJO ST INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id WHERE ST.Estado = 1");
+                datos.setearConsulta("SELECT ST.Id, ST.DniCliente as Dni, TT.Nombre as TipoTrabajo, ST.NombreCliente as Nombre, ST.TelefonoCliente as Telefono, ST.DescripcionTrabajo as Descripcion, ST.ProvinciaCliente as Provincia, ST.LocalidadCliente as Localidad, ST.ApellidoCliente as Apellido, ST.DireccionCliente as Direccion FROM SOLICITUDES_TRABAJO ST INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id WHERE ST.Estado = 1");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -31,6 +31,7 @@ namespace Negocio
                     aux.Provincia = (string)datos.Lector["Provincia"];
                     aux.Localidad = (string)datos.Lector["Localidad"];
                     aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
 
                     lista.Add(aux);
                 }
@@ -158,7 +159,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("select st.Id, DniCliente, tt.Nombre as TipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente, Estado from SOLICITUDES_TRABAJO as st inner join TIPOS_TRABAJO as tt on st.IdTipoTrabajo = tt.Id where Estado = 2");  // 2 = Aceptadas
+                datos.setearConsulta("select st.Id, DniCliente, tt.Nombre as TipoTrabajo, NombreCliente, ApellidoCliente, DescripcionTrabajo, TecnicoAsignado, DescripcionTrabajo ,TelefonoCliente, DireccionCliente, LocalidadCliente, ProvinciaCliente, Estado from SOLICITUDES_TRABAJO as st inner join TIPOS_TRABAJO as tt on st.IdTipoTrabajo = tt.Id where Estado = 2");  // 2 = Aceptadas
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -175,6 +176,8 @@ namespace Negocio
                     aux.Direccion = (string)datos.Lector["DireccionCliente"];
                     aux.Localidad = (string)datos.Lector["LocalidadCliente"];
                     aux.Provincia = (string)datos.Lector["ProvinciaCliente"];
+                    aux.Descripcion = (string)datos.Lector["DescripcionTrabajo"];
+                    aux.TecnicoAsignado = (string)datos.Lector["TecnicoAsignado"];
                     aux.Estado = (int)datos.Lector["Estado"];
 
                     lista.Add(aux);
