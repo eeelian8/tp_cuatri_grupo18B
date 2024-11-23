@@ -42,7 +42,7 @@ namespace AppSeguridad
 
             foreach (TrabajosPorTecnico tpt in agendaXtecnico)
             {
-                if (tpt.FechaInicio < Calendario.TodaysDate.Date && tpt.FechaFin > Calendario.TodaysDate.Date)
+                if (tpt.FechaInicio <= Calendario.TodaysDate.Date && tpt.FechaFin >= Calendario.TodaysDate.Date)
                 {
                     lbl_Trabajo.Text = tpt.NombreTrabajo;
                     lbl_FechaInicio.Text = "FECHA INICIO: " + tpt.FechaInicio.ToShortDateString();
