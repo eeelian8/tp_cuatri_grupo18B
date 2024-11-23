@@ -8,9 +8,15 @@ namespace Dominio
 {
     public class TipoTrabajo
     {
-        
-            public string Nombre { get; set; }
-            
-       
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public int DuracionCantDias { get; set; }
+
+        // Sobreescribir ToString para mostrar el nombre en el DropDownList
+        public override string ToString()
+        {
+            return Nombre;
+        }
     }
 }

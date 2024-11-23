@@ -20,6 +20,7 @@ namespace Dominio
         public string Localidad { get; set; }
         public string Provincia { get; set; }
         public string TipoTrabajo { get; set; }
+        public int IdTipoTrabajo { get; set; }
         public string Descripcion { get; set; }
         public int Estado { get; set; }
         public int NroDocumento { get; set; }

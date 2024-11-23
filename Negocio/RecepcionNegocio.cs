@@ -52,14 +52,17 @@ namespace Negocio
             List<TipoTrabajo> lista = new List<TipoTrabajo>();
             try
             {
-                datos.setearConsulta("SELECT Nombre FROM TIPOS_TRABAJO");
+                datos.setearConsulta("SELECT Id, Nombre, Descripcion, DuracionCantDias FROM TIPOS_TRABAJO");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
                 {
                     lista.Add(new TipoTrabajo
                     {
-                        Nombre = (string)datos.Lector["Nombre"]
+                        Id = (int)datos.Lector["Id"],
+                        Nombre = (string)datos.Lector["Nombre"],
+                        Descripcion = datos.Lector["Descripcion"] != DBNull.Value ? (string)datos.Lector["Descripcion"] : null,
+                        DuracionCantDias = (int)datos.Lector["DuracionCantDias"]
                     });
                 }
 
@@ -73,7 +76,6 @@ namespace Negocio
             {
                 datos.cerrarConexion();
             }
-
         }
 
         public List<Recepcion> Listar()
@@ -152,17 +154,91 @@ namespace Negocio
             }
         }
 
-      
-       
-         public DataTable ObtenerHistorialTrabajos()
-        {
-            DataTable dt = new DataTable();
 
+
+        public DataTable ObtenerHistorialTrabajos()
+        {
             try
             {
-                datos.setearConsulta("SELECT DniCliente as Dni, tt.Nombre as Trabajo, NombreCliente as Nombre, ApellidoCliente as Apellido, DescripcionTrabajo as Descripcion, TelefonoCliente as Telefono, DireccionCliente as Direccion, LocalidadCliente as Localidad, ProvinciaCliente as Provincia,  Estado FROM SOLICITUDES_TRABAJO st inner join TIPOS_TRABAJO tt on st.IdTipoTrabajo = tt.Id");
+                datos.setearConsulta(@"SELECT ST.Id,
+                                     ST.DniCliente,
+                                     ST.NombreCliente,
+                                     ST.ApellidoCliente,
+                                     ST.DescripcionTrabajo,
+                                     ST.TelefonoCliente,
+                                     ST.DireccionCliente,
+                                     ST.LocalidadCliente,
+                                     ST.ProvinciaCliente,
+                                     CASE ST.Estado 
+                                        WHEN 1 THEN 'Pendiente'
+                                        WHEN 2 THEN 'En Proceso'
+                                        WHEN 3 THEN 'Completado'
+                                        ELSE 'Desconocido'
+                                     END as EstadoDescripcion,
+                                     ST.TecnicoAsignado,
+                                     TT.Nombre as TipoTrabajo
+                              FROM SOLICITUDES_TRABAJO ST
+                              LEFT JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id
+                              ORDER BY ST.Id DESC");
 
                 datos.ejecutarLectura();
+
+                
+                DataTable dt = new DataTable();
+                dt.Load(datos.Lector);
+
+                // Log para debugging
+                Console.WriteLine($"Registros recuperados: {dt.Rows.Count}");
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public DataTable ObtenerHistorialCliente(string dni)
+        {
+            try
+            {
+                datos.setearConsulta("SELECT NombreCliente, DireccionCliente, DescripcionTrabajo, Estado, TecnicoAsignado " +
+                                    "FROM SOLICITUDES_TRABAJO WHERE DniCliente = @Dni");
+                datos.setearParametro("@Dni", dni); 
+                datos.ejecutarLectura();
+
+                DataTable dt = new DataTable();
+                dt.Load(datos.Lector);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public DataTable ObtenerReportesTrabajo(int idTrabajo)
+        {
+            try
+            {
+                datos.setearConsulta(@"SELECT RT.Id,
+                                     RT.FechaReporte,
+                                     RT.DescripcionReporte
+                              FROM REPORTES_TRABAJO RT
+                              WHERE RT.IdSolicitudTrabajo = @IdTrabajo
+                              ORDER BY RT.FechaReporte DESC");
+
+                datos.setearParametro("@IdTrabajo", idTrabajo);
+                datos.ejecutarLectura();
+
+                DataTable dt = new DataTable();
                 dt.Load(datos.Lector);
 
                 return dt;
@@ -176,17 +252,38 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public DataTable ObtenerHistorialCliente(int dni)
+        public DataTable ObtenerHistorialTrabajosPorId(int idSolicitud)
         {
-            DataTable dt = new DataTable();
-
             try
             {
-                datos.setearConsulta("SELECT NombreCliente as Nombre, TelefonoCliente as Telefono, DireccionCliente as Direccion, tt.Nombre as Trabajo, DescripcionTrabajo as Descripcion, t.Nombre + ' ' + t.Apellido as Tecnico, Estado FROM SOLICITUDES_TRABAJO st inner join TECNICOS t on st.TecnicoAsignado = t.CodTecnico inner join TIPOS_TRABAJO tt on st.IdTipoTrabajo = tt.Id WHERE DniCliente = @Dni");
-                datos.setearParametro("@Dni", dni);
-                datos.ejecutarLectura();
-                dt.Load(datos.Lector);
+                datos.setearConsulta(
+                    @"SELECT ST.Id,
+                     ST.DniCliente,
+                     ST.NombreCliente,
+                     ST.ApellidoCliente,
+                     ST.DescripcionTrabajo,
+                     ST.TelefonoCliente,
+                     ST.DireccionCliente,
+                     ST.LocalidadCliente,
+                     ST.ProvinciaCliente,
+                     CASE ST.Estado 
+                        WHEN 1 THEN 'Pendiente'
+                        WHEN 2 THEN 'En Proceso'
+                        WHEN 3 THEN 'Completado'
+                        ELSE 'Desconocido'
+                     END as EstadoDescripcion,
+                     ST.TecnicoAsignado,
+                     TT.Nombre as TipoTrabajo,
+                     (SELECT COUNT(*) FROM REPORTES_TRABAJO RT WHERE RT.IdSolicitudTrabajo = ST.Id) as CantidadReportes
+              FROM SOLICITUDES_TRABAJO ST
+              LEFT JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id
+              WHERE ST.Id = @IdSolicitud");
 
+                datos.setearParametro("@IdSolicitud", idSolicitud);
+                datos.ejecutarLectura();
+
+                DataTable dt = new DataTable();
+                dt.Load(datos.Lector);
                 return dt;
             }
             catch (Exception ex)
@@ -198,8 +295,35 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public bool ExistenReportesTecnico(int idSolicitud)
+        {
+            try
+            {
+                datos.setearConsulta("SELECT COUNT(*) FROM REPORTES_TRABAJO WHERE IdSolicitudTrabajo = @IdSolicitud");
+                datos.setearParametro("@IdSolicitud", idSolicitud);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    int cantidad = Convert.ToInt32(datos.Lector[0]);
+                    return cantidad > 0;
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
+
     
 
 

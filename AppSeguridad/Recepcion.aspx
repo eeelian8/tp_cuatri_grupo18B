@@ -70,9 +70,23 @@
                     <asp:TextBox ID="txtFechaCarga" runat="server" CssClass="form-control" ReadOnly="true"></asp:TextBox>
                 </div>
             </div>
-            <div class="mb-3">
+            <div class="row mb-3">
                 <label for="ddlItems" class="col-sm-2 col-form-label">Tipo Trabajo:</label>
-                <asp:DropDownList ID="ddlItems" runat="server"></asp:DropDownList>
+                <div class="col-sm-6">
+                    <asp:DropDownList ID="ddlItems" runat="server"
+                        CssClass="form-select"
+                        AppendDataBoundItems="false">
+                    </asp:DropDownList>
+                    <asp:RequiredFieldValidator ID="rfvTipoTrabajo"
+                        ControlToValidate="ddlItems"
+                        InitialValue="0"
+                        ErrorMessage="*Debe seleccionar un tipo de trabajo"
+                        runat="server"
+                        Display="Dynamic"
+                        ForeColor="#CC0000"
+                        CssClass="RequiredMessage">
+                    </asp:RequiredFieldValidator>
+                </div>
             </div>
 
             <div class="row mb-3">
@@ -148,72 +162,112 @@
         </div>
     </div>
 
-   <!-- Modal Historial General -->
-<div class="modal fade" id="modalHistorial" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalHistorialLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalHistorialLabel">Historial de Trabajos</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-                    <ContentTemplate>
-                        <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
-                            <asp:GridView ID="dgvHistorial" runat="server"
-                                CssClass="table table-bordered table-striped table-hover"
-                                AutoGenerateColumns="True"
-                                GridLines="None"
-                                AllowPaging="True"
-                                PageSize="15"
-                                OnPageIndexChanging="dgvHistorial_PageIndexChanging"
-                                CellPadding="4">
-                                <HeaderStyle CssClass="table-dark sticky-top" />
-                                <RowStyle CssClass="align-middle" />
-                                <AlternatingRowStyle CssClass="table-light" />
-                                <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
-                                <PagerTemplate>
-                                    <div class="d-flex justify-content-center align-items-center gap-2 my-2">
-                                        <asp:LinkButton ID="PreviousPage" runat="server"
-                                            CommandName="Page"
-                                            CommandArgument="Prev"
-                                            CssClass="btn btn-sm btn-outline-secondary"
-                                            Enabled="<%# ((GridView)Container.Parent.Parent).PageIndex > 0 %>">
-                                            <span aria-hidden="true">&laquo;</span> Anterior
-                                        </asp:LinkButton>
-
-                                        <span class="mx-2">
-                                            Página <%# ((GridView)Container.Parent.Parent).PageIndex + 1 %> 
-                                            de <%# ((GridView)Container.Parent.Parent).PageCount %>
-                                        </span>
-
-                                        <asp:LinkButton ID="NextPage" runat="server"
-                                            CommandName="Page"
-                                            CommandArgument="Next"
-                                            CssClass="btn btn-sm btn-outline-secondary"
-                                            Enabled="<%# ((GridView)Container.Parent.Parent).PageIndex < ((GridView)Container.Parent.Parent).PageCount - 1 %>">
-                                            Siguiente <span aria-hidden="true">&raquo;</span>
-                                        </asp:LinkButton>
+    <!-- Modal Historial General -->
+    <div class="modal fade" id="modalHistorial" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalHistorialLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalHistorialLabel">Historial de Trabajos</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <!-- Filtro -->
+                            <div class="row mb-3">
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <asp:TextBox ID="txtFiltroId" runat="server" CssClass="form-control" placeholder="Ingrese ID de solicitud" />
+                                        <asp:Button ID="btnFiltrar" runat="server" Text="Buscar" OnClick="btnFiltrar_Click" CssClass="btn-crema" CausesValidation="false" />
+                                        <asp:Button ID="btnLimpiarFiltro" runat="server" Text="Limpiar" OnClick="btnLimpiarFiltro_Click" CssClass="btn btn-secondary" CausesValidation="false" />
                                     </div>
-                                </PagerTemplate>
-                            </asp:GridView>
-                        </div>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="btnHistorial" EventName="Click" />
-                        <asp:AsyncPostBackTrigger ControlID="dgvHistorial" EventName="PageIndexChanging" />
-                    </Triggers>
-                </asp:UpdatePanel>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+
+                            <!-- GridView Principal -->
+                            <div class="table-responsive">
+                                <asp:GridView ID="dgvHistorial" runat="server"
+                                    CssClass="table table-bordered table-striped table-hover"
+                                    AutoGenerateColumns="False"
+                                    GridLines="None"
+                                    AllowPaging="True"
+                                    PageSize="20"
+                                    OnPageIndexChanging="dgvHistorial_PageIndexChanging"
+                                    DataKeyNames="Id">
+                                    <Columns>
+                                        <asp:BoundField DataField="Id" HeaderText="ID" />
+                                        <asp:BoundField DataField="DniCliente" HeaderText="DNI" />
+                                        <asp:BoundField DataField="NombreCliente" HeaderText="Nombre" />
+                                        <asp:BoundField DataField="ApellidoCliente" HeaderText="Apellido" />
+                                        <asp:BoundField DataField="TipoTrabajo" HeaderText="Tipo" />
+                                        <asp:BoundField DataField="DescripcionTrabajo" HeaderText="Descripción" />
+                                        <asp:BoundField DataField="EstadoDescripcion" HeaderText="Estado" />
+                                        <asp:BoundField DataField="TecnicoAsignado" HeaderText="Técnico" />
+                                        <asp:TemplateField HeaderText="Acciones">
+                                            <ItemTemplate>
+                                                <asp:Button ID="btnVerReportes" runat="server"
+                                                    Text="Ver Reportes"
+                                                    CssClass="btn-crema"
+                                                    OnClick="btnVerReportes_Click"
+                                                    CommandArgument='<%# Eval("Id") %>'
+                                                    CausesValidation="false" />
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                    <HeaderStyle CssClass="table-dark sticky-top" />
+                                    <RowStyle CssClass="align-middle" />
+                                    <AlternatingRowStyle CssClass="table-light" />
+                                    <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+                                </asp:GridView>
+                            </div>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="btnHistorial" EventName="Click" />
+                            <asp:AsyncPostBackTrigger ControlID="btnFiltrar" EventName="Click" />
+                            <asp:AsyncPostBackTrigger ControlID="btnLimpiarFiltro" EventName="Click" />
+                            <asp:AsyncPostBackTrigger ControlID="dgvHistorial" EventName="PageIndexChanging" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-    <!-- Modal Historial Cliente -->
-    <div class="modal fade" id="modalHistorialCliente" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalHistorialClienteLabel" aria-hidden="true">
+    <!-- Modal para Reportes -->
+    <div class="modal fade" id="modalReportes" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reportes del Trabajo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <asp:GridView ID="dgvReportes" runat="server"
+                                CssClass="table table-bordered"
+                                AutoGenerateColumns="False"
+                                EmptyDataText="No hay reportes para este trabajo">
+                                <Columns>
+                                    <asp:BoundField DataField="FechaReporte" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy}" />
+                                    <asp:BoundField DataField="DescripcionReporte" HeaderText="Descripción" />
+                                </Columns>
+                                <HeaderStyle CssClass="table-dark" />
+                                <RowStyle CssClass="align-middle" />
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modalHistorialCliente" tabindex="-1" aria-labelledby="modalHistorialClienteLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -249,7 +303,7 @@
             </div>
         </div>
     </div>
-
+    <!-- script necesarios -->
     <script type="text/javascript">
         var prm = Sys.WebForms.PageRequestManager.getInstance();
 
@@ -298,4 +352,53 @@
             initializeModals();
         });
     </script>
+    <style>
+        /* Estilos para la tabla responsive */
+        .table-responsive {
+            max-height: 60vh;
+            overflow-y: auto;
+            overflow-x: auto;
+        }
+
+        /* Estilos para el header fijo */
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            background-color: #343a40;
+        }
+
+        /* Estilos para la paginación */
+        .pagination-ys {
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        /* Ajustar ancho máximo del modal-xl */
+        @media (min-width: 1200px) {
+            .modal-xl {
+                max-width: 1140px;
+            }
+        }
+
+        /* Estilos para las celdas de la tabla */
+        .table td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 200px; /* ajusta según necesites */
+        }
+
+            /* Estilo para la descripción (permite múltiples líneas) */
+            .table td[data-field="DescripcionTrabajo"] {
+                white-space: normal;
+                min-width: 200px;
+            }
+
+        /* Ajustes para el dropdown */
+        .form-select {
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+        }
+    </style>
 </asp:Content>
