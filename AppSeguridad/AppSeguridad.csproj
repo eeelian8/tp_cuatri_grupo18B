@@ -70,6 +70,7 @@
     <Content Include="Administrador.aspx" />
     <Content Include="AsignarTecnico.aspx" />
     <Content Include="HistorialTareas.aspx" />
+    <Content Include="Images\LogoPrincipal.png" />
     <Content Include="Images\logotipo.png" />
     <Content Include="Images\logoUsuario.png" />
     <Content Include="Recepcion.aspx" />
