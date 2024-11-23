@@ -36,6 +36,8 @@ namespace AppSeguridad
         }
         protected void gv_solicitudes_SelectedIndexChanged(object sender, EventArgs e)
         {
+            Button botonSelected = (Button)gv_solicitudes.SelectedRow.FindControl("btnSelect");
+            botonSelected.CssClass = "btn btn-primary btn-sm";//cambia su cssClass a primary
 
             int idSolicitud = Convert.ToInt32(gv_solicitudes.SelectedRow.Cells[0].Text); //ID solicitud TIENE que estar en pos[0]
             Session["IdSolicitudSeleccionada"] = idSolicitud;

@@ -18,7 +18,7 @@
                 <asp:TemplateField>
                     <ItemTemplate>
                         <asp:Button ID="btnSelect" runat="server" CommandName="Select" 
-                            Text="Seleccionar" CssClass="btn btn-primary btn-sm"/>
+                            Text="Seleccionar" CssClass="btn btn-secondary btn-sm"/>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>

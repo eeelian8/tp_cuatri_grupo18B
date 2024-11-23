@@ -9,7 +9,8 @@
             <div class="col">
                 <asp:Calendar ID="calFecha" runat="server" BackColor="White" 
                     OnSelectionChanged="calFecha_SelectionChanged" 
-                    OnDayRender="calFecha_DayRender">
+                    OnDayRender="calFecha_DayRender"
+                    Width="70%">
                 </asp:Calendar>
             </div>
         </div>
@@ -21,7 +22,7 @@
                     <ItemTemplate>
                         <div class="card mb-2">
                             <div class="card-body">
-                                <asp:RadioButton ID="rbTecnico" runat="server" GroupName="tecnicos" />
+                                <asp:RadioButton ID="rbTecnico" runat="server" GroupName="tecnicos"/>
                                 <asp:Label ID="lblNombreTecnico" runat="server"></asp:Label>
                             </div>
                         </div>

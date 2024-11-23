@@ -27,9 +27,10 @@ namespace AppSeguridad
             // Deshabilitar fechas pasadas
             if (e.Day.Date < DateTime.Today)
             {
-                e.Day.IsSelectable = false;
+                e.Day.IsSelectable = false; //selectablen't
                 e.Cell.ForeColor = System.Drawing.Color.Gray;
             }
+
         }
 
         protected void calFecha_SelectionChanged(object sender, EventArgs e)
@@ -50,23 +51,30 @@ namespace AppSeguridad
                 Response.Write(ex.Message);
             }
         }
-
+        //cuando cambia seleccion tecnico
+        protected void rbTecnico_CheckedChanged(object sender, EventArgs e)
+        {
+            
+            RadioButton radioSeleccionado = (RadioButton)sender;
+            //Session["CodigoTecnicoSeleccionado"] = radioSeleccionado.ID;
+        }
         protected void btnAsignar_Click(object sender, EventArgs e)
         {
             try
             {
                 string codTecnicoSeleccionado = null;
+
                 foreach (RepeaterItem item in repTecnicos.Items)
                 {
                     RadioButton rb = (RadioButton)item.FindControl("rbTecnico");
                     if (rb != null && rb.Checked)
                     {
-                        codTecnicoSeleccionado = rb.Attributes["value"];
+                        codTecnicoSeleccionado = rb.Attributes["codTecnico"];
                         break;
                     }
                 }
 
-                if (codTecnicoSeleccionado == null)
+                if (string.IsNullOrEmpty(codTecnicoSeleccionado))
                 {
                     Response.Write("Seleccione un técnico");
                     return;
@@ -97,13 +105,8 @@ namespace AppSeguridad
                     RadioButton rb = (RadioButton)e.Item.FindControl("rbTecnico");
                     Label lbl = (Label)e.Item.FindControl("lblNombreTecnico");
 
-                    // debug
-                    Response.Write("CodTecnico: " + dataItem.CodTecnico + "<br/>");
-
-                    // guardar CodTecnico
-                    rb.ID = dataItem.CodTecnico;
-                    rb.Attributes["value"] = dataItem.CodTecnico; //guardar valor xqe NO SE MANTENIA
-                    lbl.Text = dataItem.Nombre + " " + dataItem.Apellido + " - " + dataItem.Localidad;
+                    rb.Attributes["codTecnico"] = dataItem.CodTecnico; // Mantiene bn el atrib
+                    lbl.Text = dataItem.Apellido + ", " + dataItem.Nombre + " - " + dataItem.Localidad;
                 }
             }
             catch (Exception ex)
