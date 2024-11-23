@@ -44,8 +44,16 @@ namespace AppSeguridad
             try
             {
                 DataTable dtHistorial = clienteNegocio.ObtenerHistorialTrabajos();
+
                 dgvHistorial.DataSource = dtHistorial;
                 dgvHistorial.DataBind();
+
+                // Opcional: Mostrar mensaje si no hay datos
+                if (dtHistorial.Rows.Count == 0)
+                {
+                    ScriptManager.RegisterStartupScript(this, GetType(), "ShowInfo",
+                        "alert('No hay registros para mostrar.');", true);
+                }
             }
             catch (Exception ex)
             {
@@ -194,6 +202,20 @@ namespace AppSeguridad
                     $"alert('Error al cargar el historial del cliente: {ex.Message}');", true);
             }
         }
+        protected void dgvHistorial_PageIndexChanging(object sender, GridViewPageEventArgs e)
+    {
+        try
+        {
+            dgvHistorial.PageIndex = e.NewPageIndex;
+            CargarHistorialTrabajos();
+            UpdatePanel1.Update();
+        }
+        catch (Exception ex)
+        {
+            ScriptManager.RegisterStartupScript(this, GetType(), "ShowError",
+                $"alert('Error al cambiar de página: {ex.Message}');", true);
+        }
+    }
 
 
     }

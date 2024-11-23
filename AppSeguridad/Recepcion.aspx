@@ -145,43 +145,69 @@
         </div>
     </div>
 
-    <!-- Modal Historial General -->
-    <div class="modal fade" id="modalHistorial" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalHistorialLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalHistorialLabel">Historial de Trabajos</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-                        <ContentTemplate>
-                            <div class="table-responsive">
-                                <asp:GridView ID="dgvHistorial" runat="server"
-                                    CssClass="table table-bordered table-striped table-hover"
-                                    AutoGenerateColumns="True"
-                                    GridLines="None"
-                                    AllowPaging="True"
-                                    PageSize="10"
-                                    CellPadding="4">
-                                    <HeaderStyle CssClass="table-dark" />
-                                    <RowStyle CssClass="align-middle" />
-                                    <AlternatingRowStyle CssClass="table-light" />
-                                    <PagerStyle CssClass="pagination-ys" />
-                                </asp:GridView>
-                            </div>
-                        </ContentTemplate>
-                        <Triggers>
-                            <asp:AsyncPostBackTrigger ControlID="btnHistorial" EventName="Click" />
-                        </Triggers>
-                    </asp:UpdatePanel>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                </div>
+   <!-- Modal Historial General -->
+<div class="modal fade" id="modalHistorial" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalHistorialLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalHistorialLabel">Historial de Trabajos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>
+                        <div class="table-responsive" style="max-height: 60vh; overflow-y: auto;">
+                            <asp:GridView ID="dgvHistorial" runat="server"
+                                CssClass="table table-bordered table-striped table-hover"
+                                AutoGenerateColumns="True"
+                                GridLines="None"
+                                AllowPaging="True"
+                                PageSize="15"
+                                OnPageIndexChanging="dgvHistorial_PageIndexChanging"
+                                CellPadding="4">
+                                <HeaderStyle CssClass="table-dark sticky-top" />
+                                <RowStyle CssClass="align-middle" />
+                                <AlternatingRowStyle CssClass="table-light" />
+                                <PagerStyle CssClass="pagination-ys" HorizontalAlign="Center" />
+                                <PagerTemplate>
+                                    <div class="d-flex justify-content-center align-items-center gap-2 my-2">
+                                        <asp:LinkButton ID="PreviousPage" runat="server"
+                                            CommandName="Page"
+                                            CommandArgument="Prev"
+                                            CssClass="btn btn-sm btn-outline-secondary"
+                                            Enabled="<%# ((GridView)Container.Parent.Parent).PageIndex > 0 %>">
+                                            <span aria-hidden="true">&laquo;</span> Anterior
+                                        </asp:LinkButton>
+
+                                        <span class="mx-2">
+                                            Página <%# ((GridView)Container.Parent.Parent).PageIndex + 1 %> 
+                                            de <%# ((GridView)Container.Parent.Parent).PageCount %>
+                                        </span>
+
+                                        <asp:LinkButton ID="NextPage" runat="server"
+                                            CommandName="Page"
+                                            CommandArgument="Next"
+                                            CssClass="btn btn-sm btn-outline-secondary"
+                                            Enabled="<%# ((GridView)Container.Parent.Parent).PageIndex < ((GridView)Container.Parent.Parent).PageCount - 1 %>">
+                                            Siguiente <span aria-hidden="true">&raquo;</span>
+                                        </asp:LinkButton>
+                                    </div>
+                                </PagerTemplate>
+                            </asp:GridView>
+                        </div>
+                    </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="btnHistorial" EventName="Click" />
+                        <asp:AsyncPostBackTrigger ControlID="dgvHistorial" EventName="PageIndexChanging" />
+                    </Triggers>
+                </asp:UpdatePanel>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Modal Historial Cliente -->
     <div class="modal fade" id="modalHistorialCliente" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalHistorialClienteLabel" aria-hidden="true">
