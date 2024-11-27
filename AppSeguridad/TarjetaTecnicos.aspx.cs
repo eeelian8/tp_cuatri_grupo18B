@@ -26,5 +26,9 @@ namespace AppSeguridad
             TecnicoNegocio negocio = new TecnicoNegocio();
             ListaTecnicos = negocio.ListarTecnicos();
         }
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Gerente.aspx");
+        }
     }
 }

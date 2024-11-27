@@ -231,13 +231,14 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        public List<Tecnico> ListarTecnicosDisponibles(DateTime fecha)
+        public List<Tecnico> ListarTecnicosDisponibles(DateTime fecha, int duracionDias)
         {
             List<Tecnico> lista = new List<Tecnico>();
             AccesoDatos datos = new AccesoDatos();
 
             try
             {
+                DateTime fechaFin = fecha.AddDays(duracionDias);
 
                 string consulta = @"SELECT DISTINCT t.CodTecnico, t.NivelRol, t.Celular, t.Nombre, t.Apellido, t.Localidad, t.Provincia, t.NroDocumento 
                               FROM TECNICOS t
@@ -245,11 +246,14 @@ namespace Negocio
                                   SELECT ST.TecnicoAsignado 
                                   FROM SOLICITUDES_TRABAJO ST
                                   INNER JOIN FECHAS_TRABAJO FT ON ST.Id = FT.IdSolicitudTrabajo
-                                  WHERE @Fecha BETWEEN FT.FechaInicio AND FT.FechaFin
+                                  WHERE (@Fecha BETWEEN FT.FechaInicio AND FT.FechaFin)
+                                    OR (@FechaFin BETWEEN FT.FechaInicio AND FT.FechaFin)
+                                    OR  (FT.FechaInicio BETWEEN @Fecha AND @FechaFin)
                               )";
 
                 datos.setearConsulta(consulta);
                 datos.setearParametro("@Fecha", fecha);
+                datos.setearParametro("@FechaFin", fechaFin);
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())

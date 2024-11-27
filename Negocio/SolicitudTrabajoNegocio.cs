@@ -16,7 +16,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("SELECT ST.Id, ST.DniCliente as Dni, TT.Nombre as TipoTrabajo, ST.NombreCliente as Nombre, ST.TelefonoCliente as Telefono, ST.DescripcionTrabajo as Descripcion, ST.ProvinciaCliente as Provincia, ST.LocalidadCliente as Localidad, ST.ApellidoCliente as Apellido, ST.DireccionCliente as Direccion FROM SOLICITUDES_TRABAJO ST INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id WHERE ST.Estado = 1");
+                datos.setearConsulta("SELECT ST.Id, ST.DniCliente as Dni, TT.Nombre as TipoTrabajo, ST.NombreCliente as Nombre, ST.TelefonoCliente as Telefono, ST.DescripcionTrabajo as Descripcion, TT.DuracionCantDias as DuracionDias, ST.ProvinciaCliente as Provincia, ST.LocalidadCliente as Localidad, ST.ApellidoCliente as Apellido, ST.DireccionCliente as Direccion FROM SOLICITUDES_TRABAJO ST INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id WHERE ST.Estado = 1");
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -24,7 +24,7 @@ namespace Negocio
                     SolicitudTrabajo aux = new SolicitudTrabajo();
                     aux.Id = (int)datos.Lector["Id"];
                     aux.Dni = (int)datos.Lector["Dni"];
-                    aux.TipoTrabajo = (string)datos.Lector["TipoTrabajo"];
+                    aux.TipoTrabajo = (string)datos.Lector["TipoTrabajo"] + " (" +datos.Lector["DuracionDias"].ToString() + " días)";
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Telefono = (int)datos.Lector["Telefono"];
@@ -122,7 +122,7 @@ namespace Negocio
             SolicitudTrabajo solicitud = null;
             try
             {
-                datos.setearConsulta("SELECT ST.Id, ST.DniCliente as Dni, TT.Nombre as TipoTrabajo, ST.NombreCliente as Nombre, ST.TelefonoCliente as Telefono, ST.ProvinciaCliente as Provincia, ST.LocalidadCliente as Localidad, ST.ApellidoCliente as Apellido, ST.DireccionCliente as Direccion FROM SOLICITUDES_TRABAJO ST INNER JOIN TIPOS_TRABAJO TT ON ST.IdTipoTrabajo = TT.Id WHERE St.Id = 1");
+                datos.setearConsulta("SELECT soli.Id, soli.DniCliente as Dni, TT.Nombre as TipoTrabajo, soli.NombreCliente as Nombre, soli.TelefonoCliente as Telefono, soli.ProvinciaCliente as Provincia, soli.LocalidadCliente as Localidad, soli.ApellidoCliente as Apellido, soli.DireccionCliente as Direccion, soli.DescripcionTrabajo as Descripcion, soli.Estado  FROM SOLICITUDES_TRABAJO as soli INNER JOIN TIPOS_TRABAJO as TT ON soli.IdTipoTrabajo = TT.Id WHERE soli.Id = @Id");
                 datos.setearParametro("@Id", id);
                 datos.ejecutarLectura();
 

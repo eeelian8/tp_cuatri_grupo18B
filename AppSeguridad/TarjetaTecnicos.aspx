@@ -5,6 +5,10 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container mt-4">
+        <div class="mb-3">
+        <asp:Button ID="btnVolver" runat="server" Text="Volver" 
+            CssClass="btn btn-secondary" OnClick="btnVolver_Click" />
+     </div>
         <div class="row">
             <% foreach (var tecnico in ListaTecnicos) { %>
                 <div class="col-md-4 mb-4">

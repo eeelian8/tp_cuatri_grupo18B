@@ -10,8 +10,12 @@
             <Columns>
                 <asp:BoundField DataField="Id" HeaderText="ID" />
                 <asp:BoundField DataField="Dni" HeaderText="DNI" />
-                <asp:BoundField DataField="TipoTrabajo" HeaderText="Tipo de Trabajo" />
+                <asp:BoundField DataField="TipoTrabajo" HeaderText="Tipo de Trabajo y Duracion" />
                 <asp:BoundField DataField="Nombre" HeaderText="Cliente" />
+
+                <asp:BoundField DataField="Descripcion" HeaderText="Descripcion" />
+
+
                 <asp:BoundField DataField="Telefono" HeaderText="Nro Tel" />
                 <asp:BoundField DataField="Provincia" HeaderText="Prov" />
                 <asp:BoundField DataField="Localidad" HeaderText="Localidad" />

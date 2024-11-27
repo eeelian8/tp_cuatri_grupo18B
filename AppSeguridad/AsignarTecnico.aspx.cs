@@ -16,24 +16,88 @@ namespace AppSeguridad
         {
             if (!IsPostBack)
             {
-                calFecha.SelectedDate = DateTime.Today; //solo fecha desde hoy
+                calendarioFecha.SelectedDate = DateTime.Today; //solo fecha desde hoy
                 
                 CargarTecnicosDisponibles();
+                CargarDataTarea();
             }
         }
 
-        protected void calFecha_DayRender(object sender, DayRenderEventArgs e)
+        private void CargarDataTarea()
         {
-            // Deshabilitar fechas pasadas
-            if (e.Day.Date < DateTime.Today)
+            try
             {
-                e.Day.IsSelectable = false; //selectablen't
-                e.Cell.ForeColor = System.Drawing.Color.Gray;
+                if (Session["IdSolicitudSeleccionada"] != null)
+                {
+                    int idSolicitud = (int)Session["IdSolicitudSeleccionada"];
+                    SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+                    SolicitudTrabajo solicitud = negocio.Buscar(idSolicitud);
+
+                    if (solicitud != null)
+                    {
+                        lblTT.Text = solicitud.TipoTrabajo;
+                        lblCliente.Text = solicitud.Nombre + " " + solicitud.Apellido;
+                        lblTelefono.Text = solicitud.Telefono.ToString();
+                        lblDireccion.Text = solicitud.Direccion + ", " + solicitud.Localidad;
+
+                        lblDescripcion.Text = "Descripción: " + solicitud.Descripcion;
+
+                        int duracionDias = negocio.ObtenerDuracionTrabajo(idSolicitud);
+                        lblDuracion.Text = duracionDias + " dias";
+                    }
+                    else
+                    {
+                        Response.Write("Solicitud es null");
+                    }
+
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Response.Write("Error al cargar detalles de la tarea: " + ex.Message);
+            }
+        }
+
+        protected void calendarioFecha_DayRender(object sender, DayRenderEventArgs dia)
+        {
+            try
+            {
+
+                // Deshabilitar fechas pasadas
+                if (dia.Day.Date < DateTime.Today)
+                {
+                    dia.Day.IsSelectable = false; //selectablen't
+                    dia.Cell.ForeColor = System.Drawing.Color.Gray;
+                }
+
+                int idSolicitud = (int)Session["IdSolicitudSeleccionada"];
+                SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+                int duracionTrabajo = negocio.ObtenerDuracionTrabajo(idSolicitud);
+
+                DateTime fechaFin = calendarioFecha.SelectedDate.AddDays(duracionTrabajo - 1);
+                if (dia.Day.Date == calendarioFecha.SelectedDate)
+                {
+
+                    dia.Cell.BackColor = System.Drawing.Color.LightCyan;
+                    dia.Cell.ForeColor = System.Drawing.Color.Black;
+                }
+                if (dia.Day.Date > calendarioFecha.SelectedDate && dia.Day.Date <= fechaFin)
+                {
+                    dia.Cell.BackColor = System.Drawing.Color.LightBlue;
+                    dia.Cell.ForeColor = System.Drawing.Color.Black;
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                Response.Write("error de coloreo calendario: " + ex.Message);
             }
 
         }
 
-        protected void calFecha_SelectionChanged(object sender, EventArgs e)
+        protected void calendarioFecha_SelectionChanged(object sender, EventArgs e)
         {
             CargarTecnicosDisponibles(); 
         }
@@ -42,13 +106,17 @@ namespace AppSeguridad
         {
             try
             {
-                TecnicoNegocio negocio = new TecnicoNegocio();
-                repTecnicos.DataSource = negocio.ListarTecnicosDisponibles(calFecha.SelectedDate);
+                int idSolicitud = (int)Session["IdSolicitudSeleccionada"];
+                SolicitudTrabajoNegocio solicitudNegocio = new SolicitudTrabajoNegocio();
+                int duracionDias = solicitudNegocio.ObtenerDuracionTrabajo(idSolicitud);
+
+                TecnicoNegocio tecnoNegocio = new TecnicoNegocio();
+                repTecnicos.DataSource = tecnoNegocio.ListarTecnicosDisponibles(calendarioFecha.SelectedDate, duracionDias);
                 repTecnicos.DataBind();
             }
             catch (Exception ex)
             {
-                Response.Write(ex.Message);
+                Response.Write("error al mostrar tecnicos disponibles" + ex.Message);
             }
         }
         //cuando cambia seleccion tecnico
@@ -83,7 +151,7 @@ namespace AppSeguridad
                 int idSolicitud = (int)Session["IdSolicitudSeleccionada"];
                 SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
                 int duracion = negocio.ObtenerDuracionTrabajo(idSolicitud);
-                DateTime fechaInicio = calFecha.SelectedDate;
+                DateTime fechaInicio = calendarioFecha.SelectedDate;
                 DateTime fechaFin = fechaInicio.AddDays(duracion);
 
                 negocio.AsignarTecnico(idSolicitud, codTecnicoSeleccionado, fechaInicio, fechaFin);
@@ -99,7 +167,7 @@ namespace AppSeguridad
         {
             try
             {
-                if (e.Item.ItemType == ListItemType.Item || e.Item.ItemType == ListItemType.AlternatingItem)
+                if (e.Item.DataItem != null)
                 {
                     dynamic dataItem = e.Item.DataItem;
                     RadioButton rb = (RadioButton)e.Item.FindControl("rbTecnico");
@@ -113,6 +181,11 @@ namespace AppSeguridad
             {
                 Response.Write("Error carga de técnico: " + ex.Message);
             }
+        }
+
+        protected void btnVolver_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("Gerente.aspx");
         }
 
     }
