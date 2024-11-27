@@ -13,5 +13,15 @@ namespace AppSeguridad
         {
 
         }
+
+        protected void ImageButton1_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect("Default.aspx", false);
+        }
+
+        protected void ImageButton2_Click(object sender, ImageClickEventArgs e)
+        {
+            Response.Redirect("Default.aspx", false);
+        }
     }
 }

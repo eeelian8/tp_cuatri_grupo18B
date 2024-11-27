@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Administrador.cs" />
+    <Compile Include="EtapasPorTrabajo.cs" />
     <Compile Include="Recepcion.cs" />
     <Compile Include="Gerente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

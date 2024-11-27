@@ -87,12 +87,12 @@ namespace AppSeguridad
         protected global::System.Web.UI.WebControls.Button btn_informar;
 
         /// <summary>
-        /// Control btn_cambiarEstado.
+        /// Control ddl_CambiarEstado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btn_cambiarEstado;
+        protected global::System.Web.UI.WebControls.DropDownList ddl_CambiarEstado;
     }
 }
