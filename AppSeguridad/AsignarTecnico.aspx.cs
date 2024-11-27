@@ -119,13 +119,8 @@ namespace AppSeguridad
                 Response.Write("error al mostrar tecnicos disponibles" + ex.Message);
             }
         }
-        //cuando cambia seleccion tecnico
-        protected void rbTecnico_CheckedChanged(object sender, EventArgs e)
-        {
-            
-            RadioButton radioSeleccionado = (RadioButton)sender;
-            //Session["CodigoTecnicoSeleccionado"] = radioSeleccionado.ID;
-        }
+        
+        
         protected void btnAsignar_Click(object sender, EventArgs e)
         {
             try
@@ -172,9 +167,15 @@ namespace AppSeguridad
                     dynamic dataItem = e.Item.DataItem;
                     RadioButton rb = (RadioButton)e.Item.FindControl("rbTecnico");
                     Label lbl = (Label)e.Item.FindControl("lblNombreTecnico");
+                    Label lblCelular = (Label)e.Item.FindControl("lblCelular");
+                    Label lblCodigo = (Label)e.Item.FindControl("lblCodigo");
+                    Label lblLocalidad = (Label)e.Item.FindControl("lblLocalidad");
 
                     rb.Attributes["codTecnico"] = dataItem.CodTecnico; // Mantiene bn el atrib
-                    lbl.Text = dataItem.Apellido + ", " + dataItem.Nombre + " - " + dataItem.Localidad;
+                    lbl.Text = dataItem.Apellido + ", " + dataItem.Nombre;
+                    lblCelular.Text = dataItem.Celular.ToString();
+                    lblCodigo.Text = dataItem.CodTecnico;
+                    lblLocalidad.Text = dataItem.Localidad;
                 }
             }
             catch (Exception ex)

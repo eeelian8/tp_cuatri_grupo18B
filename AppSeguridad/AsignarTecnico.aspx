@@ -52,7 +52,18 @@
                         <div class="card mb-2">
                             <div class="card-body">
                                 <asp:RadioButton ID="rbTecnico" runat="server" GroupName="tecnicos"/>
-                                <asp:Label ID="lblNombreTecnico" runat="server"></asp:Label>
+                
+                                <asp:Label ID="lblTituloNombre" runat="server" ForeColor="Gray" Text="Nombre: "></asp:Label>
+                                <asp:Label ID="lblNombreTecnico" runat="server"></asp:Label><br />
+
+                                <asp:Label ID="lblTituloCelular" runat="server" ForeColor="Gray" Text="Celular: "></asp:Label>
+                                <asp:Label ID="lblCelular" runat="server"></asp:Label><br />
+
+                                <asp:Label ID="lblTituloCodigo" runat="server" ForeColor="Gray" Text="Código: "></asp:Label>
+                                <asp:Label ID="lblCodigo" runat="server"></asp:Label><br />
+
+                                <asp:Label ID="lblTituloLocalidad" runat="server" ForeColor="Gray" Text="Localidad: "></asp:Label>
+                                <asp:Label ID="lblLocalidad" runat="server"></asp:Label>
                             </div>
                         </div>
                     </ItemTemplate>

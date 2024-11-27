@@ -10,7 +10,9 @@
             CssClass="table table-hover" 
             AutoGenerateColumns="False"
             OnSelectedIndexChanged="gv_solicitudes_SelectedIndexChanged"
-            DataKeyNames="Id">     
+            DataKeyNames="Id"
+            EmptyDataText="No hay solicitudes pendientes"
+            ShowHeaderWhenEmpty="True">     
             <Columns>
                 <asp:BoundField DataField="Id" HeaderText="ID" />
                 <asp:BoundField DataField="Dni" HeaderText="DNI" />
