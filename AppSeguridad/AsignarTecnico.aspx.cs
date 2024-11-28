@@ -36,7 +36,7 @@ namespace AppSeguridad
                     if (solicitud != null)
                     {
                         lblTT.Text = solicitud.TipoTrabajo;
-                        lblCliente.Text = solicitud.Nombre + " " + solicitud.Apellido;
+                        lblCliente.Text = solicitud.Nombre;
                         lblTelefono.Text = solicitud.Telefono.ToString();
                         lblDireccion.Text = solicitud.Direccion + ", " + solicitud.Localidad;
 
@@ -150,12 +150,17 @@ namespace AppSeguridad
                 DateTime fechaFin = fechaInicio.AddDays(duracion);
 
                 negocio.AsignarTecnico(idSolicitud, codTecnicoSeleccionado, fechaInicio, fechaFin);
-                Response.Redirect("Gerente.aspx");
+                lblConfirmacion.Visible = true;///inspirado de recepcion
+                TimerRedirect.Enabled = true; ;
             }
             catch (Exception ex)
             {
                 Response.Write("Error, no se asignó trabajo: " + ex.Message);
             }
+        }
+        protected void TimerRedirect_Tick(object sender, EventArgs e)
+        {
+            Response.Redirect("Gerente.aspx");
         }
 
         protected void repTecnicos_ItemDataBound(object sender, RepeaterItemEventArgs e)
