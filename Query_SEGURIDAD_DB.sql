@@ -1,3 +1,5 @@
+USE master;
+GO
 create database SEGURIDAD_DB 
 go 
 use SEGURIDAD_DB
@@ -55,6 +57,13 @@ create table TIPOS_TRABAJO(
     primary key nonclustered (Id)
 )
 go
+
+INSERT INTO TIPOS_TRABAJO (Nombre, Descripcion, DuracionCantDias)
+VALUES 
+    ('Instalación Cámaras', 'Instalación de sistema de cámaras de seguridad. Incluye configuración, cableado y prueba del sistema.', 3),
+    ('Instalación Alarma', 'Colocación de sistema de alarma con sensores de movimiento, sirena y panel de control. Incluye configuración y pruebas de funcionamiento.', 2),
+    ('Monitoreo de alarmas', 'Revisión del sistema de seguridad existente. Incluye limpieza de cámaras, verificación de sensores y actualización de configuración.', 1);
+
 create table SOLICITUDES_TRABAJO(
 	[Id][int] identity(1,1) not null,
 	[DniCliente] [int] not null,

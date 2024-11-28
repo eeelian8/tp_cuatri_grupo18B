@@ -137,7 +137,7 @@ namespace Negocio
                 datos.setearParametro("@Direccion", cli.Direccion);
                 datos.setearParametro("@Localidad", cli.Localidad);
                 datos.setearParametro("@Provincia", cli.Provincia);
-                datos.setearParametro("@TipoTrabajo", 1);
+                datos.setearParametro("@TipoTrabajo", cli.IdTipoTrabajo);
                 datos.setearParametro("@Estado", 1);
                 datos.ejecutarAccion();
                 return 1;

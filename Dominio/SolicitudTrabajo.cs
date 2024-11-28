@@ -20,6 +20,8 @@ namespace Dominio
         public string Provincia { get; set; }
         public int Estado { get; set; }
         public string TecnicoAsignado { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
     }
 
 }

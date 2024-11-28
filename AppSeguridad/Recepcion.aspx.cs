@@ -86,7 +86,7 @@ namespace AppSeguridad
                 cliente.Provincia = txtProvincia.Text;
                 cliente.Estado = 1;
                 cliente.TipoTrabajo = ddlItems.SelectedItem.Text;
-                cliente.IdTipoTrabajo = Convert.ToInt32(ddlItems.SelectedValue);
+                cliente.IdTipoTrabajo = Convert.ToInt32(ddlItems.SelectedValue); //ya estaba correcto
 
                 int resultado = clienteNegocio.Agregar(cliente);
 

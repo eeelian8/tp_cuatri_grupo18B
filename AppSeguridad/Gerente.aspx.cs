@@ -56,6 +56,10 @@ namespace AppSeguridad
         {
             Response.Redirect("TarjetaTecnicos.aspx");
         }
+        protected void btnRegistroSolicitudes_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("RegistroSolicitudes.aspx");
+        }
     }
 
 }

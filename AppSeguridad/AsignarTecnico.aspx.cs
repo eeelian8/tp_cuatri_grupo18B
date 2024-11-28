@@ -40,7 +40,7 @@ namespace AppSeguridad
                         lblTelefono.Text = solicitud.Telefono.ToString();
                         lblDireccion.Text = solicitud.Direccion + ", " + solicitud.Localidad;
 
-                        lblDescripcion.Text = "Descripción: " + solicitud.Descripcion;
+                        lblDescripcion.Text = solicitud.Descripcion;
 
                         int duracionDias = negocio.ObtenerDuracionTrabajo(idSolicitud);
                         lblDuracion.Text = duracionDias + " dias";

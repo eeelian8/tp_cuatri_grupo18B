@@ -4,8 +4,7 @@
 </asp:Content>
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
-    <br />
-    <br />
+    
     <asp:GridView ID="gv_solicitudes" runat="server" 
             CssClass="table table-hover" 
             AutoGenerateColumns="False"
@@ -43,6 +42,7 @@
     <div class="mt-3">
         <asp:Button ID="btnAsignarTrabajo" runat="server" Text="Asignar trabajo" CssClass="btn btn-secondary " OnClick="btnAsignarTrabajo_Click"
             Enabled="false" />
+        <asp:Button ID="btnRegistroSolicitudes" runat="server" Text="Registro Trabajos Asignados" CssClass="btn btn-primary" OnClick="btnRegistroSolicitudes_Click" />
     </div>
 
 </asp:Content>
