@@ -17,6 +17,7 @@ namespace AppSeguridad
             if (!IsPostBack)
             {
                 CargarSolicitudesPendientes();
+                CargarTiposTrabajo();
             }
 
         }
@@ -34,6 +35,28 @@ namespace AppSeguridad
                 Response.Write(ex.Message);
             }
         }
+        //el dropdownlist
+        private void CargarTiposTrabajo()
+        {
+            try
+            {
+                ddlTrabajoType.Items.Clear();//limpia lista del ddl
+
+                TipoTrabajoNegocio negocio = new TipoTrabajoNegocio();
+                ddlTrabajoType.DataSource = negocio.Listar();
+                ddlTrabajoType.DataTextField = "Nombre"; //propiedad de TT qe mostrara el dropdown
+                ddlTrabajoType.DataValueField = "Id"; // propiedad de TT como valor interno
+                ddlTrabajoType.DataBind();
+
+                ddlTrabajoType.Items.Insert(0, new ListItem("todos los trabajos", "0"));
+                ddlTrabajoType.SelectedValue = "0";
+            }
+            catch (Exception ex)
+            {
+                Response.Write("error en listado x tipo: " + ex.Message);
+            }
+        }
+
         protected void gv_solicitudes_SelectedIndexChanged(object sender, EventArgs e)
         {
             Button botonSelected = (Button)gv_solicitudes.SelectedRow.FindControl("btnSelect");
@@ -59,6 +82,23 @@ namespace AppSeguridad
         protected void btnRegistroSolicitudes_Click(object sender, EventArgs e)
         {
             Response.Redirect("RegistroSolicitudes.aspx");
+        }
+
+        protected void ddlTrabajoType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string tipoSeleccionado = ddlTrabajoType.SelectedItem.Text;
+            SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+
+            if (ddlTrabajoType.SelectedValue == "0") // Si seleccionó "Todos los trabajos"
+            {
+                gv_solicitudes.DataSource = negocio.ListarPendientes();
+            }
+            else
+            {
+                gv_solicitudes.DataSource = negocio.ListarPendientesXTipo(tipoSeleccionado);
+            }
+
+            gv_solicitudes.DataBind();
         }
     }
 

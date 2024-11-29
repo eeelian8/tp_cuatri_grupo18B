@@ -3,11 +3,16 @@
 <asp:Content ID="ContentHead" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="ContentScripts" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div>
+    <asp:Label runat="server" Text="Filtrar por tipo de Trabajo" ForeColor="#FFFF66" Font-Size="Small"></asp:Label>
+    <asp:DropDownList ID="ddlTrabajoType" runat="server"  OnSelectedIndexChanged="ddlTrabajoType_SelectedIndexChanged" AutoPostBack="True" >
 
-    
+    </asp:DropDownList>
+    </div>
     <asp:GridView ID="gv_solicitudes" runat="server" 
             CssClass="table table-hover" 
             AutoGenerateColumns="False"
+        
             OnSelectedIndexChanged="gv_solicitudes_SelectedIndexChanged"
             DataKeyNames="Id"
             EmptyDataText="No hay solicitudes pendientes"
