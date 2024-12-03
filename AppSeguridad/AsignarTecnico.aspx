@@ -3,11 +3,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
 
-    <asp:Timer ID="TimerRedirect" runat="server" Interval="3000" Enabled="false" 
-        OnTick="TimerRedirect_Tick">
-    </asp:Timer>
+  
 
     <div class="container mt-3">
     <div class="row mb-3">
@@ -76,10 +73,9 @@
                 </asp:Repeater>
             </div>
             <div class="col-5">
-            <asp:Label ID="lblConfirmacion" runat="server" 
-                Text="Solicitud asignada con éxito!!" 
-                CssClass="text-success"  
-                Visible="false">
+
+            <asp:Label ID="lbAvisoExito" runat="server" Text="Asignación de solicitud exitosa!" Visible="False" ForeColor="#33CC33">
+
             </asp:Label>
     </div>
         </div>

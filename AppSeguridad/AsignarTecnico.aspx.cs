@@ -150,18 +150,17 @@ namespace AppSeguridad
                 DateTime fechaFin = fechaInicio.AddDays(duracion);
 
                 negocio.AsignarTecnico(idSolicitud, codTecnicoSeleccionado, fechaInicio, fechaFin);
-                lblConfirmacion.Visible = true;///inspirado de recepcion
-                TimerRedirect.Enabled = true; ;
+
+                lbAvisoExito.Visible = true;///inspirado de recepcion
+                Response.AddHeader("REFRESH","3;URL=Gerente.aspx");
+                /// agrega en el HTTP  el URL con una espera de 3 segs y refresque
             }
             catch (Exception ex)
             {
                 Response.Write("Error, no se asignó trabajo: " + ex.Message);
             }
         }
-        protected void TimerRedirect_Tick(object sender, EventArgs e)
-        {
-            Response.Redirect("Gerente.aspx");
-        }
+        
 
         protected void repTecnicos_ItemDataBound(object sender, RepeaterItemEventArgs e)
         {

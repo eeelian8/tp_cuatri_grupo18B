@@ -48,7 +48,7 @@ namespace AppSeguridad
                 ddlTrabajoType.DataValueField = "Id"; // propiedad de TT como valor interno
                 ddlTrabajoType.DataBind();
 
-                ddlTrabajoType.Items.Insert(0, new ListItem("todos los trabajos", "0"));
+                ddlTrabajoType.Items.Insert(0, new ListItem("todos los trabajos", "0")); //insert Opcion 0 = todos
                 ddlTrabajoType.SelectedValue = "0";
             }
             catch (Exception ex)

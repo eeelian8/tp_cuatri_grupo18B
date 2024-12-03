@@ -6,7 +6,6 @@
     <div>
     <asp:Label runat="server" Text="Filtrar por tipo de Trabajo" ForeColor="#FFFF66" Font-Size="Small"></asp:Label>
     <asp:DropDownList ID="ddlTrabajoType" runat="server"  OnSelectedIndexChanged="ddlTrabajoType_SelectedIndexChanged" AutoPostBack="True" >
-
     </asp:DropDownList>
     </div>
     <asp:GridView ID="gv_solicitudes" runat="server" 
