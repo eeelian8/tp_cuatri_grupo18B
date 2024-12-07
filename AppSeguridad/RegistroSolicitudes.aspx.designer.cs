@@ -15,6 +15,24 @@ namespace AppSeguridad
     {
 
         /// <summary>
+        /// lblFiltrarEstado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFiltrarEstado;
+
+        /// <summary>
+        /// ddlTareasEstado control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlTareasEstado;
+
+        /// <summary>
         /// gvRegistroSolicitudes control.
         /// </summary>
         /// <remarks>

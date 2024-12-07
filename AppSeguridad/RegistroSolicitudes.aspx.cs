@@ -64,5 +64,22 @@ namespace AppSeguridad
         {
             Response.Redirect("Gerente.aspx");
         }
+
+        protected void ddlTareasEstado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            SolicitudTrabajoNegocio negocio = new SolicitudTrabajoNegocio();
+            int estado = Convert.ToInt32(ddlTareasEstado.SelectedValue);
+
+            if (estado == 0)
+            {
+                gvRegistroSolicitudes.DataSource = negocio.ListarAceptadas();
+            }
+            else
+            {
+                gvRegistroSolicitudes.DataSource = negocio.ListarAceptadasXEstado(estado); //el value pero int
+            }
+            gvRegistroSolicitudes.DataBind();
+        }
     }
+
 }

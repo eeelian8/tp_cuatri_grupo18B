@@ -197,7 +197,7 @@ namespace Negocio
 
             try
             {
-                datos.setearConsulta("select st.Id, DniCliente, tt.Nombre as TipoTrabajo, tt.DuracionCantDias, NombreCliente, ApellidoCliente, DescripcionTrabajo, tec.Nombre as NombreTecnico, tec.Apellido as ApellidoTecnico, TecnicoAsignado, DireccionCliente, LocalidadCliente, TelefonoCliente, ProvinciaCliente, Estado from SOLICITUDES_TRABAJO as st inner join TIPOS_TRABAJO as tt on st.IdTipoTrabajo = tt.Id inner join TECNICOS as tec on st.TecnicoAsignado = tec.CodTecnico inner join FECHAS_TRABAJO as ft on st.Id = ft.IdSolicitudTrabajo where Estado = 2");//2 aceptadas
+                datos.setearConsulta("select st.Id, DniCliente, tt.Nombre as TipoTrabajo, tt.DuracionCantDias, NombreCliente, ApellidoCliente, DescripcionTrabajo, tec.Nombre as NombreTecnico, tec.Apellido as ApellidoTecnico, TecnicoAsignado, DireccionCliente, LocalidadCliente, TelefonoCliente, ProvinciaCliente, Estado from SOLICITUDES_TRABAJO as st inner join TIPOS_TRABAJO as tt on st.IdTipoTrabajo = tt.Id inner join TECNICOS as tec on st.TecnicoAsignado = tec.CodTecnico inner join FECHAS_TRABAJO as ft on st.Id = ft.IdSolicitudTrabajo where Estado = 2 ORDER BY Id");//2 aceptadas
                 datos.ejecutarLectura();
 
                 while (datos.Lector.Read())
@@ -220,6 +220,42 @@ namespace Negocio
                     lista.Add(aux);
                 }
 
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<SolicitudTrabajo> ListarAceptadasXEstado(int estado)
+        {
+            List<SolicitudTrabajo> lista = new List<SolicitudTrabajo>();
+            AccesoDatos datos = new AccesoDatos();
+
+            try
+            {
+                datos.setearConsulta("select st.Id, tt.Nombre as TipoTrabajo, tt.DuracionCantDias, NombreCliente, ApellidoCliente, DescripcionTrabajo, tec.Nombre as NombreTecnico, tec.Apellido as ApellidoTecnico, TecnicoAsignado, LocalidadCliente, Estado from SOLICITUDES_TRABAJO as st inner join TIPOS_TRABAJO as tt on st.IdTipoTrabajo = tt.Id inner join TECNICOS as tec on st.TecnicoAsignado = tec.CodTecnico where Estado = @ESTADO ORDER BY Id");
+                datos.setearParametro("@ESTADO", estado);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    SolicitudTrabajo aux = new SolicitudTrabajo();
+                    aux.Id = (int)datos.Lector["Id"];
+                    aux.TipoTrabajo = (string)datos.Lector["TipoTrabajo"] + " (" + datos.Lector["DuracionCantDias"].ToString() + " días)";
+                    aux.Nombre = (string)datos.Lector["NombreCliente"];
+                    aux.Descripcion = (string)datos.Lector["DescripcionTrabajo"];
+                    aux.Localidad = (string)datos.Lector["LocalidadCliente"];
+                    aux.TecnicoAsignado = (string)datos.Lector["NombreTecnico"] + " " + datos.Lector["ApellidoTecnico"];
+                    aux.Estado = (int)datos.Lector["Estado"];
+
+                    lista.Add(aux);
+                }
                 return lista;
             }
             catch (Exception ex)

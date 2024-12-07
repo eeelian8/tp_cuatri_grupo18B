@@ -2,7 +2,15 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    
+    <div>
+        <asp:Label ID="lblFiltrarEstado" runat="server" Text="Filtrar por Estado:" ForeColor="Yellow" Font-Size="Small"></asp:Label>
+            <asp:DropDownList ID="ddlTareasEstado" runat="server" OnSelectedIndexChanged="ddlTareasEstado_SelectedIndexChanged" AutoPostBack="True">
+                <asp:ListItem Text="Todos" Value="0" />
+                <asp:ListItem Text="En proceso" Value="2" />
+                <asp:ListItem Text="Finalizada" Value="3" />
+            </asp:DropDownList>
+    </div>
+
     
         <asp:GridView ID="gvRegistroSolicitudes" runat="server" OnSelectedIndexChanged="gvRegistroSolicitudes_SelectedIndexChanged"
             CssClass="table table-hover" AutoGenerateColumns="false"
